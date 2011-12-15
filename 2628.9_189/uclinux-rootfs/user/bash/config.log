@@ -1,0 +1,190 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:727: checking host system type
+configure:1196: checking for gcc
+configure:1309: checking whether the C compiler (mips-linux-gcc -Os -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include) works
+configure:1325: mips-linux-gcc -o conftest -Os -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include  -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include conftest.c  1>&5
+configure:1351: checking whether the C compiler (mips-linux-gcc -Os -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include) is a cross-compiler
+configure:1356: checking whether we are using GNU C
+configure:1384: checking whether mips-linux-gcc accepts -g
+configure:1416: checking whether large file support needs explicit enabling
+configure:1449: checking for POSIXized ISC
+configure:1470: checking how to run the C preprocessor
+configure:1551: checking for minix/config.h
+configure:1600: checking for Cygwin environment
+configure:1633: checking for mingw32 environment
+configure:1664: checking for executable suffix
+configure:1758: checking whether mips-linux-gcc needs -traditional
+configure:2049: checking for a BSD compatible install
+configure:2104: checking for ar
+configure:2134: checking for ranlib
+configure:2166: checking for bison
+configure:2197: checking whether make sets ${MAKE}
+configure:2233: checking for working alloca.h
+configure:2266: checking for alloca
+configure:2465: checking whether getpgrp takes no argument
+configure:2552: checking whether setvbuf arguments are reversed
+configure:2598: checking for vprintf
+configure:2703: checking for wait3 that fills in rusage
+configure:2765: checking for working strcoll
+configure:2831: checking return type of signal handlers
+configure:2873: checking for __setostype
+configure:2924: checking for wait3
+configure:2976: checking for mkfifo
+configure:3037: checking for dup2
+configure:3037: checking for select
+configure:3037: checking for getdtablesize
+configure:3037: checking for getgroups
+configure:3037: checking for gethostname
+configure:3037: checking for setdtablesize
+configure:3037: checking for getpagesize
+configure:3037: checking for killpg
+configure:3037: checking for lstat
+configure:3037: checking for getpeername
+configure:3037: checking for sbrk
+configure:3037: checking for getrlimit
+configure:3037: checking for getrusage
+configure:3037: checking for gettimeofday
+configure:3037: checking for waitpid
+configure:3037: checking for tcgetpgrp
+configure:3037: checking for readlink
+configure:3037: checking for rename
+configure:3097: checking for bcopy
+configure:3097: checking for bzero
+configure:3097: checking for confstr
+configure:3097: checking for getcwd
+configure:3097: checking for strcasecmp
+configure:3097: checking for setenv
+configure:3097: checking for putenv
+configure:3097: checking for setlinebuf
+configure:3097: checking for setlocale
+configure:3097: checking for strchr
+configure:3097: checking for strerror
+configure:3097: checking for strtod
+configure:3097: checking for strtol
+configure:3097: checking for strtoul
+configure:3097: checking for tcgetattr
+configure:3097: checking for uname
+configure:3097: checking for sysconf
+configure:3097: checking for ulimit
+configure:3097: checking for times
+configure:3097: checking for tzset
+configure:3097: checking for siginterrupt
+configure:3097: checking for memmove
+configure:3097: checking for ttyname
+configure:3097: checking for gethostbyname
+configure:3097: checking for getservbyname
+configure:3097: checking for inet_aton
+configure:3097: checking for strpbrk
+configure:3097: checking for setvbuf
+configure:3097: checking for pathconf
+configure:3154: checking for libintl.h
+configure:3193: checking for gettext
+configure:3193: checking for textdomain
+configure:3193: checking for bindtextdomain
+configure:3248: checking for bindtextdomain in -lintl
+configure:3355: checking for dlopen in -ldl
+configure:3404: checking for dlopen
+configure:3404: checking for dlclose
+configure:3404: checking for dlsym
+configure:3459: checking for sys_siglist declaration in signal.h or unistd.h
+configure:3502: checking for dirent.h that defines DIR
+configure:3540: checking for opendir in -ldir
+configure:3623: checking whether time.h and sys/time.h may both be included
+configure:3664: checking for unistd.h
+configure:3664: checking for stdlib.h
+configure:3664: checking for stdarg.h
+configure:3664: checking for varargs.h
+configure:3664: checking for limits.h
+configure:3664: checking for string.h
+configure:3664: checking for memory.h
+configure:3664: checking for locale.h
+configure:3664: checking for termcap.h
+configure:3664: checking for termio.h
+configure:3664: checking for termios.h
+configure:3664: checking for dlfcn.h
+configure:3664: checking for stddef.h
+configure:3664: checking for netdb.h
+configure:3706: checking for sys/ptem.h
+configure:3706: checking for sys/pte.h
+configure:3706: checking for sys/stream.h
+configure:3706: checking for sys/select.h
+configure:3706: checking for sys/file.h
+configure:3706: checking for sys/resource.h
+configure:3706: checking for sys/param.h
+configure:3706: checking for sys/socket.h
+configure:3706: checking for sys/time.h
+configure:3706: checking for sys/times.h
+configure:3706: checking for sys/wait.h
+configure:3746: checking for netinet/in.h
+configure:3746: checking for arpa/inet.h
+configure:4057: checking for uid_t in sys/types.h
+configure:4091: checking type of array argument to getgroups
+configure:4162: checking for ANSI C header files
+configure:4266: checking for off_t
+configure:4299: checking for mode_t
+configure:4332: checking for uid_t in sys/types.h
+configure:4366: checking for pid_t
+configure:4399: checking for size_t
+configure:4432: checking for time_t
+configure:4466: checking return type of signal handlers
+configure:4508: checking size of char
+configure:4547: checking size of short
+configure:4586: checking size of int
+configure:4625: checking size of long
+configure:4664: checking size of char *
+configure:4703: checking size of double
+configure:4743: checking for u_int
+configure:4776: checking for u_long
+configure:4812: checking for bits16_t
+configure:4917: checking for u_bits16_t
+configure:5022: checking for bits32_t
+configure:5127: checking for u_bits32_t
+configure:5266: checking for bits64_t
+configure:5372: checking for ptrdiff_t
+configure:5476: checking whether stat file-mode macros are broken
+configure:5533: checking whether byte ordering is bigendian
+configure:5626: checking whether #! works in shell scripts
+configure:5653: checking for restartable system calls
+configure:5742: checking if dup2 fails to clear the close-on-exec flag
+configure:5796: checking whether pgrps need synchronization
+configure:5882: checking for type of signal functions
+configure:6055: checking for sys_errlist and sys_nerr
+configure:6090: checking for sys_siglist in system C library
+configure:6139: checking for _sys_siglist in signal.h or unistd.h
+configure:6177: checking for _sys_siglist in system C library
+configure:6227: checking whether signal handlers are of type void
+configure:6267: checking for clock_t
+configure:6303: checking for sigset_t
+configure:6339: checking for quad_t
+configure:6380: checking for size and type of struct rlimit fields
+configure:6454: checking for a c_line member of struct termios
+configure:6487: checking for a c_line member of struct termio
+configure:6521: checking if struct dirent has a d_ino member
+configure:6577: checking if struct dirent has a d_fileno member
+configure:6632: checking for struct winsize in sys/ioctl.h and termios.h
+configure:6693: checking for struct timeval in sys/time.h and time.h
+configure:6740: checking for the existence of strsignal
+configure:6774: checking if opendir() opens non-directories
+configure:6849: checking for declaration of printf in <stdio.h>
+configure:6899: checking whether ulimit can substitute for getdtablesize
+configure:6942: checking to see if getenv can be redefined
+configure:7010: checking if getcwd() calls popen()
+configure:7098: checking for declaration of sbrk in <unistd.h>
+configure:7129: checking for presence of POSIX-style sigsetjmp/siglongjmp
+configure:7204: checking whether or not strcoll and strcmp differ
+configure:7279: checking if signal handlers must be reinstalled when invoked
+configure:7360: checking for presence of necessary job control definitions
+configure:7440: checking for presence of named pipes
+configure:7515: checking for TIOCGWINSZ in sys/ioctl.h
+configure:7549: checking for TIOCSTAT in sys/ioctl.h
+configure:7583: checking for FIONREAD in sys/ioctl.h
+configure:7618: checking for speed_t in sys/types.h
+configure:7651: checking whether getpw functions are declared in pwd.h
+configure:7687: checking for unusable real-time signals due to large values
+configure:7819: checking which library has the termcap functions
+configure:7973: checking whether /dev/fd is available
+configure:8009: checking whether /dev/stdin stdout stderr are available
+configure:8032: checking for default mail directory
+configure:8168: checking shared object configuration for loadable builtins

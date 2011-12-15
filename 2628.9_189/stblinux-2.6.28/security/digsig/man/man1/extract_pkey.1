@@ -1,0 +1,33 @@
+.\" Copyright Serge Hallyn <serue@us.ibm.com>
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+
+.TH EXTRACT_PKEY 1 2005-12 "digsig"
+.SH NAME
+extract_pkey \- extract MPIs for GPG exported keys
+.SH SYNOPSIS
+.BI "extract_pkey key_file
+.SH DESCRIPTION
+The program
+.B extract_pkey
+extracts the MPIs for e and n in GPG exported keys, or public key rings
+with only one key.  The output is intended for the digsig kernel module.
+This program is intended to be used as part of a load script.  A sample
+load script,
+.B digsig.init
+comes with digsig, and automatically calls
+.B extract_pkey
+, redirecting its output to the digsig key input files.
+.SH BUGS
+None reported.
+.SH "RETURN VALUES"
+Returns 0 on success, -1 on error.
+.SH "SEE ALSO"
+.BR digsig.init (1),
+.BR extract_sig (1),
+.BR digsig (7)
+.SH NOTES
+This program is not intended to be used directly.  Please see digsig.init (1)
+and digsig(7) for more information on proper usage.

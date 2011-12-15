@@ -1,0 +1,287 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Command-line operation</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-daemon-commandline.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+<br>
+<font size=6>
+<u><b>5. Decoder (visualizer) command-line operation</b></u>
+</font>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracevisualizer - The data analysis component of the
+Linux Trace Toolkit (LTT)
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracevisualizer&nbsp; [ -g ] [ -d ] [ { -o | -t } EventTypes
+] [ -c<u>CPU-ID</u> ] [ -p<u>PID</u> ] [ -s ] [ -a ] [ -k ] [ -f { t | s | l } ] 
+[ <u>TraceFile</u> &nbsp; <u>ProcFile</u> [ <u>OutFile</u> ]]
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: The tracevisualizer is run on the host system.</b>
+<p>&nbsp;&nbsp;&nbsp; The tracevisualizer program is the data analysis component
+of the Linux Trace Toolkit (LTT). It is used perform data interpretation
+on the acquired data and display a graphical&nbsp; trace of it if specified.
+Graphical display of the trace and other GUI tools requires that the toolkit
+be compiled with the GTK+ library installed. See TraceToolkit/Help/index.html
+for installation details.
+<p>&nbsp;&nbsp;&nbsp; If the program is launched with no command-line arguments,
+it automatically launches the GUI and waits for the user to specify files
+to operate on. Otherwise, <u>TraceFile</u> is the file that was produced
+by the LTT data acquisition component. <u>ProcFile</u> is the system description
+file and is useful for process analysis calculations. <u>OutFile</u> is the
+file to which the trace and analysis is written in text format.
+<p><b>OPTIONS</b>
+<p>&nbsp;&nbsp;&nbsp; <b>-g</b>&nbsp;&nbsp;&nbsp; Enter graphic mode.
+<p><b>&nbsp;&nbsp;&nbsp; -o&nbsp;&nbsp;&nbsp; </b>Omit event types. Do
+not include in the data analysis the event types listed in <u>EventTypes</u>,
+which is a space-separated list of any of the following events:
+<ul>
+<ul>
+<li>
+"START" - Trace start</li>
+
+<li>
+"SYS_ENTRY" - System call entry</li>
+
+<li>
+"SYS_EXIT" - System call exit</li>
+
+<li>
+"TRAP_ENTRY" - Trap entry</li>
+
+<li>
+"TRAP_EXIT" - Trap exit</li>
+
+<li>
+"IRQ_ENTRY" - Interrupt entry </li>
+
+<li>
+"IRQ_EXIT" - Interrupt exit </li>
+
+<li>
+"SCHED" - Schedule change</li>
+
+<li>
+"KTIMER" - Kernel timer</li>
+
+<li>
+"SIRQ" - Soft IRQ management</li>
+
+<li>
+"PROCESS" - Process management</li>
+
+<li>
+"FS" - File system management</li>
+
+<li>
+"TIMER" - Timer management</li>
+
+<li>
+"MEM" - Memory management</li>
+
+<li>
+"SOCKET" - Socket communications</li>
+
+<li>
+"IPC" - System V IPC communications</li>
+
+<li>
+"NET" - Network device management</li>
+
+<li>
+"HEARTBEAT" - Heartbeat</li>
+</ul>
+</ul>
+
+If you've compile the trace decoder with RTAI support, then the following event types can be configured:
+<ul>
+<ul>
+<li>
+"RTMNT" - RTAI mount</li>
+
+<li>
+"RTUMNT" - RTAI unmount </li>
+
+<li>
+"RTGIRQE" - RTAI global IRQ entry</li>
+
+<li>
+"RTGIRQX" - RTAI global IRQ exit</li>
+
+<li>
+"RTOIRQE" - RTAI CPU own IRQ entry </li>
+
+<li>
+"RTOIRQX" - RTAI CPU own IRQ exit </li>
+
+<li>
+"RTTRAPE" - RTAI trap entry</li>
+
+<li>
+"RTTRAPX" - RTAI trap exit</li>
+
+<li>
+"RTSRQE" - RTAI SRQ entry</li>
+
+<li>
+"RTSRQX" - RTAI SRQ exit</li>
+
+<li>
+"RTSWTCHL" - RTAI switch to Linux</li>
+
+<li>
+"RTSWTCHR" - RTAI switch to RT</li>
+
+<li>
+"RTSCHED" - RTAI scheduling change</li>
+
+<li>
+"RTTASK" - RTAI task management</li>
+
+<li>
+"RTTIMER" - RTAI timer management</li>
+
+<li>
+"RTSEM" - RTAI semaphore communications</li>
+
+<li>
+"RTMSG" - RTAI message communications</li>
+
+<li>
+"RTRPC" - RTAI RPC communications</li>
+
+<li>
+"RTMBX" - RTAI message box communications</li>
+
+<li>
+"RTFIFO" - RTAI FIFO communications</li>
+
+<li>
+"RTSHM" - RTAI shared memory management</li>
+
+<li>
+"RTPOSIX" - RTAI Posix layer</li>
+
+<li>
+"RTLXRT" - RTAI LXRT layer</li>
+
+<li>
+"RTLXRTI" - RTAI LXRT-informed layer</li>
+
+</ul>
+</ul>
+
+
+<p><br>&nbsp;&nbsp;&nbsp; <b>-t</b>&nbsp;&nbsp;&nbsp; Trace event types.
+Only include in the data analysis the event types listed in <u>EventTypes</u>.
+See <b>-o</b> option for details. Note that <b>-t</b> and <b>-o</b> are mutually
+exclusive. Specifying both will result in an error.
+<p>&nbsp;&nbsp;&nbsp; <b>-c</b>&nbsp;&nbsp;&nbsp; Trace CPU-ID. Only include
+events that occurred on <u>CPU-ID</u> in data analysis.
+<p>&nbsp;&nbsp;&nbsp; <b>-p</b>&nbsp;&nbsp;&nbsp; Trace PID. Only include
+process number <u>PID</u> in data analysis.
+<p>&nbsp;&nbsp;&nbsp; <b>-s</b>&nbsp;&nbsp;&nbsp; Summarize. Do not list
+all acquired events in data analysis; only the result of the analysis. This has
+to be used with <b>-a</b>. Otherwise, it has no effect.
+<p>&nbsp;&nbsp;&nbsp; <b>-a</b>&nbsp;&nbsp;&nbsp; Analyze the trace and output
+the results.
+<p>&nbsp;&nbsp;&nbsp; <b>-k</b>&nbsp;&nbsp;&nbsp; The trace file is a flight recorder trace.  The ProcFile argument, if present, will be ignored.
+<p>&nbsp;&nbsp;&nbsp; <b>-ft</b>&nbsp;&nbsp; Forget time, Do not print
+event times.
+<p>&nbsp;&nbsp;&nbsp; <b>-fs</b>&nbsp;&nbsp; Forget string. Do not print
+event descriptions.
+<p>&nbsp;&nbsp;&nbsp; <b>-fl</b>&nbsp;&nbsp; Forget data entry length.
+Do not print event data entry length.
+<p>&nbsp;&nbsp;&nbsp; <b>-fp</b>&nbsp;&nbsp; Forget PID.
+Do not print the PID of the process to which the event belongs.
+<p>&nbsp;&nbsp;&nbsp; <b>-fc</b>&nbsp;&nbsp; Forget CPU-ID.
+Do not print the CPU-ID of the CPU where the event occurred.
+<p>&nbsp;&nbsp;&nbsp; <b>-d</b>&nbsp;&nbsp;&nbsp; Dump to file. Write out
+data analysis to file <u>OutFile</u>. If no other option is specified, then
+it is not necessary to use <b>-d</b> since it's the default behavior of tracevisualizer.
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-daemon-commandline.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Decoder command-line operation</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>

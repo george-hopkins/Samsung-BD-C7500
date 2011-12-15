@@ -1,0 +1,103 @@
+2007-01-23  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* ld-elf/header.d: Reduce page size, restrict to linux & vxworks
+	* ld-elf/header.s: Adjust.
+	* ld-elf/header.t: Reduce initial offset.
+
+2007-01-23  Andreas Schwab  <schwab@suse.de>
+
+	* lib/ld-lib.exp (run_dump_test): Don't prematurely remove
+	assembler output.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld-elf/dl6.c: New file.
+	* ld-elf/dl6a.out: Likewise.
+	* ld-elf/dl6amain.c: Likewise.
+	* ld-elf/dl6b.out: Likewise.
+	* ld-elf/dl6bmain.c: Likewise.
+	* ld-elf/dl6cmain.c: Likewise.
+	* ld-elf/dl6dmain.c: Likewise.
+
+	* ld-elf/shared.exp: Add new tests for -Bsymbolic,
+	-Bsymbolic-functions, --dynamic-list-data and
+	--dynamic-list-cpp-new.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld-elf/maxpage3.t: New file.
+	* ld-elf/maxpage3a.d: Likewise.
+	* ld-elf/maxpage3b.d: Likewise.
+	* ld-elf/maxpage3c.d: Likewise.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld-scripts/default-script.exp: New file.
+	* ld-scripts/default-script.s: Likewise.
+	* ld-scripts/default-script.t: Likewise.
+	* ld-scripts/default-script1.d: Likewise.
+	* ld-scripts/default-script2.d: Likewise.
+	* ld-scripts/default-script3.d: Likewise.
+	* ld-scripts/default-script4.d: Likewise.
+
+2007-01-18  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR ld/1283
+	* lib/ld-lib.exp (run_dump_test): Remove output file first.
+
+2007-01-17  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld-elf/header.d: Adjust for .text section with 16byte
+	alignment.
+
+2007-01-16  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld-elf/dl1main.c (main): Fix a typo.
+
+2007-01-16  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR ld/3831
+	* ld-elf/del.cc: New.
+	* ld-elf/dl5.cc: Likewise.
+	* ld-elf/dl5.out: Likewise.
+	* ld-elf/new.cc: Likewise.
+
+	* ld-elf/shared.exp: Add tests for --dynamic-list-data and
+	 --dynamic-list-cpp-new.
+
+2007-01-12  Hans-Peter Nilsson  <hp@axis.com>
+
+	* ld-elf/header.d: Allow arbitrary lines between "Program Header"
+	and "Sections".  Only run on *-*-linux*.
+
+2007-01-11  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* ld-elf/header.d: New.
+	* ld-elf/header.t: New.
+	* ld-elf/header.s: New.
+
+2007-01-08  Kai Tietz	<kai.tietz@onevision.com>
+
+	* ld-fastcall/fastcall.exp: Renamed target x86_64-*-mingw64 to
+	x86_64-*-mingw*.
+	* ld-pe/pe.exp: Ditto.
+	* ld-scripts/align.exp: Ditto.
+	* ld-scripts/defined.exp: Ditto.
+	* ld-scripts/provide.exp: Ditto.
+	* ld-scripts/weak.exp: Ditto.
+
+2007-01-06  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* ld-scripts/expr.exp: New.
+	* ld-scripts/expr1.s: New.
+	* ld-scripts/expr1.d: New.
+	* ld-scripts/expr1.t: New.
+
+For older changes see ChangeLog-2006
+
+Local Variables:
+mode: change-log
+left-margin: 8
+fill-column: 74
+version-control: never
+End:

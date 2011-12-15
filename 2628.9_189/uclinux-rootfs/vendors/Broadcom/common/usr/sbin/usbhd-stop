@@ -1,0 +1,14 @@
+#!/bin/sh
+
+rmmod nls_cp437
+rmmod nls_iso8859-1
+rmmod udf
+rmmod isofs
+rmmod usb-storage
+rmmod vfat
+rmmod fat
+rmmod sr_mod
+rmmod sd_mod
+rmmod scsi_mod
+rmmod cdrom
+

@@ -1,0 +1,833 @@
+#
+# Makefile
+#   Copyright (C) 1990, 91-99, 2000, 2001, 2002, 2003, 2004
+#   Free Software Foundation
+#
+# This file is part of the libiberty library.
+# Libiberty is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# Libiberty is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with libiberty; see the file COPYING.LIB.  If not,
+# write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+# Boston, MA 02111-1307, USA.
+#
+
+# This file was written by K. Richard Pixley <rich@cygnus.com>.
+
+#
+# Makefile for libiberty directory
+#
+
+libiberty_topdir = @libiberty_topdir@
+srcdir = @srcdir@
+
+top_builddir = .
+
+enable_shared = @enable_shared@
+
+prefix = @prefix@
+
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+libdir = @libdir@
+includedir = @includedir@
+target_header_dir = @target_header_dir@
+
+SHELL = @SHELL@
+
+# Multilib support variables.
+MULTISRCTOP =
+MULTIBUILDTOP =
+MULTIDIRS =
+MULTISUBDIR =
+MULTIDO = true
+MULTICLEAN = true
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+mkinstalldirs = $(SHELL) $(libiberty_topdir)/mkinstalldirs
+
+AR = @AR@
+AR_FLAGS = rc
+
+CC = @CC@
+CFLAGS = @CFLAGS@
+LIBCFLAGS = $(CFLAGS)
+LOADLIBES = @LIBS@
+RANLIB = @RANLIB@
+MAKEINFO = @MAKEINFO@
+PERL = @PERL@
+LIBTOOL = @LIBTOOL@
+
+PICFLAG =
+
+MAKEOVERRIDES =
+
+TARGETLIB = ./libiberty.a
+LTTARGETLIB = ./libiberty.la
+PREFIXTARGETLIB= ./libiberty
+TESTLIB = ./testlib.a
+LTTESTLIB = ./testlib.la
+PREFIXTESTLIB = ./testlib
+
+LIBOBJS = @LIBOBJS@
+LTLIBOBJS = @LTLIBOBJS@
+
+# A configuration can specify extra .o files that should be included,
+# even if they are in libc. (Perhaps the libc version is buggy.)
+EXTRA_OFILES = 
+EXTRA_LTOFILES = 
+
+# Flags to pass to a recursive make.
+FLAGS_TO_PASS = \
+	"AR=$(AR)" \
+	"AR_FLAGS=$(AR_FLAGS)" \
+	"CC=$(CC)" \
+	"CFLAGS=$(CFLAGS)" \
+	"DESTDIR=$(DESTDIR)" \
+	"LIBCFLAGS=$(LIBCFLAGS)" \
+	"EXTRA_OFILES=$(EXTRA_OFILES)" \
+	"EXTRA_LTOFILES=$(EXTRA_LTOFILES)" \
+	"HDEFINES=$(HDEFINES)" \
+	"INSTALL=$(INSTALL)" \
+	"INSTALL_DATA=$(INSTALL_DATA)" \
+	"INSTALL_PROGRAM=$(INSTALL_PROGRAM)" \
+	"LDFLAGS=$(LDFLAGS)" \
+	"LOADLIBES=$(LOADLIBES)" \
+	"RANLIB=$(RANLIB)" \
+	"SHELL=$(SHELL)" \
+	"prefix=$(prefix)" \
+	"exec_prefix=$(exec_prefix)" \
+	"libdir=$(libdir)" \
+	"libsubdir=$(libsubdir)" \
+	"tooldir=$(tooldir)"
+
+# Subdirectories to recurse into. We need to override this during cleaning
+SUBDIRS = testsuite
+
+# FIXME: add @BUILD_INFO@ once we're sure it works for everyone.
+all: $(TARGETLIB) needed-list required-list all-subdir
+	@: $(MAKE) ; exec $(MULTIDO) $(FLAGS_TO_PASS) multi-do DO=all
+
+.PHONY: check installcheck
+check: check-subdir
+installcheck: installcheck-subdir
+
+@host_makefile_frag@
+
+INCDIR=$(srcdir)/$(MULTISRCTOP)../include
+
+COMPILE.c = $(CC) -c @DEFS@ $(LIBCFLAGS) -I. -I$(INCDIR) $(HDEFINES) @ac_libiberty_warn_cflags@
+LTCOMPILE = $(LIBTOOL) --mode=compile $(COMPILE.c)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(CFLAGS)
+
+# Just to make sure we don't use a built-in rule with VPATH
+.c.o:
+	false
+
+.c.lo:
+	false
+
+# NOTE: If you add new files to the library, add them to this list
+# (alphabetical), and add them to REQUIRED_OFILES/REQUIRED_LTOFILES, or
+# CONFIGURED_OFILES/CONFIGURED_LTOFILES and funcs in configure.ac.
+# Also run "make maint-deps" to build the new rules.
+CFILES = alloca.c argv.c asprintf.c atexit.c				\
+	basename.c bcmp.c bcopy.c bsearch.c bzero.c			\
+	calloc.c choose-temp.c clock.c concat.c cp-demangle.c		\
+	 cp-demint.c cplus-dem.c					\
+	dyn-string.c							\
+	fdmatch.c ffs.c fibheap.c floatformat.c fnmatch.c		\
+	getcwd.c getopt.c getopt1.c getpagesize.c getpwd.c getruntime.c	\
+	hashtab.c hex.c							\
+	index.c insque.c						\
+	lbasename.c							\
+	lrealpath.c							\
+	make-relative-prefix.c						\
+	make-temp-file.c md5.c memchr.c memcmp.c memcpy.c memmove.c	\
+	 mempcpy.c memset.c mkstemps.c					\
+	objalloc.c obstack.c						\
+	partition.c							\
+	 pex-djgpp.c pex-mpw.c pex-msdos.c pex-os2.c			\
+	 pex-unix.c pex-win32.c						\
+         physmem.c putenv.c						\
+	random.c regex.c rename.c rindex.c				\
+	safe-ctype.c setenv.c sigsetmask.c snprintf.c sort.c spaces.c	\
+	 splay-tree.c stpcpy.c stpncpy.c strcasecmp.c strchr.c strdup.c	\
+	 strerror.c strncasecmp.c strncmp.c strrchr.c strsignal.c	\
+	 strstr.c strtod.c strtol.c strtoul.c				\
+	ternary.c tmpnam.c						\
+	vasprintf.c vfork.c vfprintf.c vprintf.c vsnprintf.c vsprintf.c	\
+	waitpid.c							\
+	xatexit.c xexit.c xmalloc.c xmemdup.c xstrdup.c xstrerror.c
+
+# These are always included in the library.  The first four are listed
+# first and by compile time to optimize parallel builds.
+REQUIRED_OFILES = ./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o	\
+	./alloca.o ./argv.o						\
+	./choose-temp.o ./concat.o ./cp-demint.o			\
+	./dyn-string.o							\
+	./fdmatch.o ./fibheap.o ./floatformat.o ./fnmatch.o		\
+	./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o		\
+	./hashtab.o ./hex.o						\
+	./lbasename.o ./lrealpath.o					\
+	./make-relative-prefix.o ./make-temp-file.o			\
+	./objalloc.o ./obstack.o					\
+	./partition.o ./physmem.o @pexecute@				\
+	./safe-ctype.o ./sort.o ./spaces.o ./splay-tree.o ./strerror.o	\
+	 ./strsignal.o							\
+	./ternary.o							\
+	./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o	\
+	 ./xstrerror.o
+REQUIRED_LTOFILES = ./regex.lo ./cplus-dem.lo ./cp-demangle.lo ./md5.lo	\
+	./alloca.lo ./argv.lo						\
+	./choose-temp.lo ./concat.lo ./cp-demint.lo			\
+	./dyn-string.lo							\
+	./fdmatch.lo ./fibheap.lo ./floatformat.lo ./fnmatch.lo		\
+	./getopt.lo ./getopt1.lo ./getpwd.lo ./getruntime.lo		\
+	./hashtab.lo ./hex.lo						\
+	./lbasename.lo ./lrealpath.lo					\
+	./make-relative-prefix.lo ./make-temp-file.lo			\
+	./objalloc.lo ./obstack.lo					\
+	./partition.lo ./physmem.lo @ltpexecute@				\
+	./safe-ctype.lo ./sort.lo ./spaces.lo ./splay-tree.lo ./strerror.lo	\
+	 ./strsignal.lo							\
+	./ternary.lo							\
+	./xatexit.lo ./xexit.lo ./xmalloc.lo ./xmemdup.lo ./xstrdup.lo	\
+	 ./xstrerror.lo
+
+# These are all the objects that configure may add to the library via
+# $funcs or EXTRA_OFILES.  This list exists here only for "make
+# maint-missing" and "make check".
+CONFIGURED_OFILES = ./asprintf.o ./atexit.o				\
+	./basename.o ./bcmp.o ./bcopy.o ./bsearch.o ./bzero.o		\
+	./calloc.o ./clock.o ./copysign.o				\
+	./_doprnt.o							\
+	./ffs.o								\
+	./getcwd.o ./getpagesize.o					\
+	./index.o ./insque.o						\
+	./memchr.o ./memcmp.o ./memcpy.o ./memmove.o ./mempcpy.o	\
+	 ./memset.o ./mkstemps.o					\
+	./pex-djgpp.o ./pex-mpw.o ./pex-msdos.o ./pex-os2.o		\
+	 ./pex-unix.o ./pex-win32.o					\
+	 ./putenv.o							\
+	./random.o ./rename.o ./rindex.o				\
+	./setenv.o ./sigsetmask.o ./snprintf.o ./stpcpy.o ./stpncpy.o	\
+	 ./strcasecmp.o ./strchr.o ./strdup.o ./strncasecmp.o		\
+	 ./strncmp.o ./strrchr.o ./strstr.o				\
+	 ./strtod.o ./strtol.o ./strtoul.o				\
+	./tmpnam.o							\
+	./vasprintf.o ./vfork.o ./vfprintf.o ./vprintf.o ./vsnprintf.o	\
+	 ./vsprintf.o							\
+	./waitpid.o
+CONFIGURED_LTOFILES = ./asprintf.lo ./atexit.lo				\
+	./basename.lo ./bcmp.lo ./bcopy.lo ./bsearch.lo ./bzero.lo		\
+	./calloc.lo ./clock.lo ./copysign.lo				\
+	./_doprnt.lo							\
+	./ffs.lo								\
+	./getcwd.lo ./getpagesize.lo					\
+	./index.lo ./insque.lo						\
+	./memchr.lo ./memcmp.lo ./memcpy.lo ./memmove.lo ./mempcpy.lo	\
+	 ./memset.lo ./mkstemps.lo					\
+	./pex-djgpp.lo ./pex-mpw.lo ./pex-msdos.lo ./pex-os2.lo		\
+	 ./pex-unix.lo ./pex-win32.lo					\
+	 ./putenv.lo							\
+	./random.lo ./rename.lo ./rindex.lo				\
+	./setenv.lo ./sigsetmask.lo ./snprintf.lo ./stpcpy.lo ./stpncpy.lo	\
+	 ./strcasecmp.lo ./strchr.lo ./strdup.lo ./strncasecmp.lo		\
+	 ./strncmp.lo ./strrchr.lo ./strstr.lo				\
+	 ./strtod.lo ./strtol.lo ./strtoul.lo				\
+	./tmpnam.lo							\
+	./vasprintf.lo ./vfork.lo ./vfprintf.lo ./vprintf.lo ./vsnprintf.lo	\
+	 ./vsprintf.lo							\
+	./waitpid.lo
+
+# These files are installed if the library has been configured to do so.
+INSTALLED_HEADERS =                                                     \
+	$(INCDIR)/ansidecl.h                                            \
+	$(INCDIR)/demangle.h                                            \
+	$(INCDIR)/dyn-string.h                                          \
+	$(INCDIR)/fibheap.h                                             \
+	$(INCDIR)/floatformat.h                                         \
+	$(INCDIR)/hashtab.h                                             \
+	$(INCDIR)/libiberty.h                                           \
+	$(INCDIR)/objalloc.h                                            \
+	$(INCDIR)/partition.h                                           \
+	$(INCDIR)/safe-ctype.h                                          \
+	$(INCDIR)/sort.h                                                \
+	$(INCDIR)/splay-tree.h                                          \
+	$(INCDIR)/ternary.h
+
+# FIXME: Libtool has to be used to create static and shared libraries
+# if it is used to compile object files. Since libiberty doesn't really
+# build shared library, we have to create the libraries we need by hand
+# and remove those created by libtool.
+$(TARGETLIB): $(REQUIRED_LTOFILES) $(EXTRA_LTOFILES) $(LTLIBOBJS)
+	libtooldir=`$(LIBTOOL) --config | sed -n -e 's/^objdir=//p'`; \
+	rm -f $(TARGETLIB) $$libtooldir/$(TARGETLIB) pic/$(TARGETLIB) \
+	  || true; \
+	$(LINK) -o $(LTTARGETLIB) -rpath $(libdir) \
+	  $(REQUIRED_LTOFILES) $(EXTRA_LTOFILES) $(LTLIBOBJS); \
+	if [ -f $$libtooldir/$(TARGETLIB) ]; then \
+	  cp $$libtooldir/$(TARGETLIB) $(TARGETLIB).tmp; \
+	  $(RANLIB) $(TARGETLIB).tmp; \
+	  $(SHELL) $(srcdir)/../move-if-change \
+	    $(TARGETLIB).tmp $(TARGETLIB); \
+	else true; fi; \
+	rm -f $(LTTARGETLIB) $$libtooldir/$(PREFIXTARGETLIB)*; \
+	if [ x$(enable_shared) = xyes ]; then \
+	  cd $$libtooldir; \
+	  $(AR) $(AR_FLAGS) $(TARGETLIB) \
+	    $(REQUIRED_OFILES) $(EXTRA_OFILES) $(LIBOBJS); \
+	  $(RANLIB) $(TARGETLIB); \
+	  [ -d ../pic ] || mkdir ../pic; \
+	  rm -f ../pic/$(TARGETLIB); \
+	  cp $(TARGETLIB) ../pic/$(TARGETLIB); \
+	  cd ..; \
+	else true; fi
+
+$(TESTLIB): $(REQUIRED_LTOFILES) $(CONFIGURED_LTOFILES)
+	libtooldir=`$(LIBTOOL) --config | sed -n -e 's/^objdir=//p'`; \
+	rm -f $(TESTLIB) $$libtooldir/$(TESTLIB) || true; \
+	$(LINK) -o $(LTTESTLIB) -rpath $(libdir) \
+	  $(REQUIRED_LTOFILES) $(CONFIGURED_LTOFILES); \
+	if [ -f $$libtooldir/$(TESTLIB) ]; then \
+	  cp $$libtooldir/$(TESTLIB) $(TESTLIB).tmp; \
+	  $(RANLIB) $(TESTLIB).tmp; \
+	  $(SHELL) $(srcdir)/../move-if-change \
+	    $(TESTLIB).tmp $(TESTLIB); \
+	else true; fi; \
+	rm -f $(LTTESTLIB) $$libtooldir/$(PREFIXTESTLIB)*
+
+info: libiberty.info info-subdir
+install-info: install-info-subdir
+clean-info: clean-info-subdir
+dvi: libiberty.dvi dvi-subdir
+html: libiberty.html
+
+TEXISRC = \
+	$(srcdir)/libiberty.texi \
+	$(srcdir)/copying-lib.texi \
+	$(srcdir)/obstacks.texi \
+	$(srcdir)/functions.texi
+
+# Additional files that have texi snippets that need to be collected
+# and sorted.  Some are here because the sources are imported from
+# elsewhere.  Others represent headers in ../include.
+TEXIFILES = fnmatch.txh pexecute.txh
+
+libiberty.info : $(srcdir)/libiberty.texi $(TEXISRC)
+	$(MAKEINFO) -I$(srcdir) $(srcdir)/libiberty.texi
+
+libiberty.dvi : $(srcdir)/libiberty.texi $(TEXISRC)
+	texi2dvi $(srcdir)/libiberty.texi
+
+libiberty.html : $(srcdir)/libiberty.texi $(TEXISRC)
+	$(MAKEINFO) --no-split --html -I$(srcdir) -o $@ $<
+
+@MAINT@$(srcdir)/functions.texi : stamp-functions
+@MAINT@	@true
+
+@MAINT@stamp-functions : $(CFILES) $(TEXIFILES) $(srcdir)/gather-docs Makefile
+@MAINT@@HAVE_PERL@	$(PERL) $(srcdir)/gather-docs $(srcdir) $(srcdir)/functions.texi $(CFILES) $(TEXIFILES)
+@MAINT@	echo stamp > stamp-functions
+
+INSTALL_DEST = @INSTALL_DEST@
+install: install_to_$(INSTALL_DEST) install-subdir
+
+install_to_libdir: all
+	${mkinstalldirs} $(DESTDIR)$(libdir)$(MULTISUBDIR)
+	$(INSTALL_DATA) $(TARGETLIB) $(DESTDIR)$(libdir)$(MULTISUBDIR)/$(TARGETLIB)n
+	( cd $(DESTDIR)$(libdir)$(MULTISUBDIR) ; $(RANLIB) $(TARGETLIB)n )
+	mv -f $(DESTDIR)$(libdir)$(MULTISUBDIR)/$(TARGETLIB)n $(DESTDIR)$(libdir)$(MULTISUBDIR)/$(TARGETLIB)
+	if test -n "${target_header_dir}"; then \
+	  case "${target_header_dir}" in \
+	    /*)    thd=${target_header_dir};; \
+	    *)     thd=${includedir}${MULTISUBDIR}/${target_header_dir};; \
+	  esac; \
+	  ${mkinstalldirs} $(DESTDIR)$${thd}; \
+	  for h in ${INSTALLED_HEADERS}; do \
+	    ${INSTALL_DATA} $$h $(DESTDIR)$${thd}; \
+	  done; \
+	fi
+	@$(MULTIDO) $(FLAGS_TO_PASS) multi-do DO=install
+
+# This is tricky.  Even though CC in the Makefile contains
+# multilib-specific flags, it's overridden by FLAGS_TO_PASS from the
+# default multilib, so we have to take LIBCFLAGS into account as well,
+# since it will be passed the multilib flags.
+MULTIOSDIR = `$(CC) $(LIBCFLAGS) -print-multi-os-directory`
+install_to_tooldir: all
+	${mkinstalldirs} $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)
+	$(INSTALL_DATA) $(TARGETLIB) $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)n
+	( cd $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR) ; $(RANLIB) $(TARGETLIB)n )
+	mv -f $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)n $(DESTDIR)$(tooldir)/lib/$(MULTIOSDIR)/$(TARGETLIB)
+	@$(MULTIDO) $(FLAGS_TO_PASS) multi-do DO=install
+
+# needed-list is used by libstdc++.  NEEDED is the list of functions
+# to include there.  Do not add anything LGPL to this list; libstdc++
+# can't use anything encumbering.
+NEEDED = atexit calloc memchr memcmp memcpy memmove memset rename strchr \
+	 strerror strncmp strrchr strstr strtol strtoul tmpnam vfprintf vprintf \
+	 vfork waitpid bcmp bcopy bzero
+needed-list: Makefile
+	rm -f needed-list; touch needed-list; \
+	for f in $(NEEDED); do \
+	  for g in $(LIBOBJS) $(EXTRA_OFILES); do \
+	    case "$$g" in \
+	      *$$f*) echo $$g >> needed-list ;; \
+	    esac; \
+	  done; \
+	done
+
+# required-list was used when building a shared bfd/opcodes/libiberty
+# library.  I don't know if it used by anything currently.
+required-list: Makefile
+	echo $(REQUIRED_OFILES) > required-list
+
+.PHONY: all etags tags ls clean stage1 stage2
+
+etags tags: TAGS etags-subdir
+
+TAGS: $(CFILES)
+	etags `for i in $(CFILES); do echo $(srcdir)/$$i ; done`
+
+# The standalone demangler (c++filt) has been moved to binutils.
+demangle:
+	@echo "The standalone demangler, now named c++filt, is now"
+	@echo "a part of binutils."
+	@false
+
+ls:
+	@echo Makefile $(CFILES)
+
+# Various targets for maintainers.
+
+maint-missing :
+	@$(PERL) $(srcdir)/maint-tool -s $(srcdir) missing $(CFILES) $(REQUIRED_LTOFILES) $(CONFIGURED_LTOFILES)
+
+maint-buildall : $(REQUIRED_LTOFILES) $(CONFIGURED_LTOFILES)
+	@true
+
+maint-undoc : $(srcdir)/functions.texi
+	@$(PERL) $(srcdir)/maint-tool -s $(srcdir) undoc
+
+maint-deps :
+	@$(PERL) $(srcdir)/maint-tool -s $(srcdir) deps $(INCDIR)
+
+# Need to deal with profiled libraries, too.
+
+# Cleaning has to be done carefully to ensure that we don't clean our SUBDIRS
+# multiple times, hence our explicit recursion with an empty SUBDIRS.
+mostlyclean: mostlyclean-subdir
+	-libtooldir=`$(LIBTOOL) --config | sed -n -e 's/^objdir=//p'`; \
+	  rm -f $$libtooldir
+	-rm -rf *.o *.lo pic core errs \#* *.E a.out
+	-rm -f needed.awk needed2.awk errors dummy needed-list config.h stamp-*
+	-rm -f $(CONFIG_H) $(NEEDED_LIST)
+	-rm -f libiberty.aux libiberty.cp libiberty.cps libiberty.fn libiberty.ky
+	-rm -f libiberty.log libiberty.tmp libiberty.tps libiberty.pg
+	-rm -f libiberty.pgs libiberty.toc libiberty.tp libiberty.tpl libiberty.vr
+	-rm -f libtexi.stamp
+	@$(MULTICLEAN) multi-clean DO=mostlyclean
+clean: clean-subdir
+	$(MAKE) SUBDIRS="" mostlyclean
+	-rm -f *.a required-list tmpmulti.out
+	-rm -f libiberty.dvi libiberty.info* libiberty.html
+	@$(MULTICLEAN) multi-clean DO=clean
+distclean: distclean-subdir
+	$(MAKE) SUBDIRS="" clean
+	@$(MULTICLEAN) multi-clean DO=distclean
+	-rm -f *~ Makefile config.cache config.status xhost-mkfrag TAGS multilib.out
+	-rm -f config.log
+	-rmdir testsuite 2>/dev/null
+maintainer-clean realclean: maintainer-clean-subdir
+	$(MAKE) SUBDIRS="" distclean
+
+force:
+
+Makefile: $(srcdir)/Makefile.in config.status
+	CONFIG_FILES=Makefile CONFIG_HEADERS= $(SHELL) ./config.status
+
+# Depending on Makefile makes sure that config.status has been re-run
+# if needed.  This prevents problems with parallel builds.
+config.h: stamp-h ; @true
+stamp-h: $(srcdir)/config.in config.status Makefile
+	CONFIG_FILES= CONFIG_HEADERS=config.h:$(srcdir)/config.in $(SHELL) ./config.status
+
+config.status: $(srcdir)/configure $(srcdir)/config.table
+	$(SHELL) ./config.status --recheck
+
+# Depending on config.h makes sure that config.status has been re-run
+# if needed.  This prevents problems with parallel builds, in case
+# subdirectories need to run config.status also.
+all-subdir check-subdir installcheck-subdir info-subdir	\
+install-info-subdir clean-info-subdir dvi-subdir install-subdir	\
+etags-subdir mostlyclean-subdir clean-subdir distclean-subdir \
+maintainer-clean-subdir: config.h
+	@subdirs='$(SUBDIRS)'; \
+	target=`echo $@ | sed -e 's/-subdir//'`; \
+	for dir in $$subdirs ; do \
+	  cd $$dir && $(MAKE) $(FLAGS_TO_PASS) $$target; \
+	done
+
+# Don't export variables to the environment, in order to not confuse
+# configure.
+.NOEXPORT:
+# The dependencies in the remainder of this file are automatically
+# generated by "make maint-deps".  Manual edits will be lost.
+
+./_doprnt.lo: $(srcdir)/_doprnt.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/_doprnt.c
+
+./alloca.lo: $(srcdir)/alloca.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/alloca.c
+
+./argv.lo: $(srcdir)/argv.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/argv.c
+
+./asprintf.lo: $(srcdir)/asprintf.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/asprintf.c
+
+./atexit.lo: $(srcdir)/atexit.c config.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/atexit.c
+
+./basename.lo: $(srcdir)/basename.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/basename.c
+
+./bcmp.lo: $(srcdir)/bcmp.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/bcmp.c
+
+./bcopy.lo: $(srcdir)/bcopy.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/bcopy.c
+
+./bsearch.lo: $(srcdir)/bsearch.c config.h $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/bsearch.c
+
+./bzero.lo: $(srcdir)/bzero.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/bzero.c
+
+./calloc.lo: $(srcdir)/calloc.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/calloc.c
+
+./choose-temp.lo: $(srcdir)/choose-temp.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/choose-temp.c
+
+./clock.lo: $(srcdir)/clock.c config.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/clock.c
+
+./concat.lo: $(srcdir)/concat.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/concat.c
+
+./copysign.lo: $(srcdir)/copysign.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/copysign.c
+
+./cp-demangle.lo: $(srcdir)/cp-demangle.c config.h $(INCDIR)/ansidecl.h \
+	$(srcdir)/cp-demangle.h $(INCDIR)/demangle.h \
+	$(INCDIR)/dyn-string.h $(INCDIR)/getopt.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/cp-demangle.c
+
+./cp-demint.lo: $(srcdir)/cp-demint.c config.h $(INCDIR)/ansidecl.h \
+	$(srcdir)/cp-demangle.h $(INCDIR)/demangle.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/cp-demint.c
+
+./cplus-dem.lo: $(srcdir)/cplus-dem.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/demangle.h $(INCDIR)/libiberty.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/cplus-dem.c
+
+./dyn-string.lo: $(srcdir)/dyn-string.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/dyn-string.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/dyn-string.c
+
+./fdmatch.lo: $(srcdir)/fdmatch.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/fdmatch.c
+
+./ffs.lo: $(srcdir)/ffs.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/ffs.c
+
+./fibheap.lo: $(srcdir)/fibheap.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/fibheap.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/fibheap.c
+
+./floatformat.lo: $(srcdir)/floatformat.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/floatformat.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/floatformat.c
+
+./fnmatch.lo: $(srcdir)/fnmatch.c config.h $(INCDIR)/fnmatch.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/fnmatch.c
+
+./getcwd.lo: $(srcdir)/getcwd.c config.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getcwd.c
+
+./getopt.lo: $(srcdir)/getopt.c config.h $(INCDIR)/getopt.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getopt.c
+
+./getopt1.lo: $(srcdir)/getopt1.c config.h $(INCDIR)/getopt.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getopt1.c
+
+./getpagesize.lo: $(srcdir)/getpagesize.c config.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getpagesize.c
+
+./getpwd.lo: $(srcdir)/getpwd.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getpwd.c
+
+./getruntime.lo: $(srcdir)/getruntime.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/getruntime.c
+
+./hashtab.lo: $(srcdir)/hashtab.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/hashtab.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/hashtab.c
+
+./hex.lo: $(srcdir)/hex.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/hex.c
+
+./index.lo: $(srcdir)/index.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/index.c
+
+./insque.lo: $(srcdir)/insque.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/insque.c
+
+./lbasename.lo: $(srcdir)/lbasename.c $(INCDIR)/ansidecl.h $(INCDIR)/filenames.h \
+	$(INCDIR)/libiberty.h $(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/lbasename.c
+
+./lrealpath.lo: $(srcdir)/lrealpath.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/lrealpath.c
+
+./make-relative-prefix.lo: $(srcdir)/make-relative-prefix.c config.h \
+	$(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/make-relative-prefix.c
+
+./make-temp-file.lo: $(srcdir)/make-temp-file.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/make-temp-file.c
+
+./md5.lo: $(srcdir)/md5.c config.h $(INCDIR)/ansidecl.h $(INCDIR)/md5.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/md5.c
+
+./memchr.lo: $(srcdir)/memchr.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/memchr.c
+
+./memcmp.lo: $(srcdir)/memcmp.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/memcmp.c
+
+./memcpy.lo: $(srcdir)/memcpy.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/memcpy.c
+
+./memmove.lo: $(srcdir)/memmove.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/memmove.c
+
+./mempcpy.lo: $(srcdir)/mempcpy.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/mempcpy.c
+
+./memset.lo: $(srcdir)/memset.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/memset.c
+
+./mkstemps.lo: $(srcdir)/mkstemps.c config.h $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/mkstemps.c
+
+./mpw.lo: $(srcdir)/mpw.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/mpw.c
+
+./msdos.lo: $(srcdir)/msdos.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/msdos.c
+
+./objalloc.lo: $(srcdir)/objalloc.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/objalloc.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/objalloc.c
+
+./obstack.lo: $(srcdir)/obstack.c config.h $(INCDIR)/obstack.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/obstack.c
+
+./partition.lo: $(srcdir)/partition.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(INCDIR)/partition.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/partition.c
+
+./pex-djgpp.lo: $(srcdir)/pex-djgpp.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-djgpp.c
+
+./pex-mpw.lo: $(srcdir)/pex-mpw.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-mpw.c
+
+./pex-msdos.lo: $(srcdir)/pex-msdos.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-msdos.c
+
+./pex-os2.lo: $(srcdir)/pex-os2.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-os2.c
+
+./pex-unix.lo: $(srcdir)/pex-unix.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-unix.c
+
+./pex-win32.lo: $(srcdir)/pex-win32.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(srcdir)/pex-common.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/pex-win32.c
+
+./physmem.lo: $(srcdir)/physmem.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/physmem.c
+
+./putenv.lo: $(srcdir)/putenv.c config.h $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/putenv.c
+
+./random.lo: $(srcdir)/random.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/random.c
+
+./regex.lo: $(srcdir)/regex.c config.h $(INCDIR)/ansidecl.h $(INCDIR)/xregex.h \
+	$(INCDIR)/xregex2.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/regex.c
+
+./rename.lo: $(srcdir)/rename.c config.h $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/rename.c
+
+./rindex.lo: $(srcdir)/rindex.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/rindex.c
+
+./safe-ctype.lo: $(srcdir)/safe-ctype.c $(INCDIR)/ansidecl.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/safe-ctype.c
+
+./setenv.lo: $(srcdir)/setenv.c config.h $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/setenv.c
+
+./sigsetmask.lo: $(srcdir)/sigsetmask.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/sigsetmask.c
+
+./snprintf.lo: $(srcdir)/snprintf.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/snprintf.c
+
+./sort.lo: $(srcdir)/sort.c config.h $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h \
+	$(INCDIR)/sort.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/sort.c
+
+./spaces.lo: $(srcdir)/spaces.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/spaces.c
+
+./splay-tree.lo: $(srcdir)/splay-tree.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(INCDIR)/splay-tree.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/splay-tree.c
+
+./stpcpy.lo: $(srcdir)/stpcpy.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/stpcpy.c
+
+./stpncpy.lo: $(srcdir)/stpncpy.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/stpncpy.c
+
+./strcasecmp.lo: $(srcdir)/strcasecmp.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strcasecmp.c
+
+./strchr.lo: $(srcdir)/strchr.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strchr.c
+
+./strdup.lo: $(srcdir)/strdup.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strdup.c
+
+./strerror.lo: $(srcdir)/strerror.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strerror.c
+
+./strncasecmp.lo: $(srcdir)/strncasecmp.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strncasecmp.c
+
+./strncmp.lo: $(srcdir)/strncmp.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strncmp.c
+
+./strrchr.lo: $(srcdir)/strrchr.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strrchr.c
+
+./strsignal.lo: $(srcdir)/strsignal.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strsignal.c
+
+./strstr.lo: $(srcdir)/strstr.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strstr.c
+
+./strtod.lo: $(srcdir)/strtod.c $(INCDIR)/ansidecl.h $(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strtod.c
+
+./strtol.lo: $(srcdir)/strtol.c config.h $(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strtol.c
+
+./strtoul.lo: $(srcdir)/strtoul.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/safe-ctype.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/strtoul.c
+
+./ternary.lo: $(srcdir)/ternary.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h $(INCDIR)/ternary.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/ternary.c
+
+./tmpnam.lo: $(srcdir)/tmpnam.c
+	$(LTCOMPILE) -c -o $@ $(srcdir)/tmpnam.c
+
+./vasprintf.lo: $(srcdir)/vasprintf.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vasprintf.c
+
+./vfork.lo: $(srcdir)/vfork.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vfork.c
+
+./vfprintf.lo: $(srcdir)/vfprintf.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vfprintf.c
+
+./vprintf.lo: $(srcdir)/vprintf.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vprintf.c
+
+./vsnprintf.lo: $(srcdir)/vsnprintf.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vsnprintf.c
+
+./vsprintf.lo: $(srcdir)/vsprintf.c $(INCDIR)/ansidecl.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/vsprintf.c
+
+./waitpid.lo: $(srcdir)/waitpid.c config.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/waitpid.c
+
+./xatexit.lo: $(srcdir)/xatexit.c $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xatexit.c
+
+./xexit.lo: $(srcdir)/xexit.c config.h $(INCDIR)/ansidecl.h $(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xexit.c
+
+./xmalloc.lo: $(srcdir)/xmalloc.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xmalloc.c
+
+./xmemdup.lo: $(srcdir)/xmemdup.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xmemdup.c
+
+./xstrdup.lo: $(srcdir)/xstrdup.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xstrdup.c
+
+./xstrerror.lo: $(srcdir)/xstrerror.c config.h $(INCDIR)/ansidecl.h \
+	$(INCDIR)/libiberty.h
+	$(LTCOMPILE) -c -o $@ $(srcdir)/xstrerror.c
+

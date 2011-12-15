@@ -1,0 +1,10 @@
+### do the generic part
+sh $SOURCEDIR/generic.strap $1
+
+### patch
+patch -N $BUILD_DIR/$1_$ARCH/src/cairoint.h $SOURCEDIR/$1/cairoint.h.patch
+patch -N $BUILD_DIR/$1_$ARCH/src/cairo-font.c $SOURCEDIR/$1/cairo-font.c.patch
+patch -N $BUILD_DIR/$1_$ARCH/test/cairo-test-directfb.c $SOURCEDIR/$1/cairo-test-directfb.c.patch
+patch -N -d $BUILD_DIR/$1_$ARCH -p1 <$SOURCEDIR/$1/autoconf_automake.patch
+cp $SOURCEDIR/$1/configure_cairo_mipsel-uclibc $BUILD_DIR/$1_$ARCH/
+cp $SOURCEDIR/$1/automake_output.tgz $BUILD_DIR/$1_$ARCH/

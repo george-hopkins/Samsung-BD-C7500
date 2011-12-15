@@ -1,0 +1,8 @@
+_brcm_rdhwr
+LANGUAGE_C
+linux
+mips
+_mips
+MIPSEL
+R3000
+unix

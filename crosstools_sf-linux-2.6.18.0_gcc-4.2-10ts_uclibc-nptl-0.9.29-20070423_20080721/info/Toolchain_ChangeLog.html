@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Broadcom Linux/uClibc NPTL Soft Float Toolchain</title>
+</head>
+<body>
+<h1>Broadcom Linux/uClibc NPTL Soft Float Toolchain</h1>
+<h2>Toolchain Revision</h2>
+Build Date:&nbsp; 2007-08-10<br>
+Build Number:&nbsp; 3<br>
+<h2>Component Versions</h2>
+uClibc:&nbsp; 0.9.29-nptl-20070423<br>
+Linux headers:&nbsp; 2.6.18.0<br>
+binutils:&nbsp; 2.17.50.0.12-11-brcm<br>
+gcc:&nbsp; 4.2.0-20070307<br>
+gdb:&nbsp; 6.5<br>
+<h2>Changes for Build 3</h2>
+<ul>
+  <li>Removed <span style="font-family: Courier New,Courier,monospace;">--disable-shared</span> option when configuring final compiler that prevented building of <span style="font-family: Courier New,Courier,monospace;">libgcc.so</span> shared library and prevented <span style="font-family: Courier New,Courier,monospace;">iperf</span> and other binaries from working properly. Also removed obsolete comment in build specification file.
+  <li>Added patch to fix TLS problem with RPC state variable structure that was causing RPC to fail.
+</ul>
+
+<h2>Changes for Build 2</h2>
+<ul>
+  <li>Fixed <span style="font-family: Courier New,Courier,monospace;">syscall()</span> patch.
+  <li>Split up <span style="font-family: Courier New,Courier,monospace;">syscall()</span> and <span style="font-family: Courier New,Courier,monospace;">pipe()</span> patches into two separate files. The <span style="font-family: Courier New,Courier,monospace;">pipe()</span> patch file is included, but not applied. It will be tested at a later date.
+  <li>Added new <span style="font-family: Courier New,Courier,monospace;">binutils-2.17.50.0.12-999-brcm-toolchain-version.patch</span> to denote binutils patchset version.
+  <li>Removed binutils patch for ARM EABI.
+  <li>Removed commented out patch lines for binutils and renumbered the patches.
+  <li>Renamed the spec file to contain the build number.
+  <li>Added new file <span style="font-family: Courier New,Courier,monospace;">Toolchain_BuildLog.gz</span> to the <span style="font-family: Courier New,Courier,monospace;">info</span> directory which contains the complete buildlog of the toolchain. This requires the command
+    line for building to be <span style="font-family: Courier New,Courier,monospace;">rpmbuild -ba specfile >& buildlog</span>. The <span style="font-family: Courier New,Courier,monospace;">buildlog</span> file will then be copied and compressed.
+    <li>Added new patch for <span style="font-family: Courier New,Courier,monospace;">memmove()</span> optimized function.
+    <li>Updated prefetch <span style="font-family: Courier New,Courier,monospace;">memcpy()</span> optimized function patch.
+    <li>Updated HTML page.
+    <li>Bumped build date and version.
+</ul>
+
+<h2>Changes for Build 1</h2>
+<ul>
+  <li>Initial release with matching functionality of 2.6.12 NPTL Build 10.
+  <li>Updated uClibc <span style="font-family: Courier New,Courier,monospace;">memcpy.S</span> patch from Broadcom.
+  <li>Added new uClibc patch to fix MIPS <span style="font-family: Courier New,Courier,monospace;">pipe()</span> and <span style="font-family: Courier New,Courier,monospace;">syscall()</span> functions.
+  <li>Back-ported gprof support to work with NPTL.
+  <li>Updated default configuration files to add gprof configuration option.
+  <li>Removed <span style="font-family: Courier New,Courier,monospace;">--with-sysroot</span> option to allow toolchain to be moved to different directory.
+  <li>Made toolchain relocatable.
+  <li>Added this file.
+  <li>Bumped build date and version.
+</ul>
+</body>
+</html>

@@ -1,0 +1,14 @@
+prefix=/home7/Lucifer/Uniplayer_FFMpeg/ffmpeg-checkout-2009-06-05_chelsea_new_toolchain
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 52.34.0
+Requires: 
+Requires.private: libavcodec = 52.30.2
+Conflicts:
+Libs: -L${libdir} -lavformat 
+Libs.private: -lmms -lglib-2.0 -ldmp -lssl -lcrypto -pthread -lm
+Cflags: -I${includedir}

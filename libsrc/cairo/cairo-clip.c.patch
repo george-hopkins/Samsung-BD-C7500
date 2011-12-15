@@ -1,0 +1,14 @@
+--- cairo-20060212/src/cairo-clip.c	2005-12-19 18:08:05.000000000 -0500
++++ cairo-20060212_mipsel-uclibc/src/cairo-clip.c	2007-01-03 09:36:52.664982000 -0500
+@@ -248,8 +248,10 @@
+ 	return CAIRO_STATUS_NO_MEMORY;
+ 
+     status = _cairo_path_fixed_init_copy (&clip_path->path, path);
+-    if (status)
++    if (status) {
++		 free(clip_path);
+ 	return status;
++	 }
+ 
+     clip_path->ref_count = 1;
+     clip_path->fill_rule = fill_rule;

@@ -1,0 +1,220 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Dump to file window</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-opentracewindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-gotowindow.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+
+<br>
+<b><u><font size=6>
+6.3 Dump To File window
+</font></u></b>
+<p>&nbsp;&nbsp;&nbsp; Selecting the "Dump to File" Command from the File
+menu displays the following:
+<center>
+<p><img SRC="Pics/DumpProc.jpg" NOSAVE>
+<br><b><font size=-1>Figure 1: Dump to file window, Process-related options
+displayed</font></b></center>
+
+<p>&nbsp;&nbsp;&nbsp; This is used to write a report to disk, including
+analysis of the data. Various options can be selected to customize the
+generated report.
+<p>&nbsp;&nbsp;&nbsp; Specify the file to dump to in the "Dump to file"
+entry field. The Browse button will display the GTK+ file selection window.
+Any file-related errors will be reported in the main window's status bar.
+<p><i><font size=4>
+<a NAME="Process">
+6.3.1 Process options
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; Clicking on the Processes tab, as in figure 1, will
+display the process-related options. These are:
+<ul>
+<li>
+<b>Trace all processes: </b>Include all processes present during data acquisition
+in the analysis generated.</li>
+
+<li>
+<b>Only trace process: </b>Perform analysis on only one process, specified
+via the option menu.</li>
+</ul>
+
+<p><br><i><font size=4>
+<a NAME="Event">
+6.3.2 Event options
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; Selecting the Events tab will display the following
+choices:
+<center>
+<p><img SRC="Pics/DumpEvents.jpg" NOSAVE>
+<br><b><font size=-1>Figure 2: Dump to file window, Event-related options
+selected</font></b></center>
+
+<ul>
+<li>
+<b>Print trace events: </b>If this check box is selected, the raw list
+of events will be written to the dumped file. The events included in the
+dumped file are:</li>
+
+<ul>
+<li>
+<b>Trace all events: </b>If this option is selected, all possible events
+will be written to the report</li>
+
+<li>
+<b>Trace these events:</b> Select this radio button if you want to specify
+which types of events should be included in the list of raw events written
+to disk. All events whose type is not selected in the list will be ignored.</li>
+
+<li>
+<b>Omit these events: </b>Select this radio button if you want to select
+which types of events should NOT be included in the list of raw events
+written to disk. All events whose type is not selected in the list will
+be included in the report written to disk.</li>
+</ul>
+</ul>
+<i><font size=4>
+<a NAME="SMP">
+6.3.3 SMP options
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; LTT supports tracing of events that occurred on multiple
+processors. File dumping options related to this feature can be selected
+under the SMP tab:
+<center>
+<p><img SRC="Pics/DumpSMP.jpg" NOSAVE>
+<br><b><font size=-1>Figure 3: Dump to file window, SMP-related options
+selected</font></b></center>
+Your choices are:
+<ul>
+<li>
+<b>Trace all CPUs: </b>Include all CPUs accounted for in the analysis generated.</li>
+
+<li>
+<b>Only trace CPU no.: </b>Perform analysis on only one CPU, as specified
+in the text entry.</li>
+</ul>
+<i><font size=4>
+<a NAME="Other">
+6.3.4 Other options
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; A number of other options are available through the
+Options tab as shown on Figure 4:
+<center>
+<p><img SRC="Pics/DumpOptions.jpg" NOSAVE>
+<br><b><font size=-1>Figure 4: Dump to file window, other options selected</font></b></center>
+<b><font size=-1></font></b>
+<p>&nbsp;&nbsp;&nbsp; Each of these check boxes allows to:
+<ul>
+<li>
+<b>Account time spent in system calls: </b>If selected, the dumped file
+will include total time spent in system calls for each process</li>
+
+<li>
+<b>Do not print event times:</b> When selected, the report written to disk
+will not include the times at which the events occurred</li>
+
+<li>
+<b>Do not print event description strings:</b> Strings describing the events
+will not be included if there is a check in this check box.</li>
+
+<li>
+<b>Do not print length of data entries:</b> Length of the data entry for
+each event will not be dumped to the file when this option is selected.</li>
+
+<li>
+<b>Do not print process identifiers:</b> If selected, process identifiers
+(PIDs) will not be written to the report generated.</li>
+
+<li>
+<b>Do not print CPU identifiers:&nbsp;</b> Checking this box will prevent
+the printing of CPU identifiers (CPU IDs)&nbsp;in the report.</li>
+</ul>
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-opentracewindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-gotowindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Dump to file window</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>

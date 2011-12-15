@@ -1,0 +1,62 @@
+2002-10-31  Theodore Ts'o  <tytso@mit.edu>
+
+	* Release of E2fsprogs 1.30
+
+2001-09-24  Theodore Tso  <tytso@mit.edu>
+
+	* Release of E2fsprogs 1.29
+
+2001-08-31  Theodore Tso  <tytso@thunk.org>
+
+	* Release of E2fsprogs 1.28
+
+2002-08-18  Theodore Ts'o  <tytso@mit.edu>
+
+	* Makefile.in: Revamp makefile so that it doesn't depend
+		--enable-elf-shlibs.  We always build the shared library,
+		since it's meant to be used as a plugin library.
+
+	* fs_ext2.c (fs_fsck, fs_shrink, fs_expand): Change to use new
+		calling convention of fsim_fsck.  Fixed bug in fs_shrink
+		and f_expand where the shrink or expand would get aborted
+		if fsck returned an exit status code of 1 (which is normal).
+
+	* fsimext2.c (fsim_fsck): Add new parameter ret_status, and return
+		the exit status there.  The return code now returns 0 for
+		success, and an error code in case of failure, which
+		removes a lot of the ambiguity.
+
+2002-08-17  Theodore Ts'o  <tytso@mit.edu>
+
+	* fs_ext2.c, fsimext2.c: Synchronize with EVMS CVS tree.
+		Fixed up confusion caused by bad parameter names for
+		get_fs_limits().  Added missing conversion of
+		volume->vol_size from sectors to bytes.  Fix up error 
+		returns for unsupported tasks as EINVAL, not ENOSYS.
+		Use logical names for the API version numbers, since 
+		the ABI is much more dependent on the headers.  Add
+		code to byte-swap the superblock if necessary.
+		Fix up logging macros to use __FUNCTION__ correctly.
+
+	* common.h, dlist.h, enginestructs.h, options.h, plugfuncs.c, 
+		fs_ext2.c: Synchronize with ABI of EVMS 1.1.
+
+2002-06-01    <tytso@thunk.org>
+
+	* fs_ext2.c (fs_init_task): Fix minor bugs pointed out by Steve
+		Pratt.  Fixed a selection bug and added checks to make
+		sure volumes are not mounted when creating the list of
+		volumes which can be mkfs'ed by the ext2/3 plugin.
+
+2002-05-28    <tytso@thunk.org>
+
+	* fsimext2.c: Log the fsck and mke2fs command lines.  Return
+		appropriate volume limits so that resizing will work
+		correctly.  Fix bug in how the e2fsck output was presented
+		to the user.
+
+	* fs_ext2.c: Add support for expanding and shrinking ext2/3
+		filesystems.
+
+
+

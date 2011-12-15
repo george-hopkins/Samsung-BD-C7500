@@ -1,0 +1,28 @@
+Main Developers
+---------------
+
+Denis Oliver Kropp <dok@directfb.org>
+Andreas Hundt <andi@fischlustig.de>
+Sven Neumann <sven@convergence.de>
+Ville Syrjl <syrjala@sci.fi>
+
+
+Helping Developers
+------------------
+
+Andreas Robinson <andro134 at student.liu.se>   (CLE266 gfx driver)
+Daniel Foesch <dfoesch@cs.nmsu.edu>             (nVidia gfx driver)
+Michel Dnzer <michel@daenzer.net>              (Radeon gfx driver)
+Vadim Catana <vcatana@registru.md>              (Radeon overlay support)
+Sarma Kolluru <Sarma.Kolluru@nsc.com>           (NSC Geode gfx driver)
+Oliver Schwartz <Oliver.Schwartz@gmx.de>        (nVidia gfx driver)
+Alex Song <alexsong@comports.com>               (Savage gfx driver)
+Simon Ueng <simon@ftech.com.tw>                 (MuTouch Touchscreen driver)
+Holger Wchtler <holger@convergence.de>         (Linux Input driver)
+David Wood <DWood@daedalcorp.com>               (Voodoo gfx driver)
+Liam Girdwood <liam.girdwood@wolfsonmicro.com>  (WM97xx Touchscreen driver)
+Brandon M. Reynolds <breynolds@comtime.com>     (ELO Touchscreen driver)
+Claudio Ciccani <klan82@cheapnet.it>            (nVidia gfx driver)
+Andreas Oberritter <obi@tuxbox.org>             (SiS 315 gfx driver)
+
+See also "Thanks To" section in README.

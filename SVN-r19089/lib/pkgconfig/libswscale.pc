@@ -1,0 +1,14 @@
+prefix=/home7/Lucifer/Uniplayer_FFMpeg/ffmpeg-checkout-2009-06-05_chelsea_new_toolchain
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 0.7.1
+Requires: 
+Requires.private: libavutil = 50.3.0
+Conflicts:
+Libs: -L${libdir} -lswscale 
+Libs.private: 
+Cflags: -I${includedir}

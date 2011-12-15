@@ -1,0 +1,214 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Introduction</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-installation.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+<br>
+<b><u><font size=6>1. Introduction</font></u></b>
+<p><i><font size=4>1.1 Why a Linux trace toolkit?</font></i>
+<p>&nbsp;&nbsp;&nbsp; The Linux operating system is a multiprogramming,
+multiuser system. This means that it is able to handle multiple running
+programs at once. On a uniprocessor system (a computer with only one microprocessor),
+this is achieved by sharing this precious resource among multiple tasks,
+letting each execute for a certain period of time and then switching to
+another. The selection and switching of processes is handled by the Linux
+kernel, which also is a program and therefore also needs some time from
+the processor. It is also responsible for fulfilling certain requests by
+the programs it manages, dealing with error conditions, etc.
+<p>&nbsp;&nbsp;&nbsp; One could have the need to know exactly what these
+scheduling decisions, process switches and various management tasks are,
+how they are handled, how long they take and to which process the processor
+is allocated. Spread out over a certain period of time, we call this an
+execution trace.
+<p>&nbsp;&nbsp; The Linux trace toolkit is a suite of tools designed to
+do just that; extract program execution details from the Linux operating
+system and interpret them. Specifically, it enables its user to extract
+processor utilization and allocation information for a certain period of
+time. It is then possible to perform various calculations on this data
+and dump this in a text file. the list of probed events can also be included
+in this. The integrated environment, based on the GTK+ library, can also
+plot these results and perform specific searches.
+<p><i><font size=4>1.2 Software requirements</font></i>
+<p>&nbsp;&nbsp;&nbsp; In its simplest form, the Linux trace toolkit does
+not need any specific libraries. Any properly configured Linux system will
+do. By this, we mean a Linux system where the Linux header files, source
+code and libraries are present. No, this will NOT work on any other operating
+system, although you might be able to compile and use the graphical environment.
+This is obviously not very useful if you cannot get any data from the kernel!
+<p>&nbsp;&nbsp;&nbsp; As of 12/01/2002, however, the data acquisition components
+require version 2.4.16 of the Linux kernel. You may be able to update/downgrade
+the patch provided with the package to other kernel versions. As a matter of
+fact, many people have succesfully done so and the project's ftp site contains
+a directory called "ExtraPatches" which contains the patches submitted by
+some of these people.
+
+<p>&nbsp;&nbsp;&nbsp;In any case, you can very well do your data acquisition
+with a patched (more about that in the next section) kernel and then
+reboot using any other kernel to view the results. The performance hit for a
+patched kernel compared to a "normal" one is, however, minimal;
+Testing has shown that this is less than 2.5% on a normal use system (measured using
+batches of kernel makes). On algorithm
+intensive tasks, the impact is close to zero. On file intensive systems (measured using
+batches of tar), the impact is less than 5%. 
+The kernels can be found at&nbsp; <a href="http://www.kernel.org/">www.kernel.org</a>.
+<p>&nbsp;&nbsp;&nbsp; This is fine if all you need is to get results and dump
+them in a text file. However, you would be missing out on one of LTT's
+most powerful features: the plotting of the trace. All of the integrated
+environment including the event graph is implemented with the GTK+ library.
+You can download it for free from&nbsp; <a href="http://www.gtk.org/">www.gtk.org</a>.
+This version on LTT was coded and successfully tested with GTK+ version
+1.2.4, although any 1.2.x version will most probably do.
+<p><i><font size=4>1.3 Architecture</font></i>
+<p>&nbsp;&nbsp;&nbsp; The Linux trace toolkit is made up of the following
+components:
+<br>&nbsp;
+<center>
+<table BORDER COLS=2 WIDTH="90%" BGCOLOR="#CCCCCC" NOSAVE >
+<tr BGCOLOR="#000000">
+<td>
+<FONT COLOR="#FFFFFF">
+<b>
+Component
+</b>
+</FONT>
+</td>
+
+<td>
+<FONT COLOR="#FFFFFF">
+<b>
+Task
+</b>
+</FONT>
+</td>
+</tr>
+
+<tr>
+<td>Kernel patch</td>
+
+<td>Logs Traced events</td>
+</tr>
+
+<tr>
+<td>Kernel module</td>
+
+<td>Stores logged events and signals trace daemon when limit is
+reached</td>
+</tr>
+
+<tr>
+<td>Trace daemon</td>
+
+<td>Reads Kernel module's buffer and stores events on disk</td>
+</tr>
+
+<tr>
+<td>Data decoder</td>
+
+<td>Displays event trace in human readable format and performs analysis</td>
+</tr>
+</table>
+</center>
+
+<p>For more information on the project's architecture, take a peak at the Documentation
+section of LTT's web site.
+
+<p><i><font size=4>1.4 Real-Time Linux support</font></i>
+<p>&nbsp;&nbsp;&nbsp; Along-side support for Linux, LTT, starting version 0.9.3, has support for the <a href=http://www.rtai.org>
+DIAPM RTAI</a> (Dipartimento di Ingegneria Aerospaziale - Politecnico di Milano Real Time Application Interface)
+real-time linux extension. Although you could use LTT with an RTAI patched kernel, LTT didn't record
+any information about RTAI's decision or the behavior of the tasks it scheduled. Now, LTT is able to
+get this information and to analyze it to retrieve important information to the understanding of the
+dynamic behavior of an RTAI/Linux system. Most interesting are the event graphs drawn according to
+the collected information. They enable a unique view a real-time Linux system. This is most important
+when trying to isolate all types of timing problems.
+
+<p>&nbsp;&nbsp;&nbsp; If you do not use RTAI or do not plan to do so, you can skip sections discussing using LTT with
+RTAI. 
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-installation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Introduction</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+
+</body>
+</html>

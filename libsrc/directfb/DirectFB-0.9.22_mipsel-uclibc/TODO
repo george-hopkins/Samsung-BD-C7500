@@ -1,0 +1,57 @@
+General (roughly sorted by priority)
+-------------------------------------
+
+Modularize pixel formats (eventually with dynamic extension support).
+
+Implement CoreFont sharing between applications
+to save glyph rendering and surface allocations.
+
+Finish VT switching (already working well after 0.9.18 release)
+ - Save/redirect video only buffers.
+ - Handle auto video buffers being permanently locked in video memory.
+ - Support switching during exclusive access to a layer.
+
+Finish implementation of cooperative levels.
+
+Finish display layer core and driver API.
+
+Finish multi application core.
+ - Some messages may need to be dispatched synchronized.
+ - Add fork handling.
+ - Run time single/multi app core selection (both enabled during build).
+
+Finish surface manager.
+ - Add kicking out a few smaller surfaces for a bigger one.
+ - Defragment free space.
+
+Finish module unloading (done for most cases).
+
+Convert all D_DEBUG usage to D_DEBUG_AT using some D_DEBUG_DOMAINs.
+
+Add cooperative levels to input devices, implement sharing/distinction for
+applications (e.g. PS/2 Keyboard + PS/2 Mouse driver XDirectFB on Monitor out,
+USB-Keyboard + USB-Mouse drive XDirectFB and/or other applications on TV Out,
+USB-Wacom Tablet with mouse and pen can be assigned or switched to either,
+preferrably during runtime)
+
+Virtual window/layer resolution with scrolling/panning.
+
+Rework cursor and palette handling in the window stack.
+
+Implementation rating.
+
+
+Drivers
+--------
+
+- CLUT support in Matrox driver (tried that without success)
+
+
+Refactoring/cleanups
+---------------------
+
+- Split up IDirectFB::CreateSurface code
+- Cleanup flipping/back_to_front_copy stuff
+- Surface locking (internal, rw lock?)
+- Reduce sched_yield() usage
+- Rewrite VT code

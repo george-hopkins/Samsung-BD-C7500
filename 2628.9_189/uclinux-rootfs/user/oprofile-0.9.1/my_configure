@@ -1,0 +1,2 @@
+./configure --build=i386-linux --host=mipsel-linux --target=mipsel-linux --with-kernel-support --with-linux=/home/troy/data/97398-2.6.12-1.0-le/xsettop --with-module-dir=/home/troy/data/97398-2.6.12-1.0-le/romfs/lib/modules
+

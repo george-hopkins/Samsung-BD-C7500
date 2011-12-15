@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=${DIRECTFB_INSTALL_PATH}@libdir@
+includedir=${DIRECTFB_INSTALL_PATH}@includedir@
+
+Name: Direct
+Description: DirectFB base development library
+Version: @VERSION@
+Libs: -L${libdir} -ldirect @THREADLIB@ @DYNLIB@
+Cflags: @THREADFLAGS@ -I@INCLUDEDIR@ -D_GNU_SOURCE

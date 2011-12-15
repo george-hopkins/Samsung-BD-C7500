@@ -1,0 +1,34 @@
+# Don't build the shared library for build.
+if [ -n "${with_build_subdir}" ]; then
+  enable_shared=no
+fi
+
+frag=
+case "${host}" in
+  rs6000-ibm-aix3.1 | rs6000-ibm-aix)
+                        frag=mh-aix ;;
+  *-*-cxux7*)		frag=mh-cxux7 ;;
+  *-*-freebsd2.1.*)	frag=mh-fbsd21 ;;
+  *-*-freebsd2.2.[012])	frag=mh-fbsd21 ;;
+  i370-*-opened*)       frag=mh-openedition ;;
+  i[34567]86-*-windows*)	frag=mh-windows ;;
+esac
+
+if [ -n "${frag}" ]; then
+  frags=${libiberty_topdir}/libiberty/config/$frag
+else
+  frags=
+fi
+
+echo "# Warning: this fragment is automatically generated" > temp-frag
+
+for frag in ${frags}; do
+  if [ -f ${frag} ]; then
+    echo "Appending ${frag} to xhost-mkfrag"
+    echo "# Following fragment copied from ${frag}" >> temp-frag
+    cat ${frag} >> temp-frag
+  fi
+done
+
+frag=xhost-mkfrag
+${CONFIG_SHELL-/bin/sh} ${libiberty_topdir}/move-if-change temp-frag xhost-mkfrag

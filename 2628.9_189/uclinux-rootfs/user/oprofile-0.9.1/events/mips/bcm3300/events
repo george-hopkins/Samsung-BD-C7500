@@ -1,0 +1,23 @@
+#
+# Bcm3300 events
+#
+# As standard the CPU supports 4 performance counters.  
+# Events 5,6,9,a,11,12,42,45,4b
+# are available on all counters; 
+#
+# In this processor, events are grouped by module, only events from the same
+# module can be used simultanously.
+# Events 11, 12 can be used all the time.
+# Events 5, 6 are in the Instruction cache module and can be used together.
+# Events 9,a are in the Data cache module and can be used together.
+# All other events, 42, 45, 4b must be used alone or only in conjunction with 11 and/or 12.
+#
+event:5 counters:0,1,2,3 um:zero minimum:500 name:ICACHE_MISSES : Instruction cache misses (no D-cache misses)
+event:6 counters:0 um:zero minimum:500 name:ICACHE_HITS : Instruction cache hits
+event:9 counters:0,1,2,3 um:zero minimum:500 name:DATA_CACHE_MISS : Data cache miss
+event:a counters:0,1,2,3 um:zero minimum:500 name:DATA_CACHE_HIT : Data cache hit
+event:11 counters:0,1,2,3 um:zero minimum:500 name:INSTRUCTIONS_EXECUTED : Instructions executed
+event:12 counters:0,1,2,3 um:zero minimum:500 name:CYCLES : Processor cycles (PClock)
+event:42 counters:0,1,2,3 um:zero minimum:500 name:L1_CACHE_MISS : RAC lookup or read accesses due to L1 cache misses
+event:45 counters:0,1,2,3 um:zero minimum:500 name:RAC_HIT : RAC hit
+event:4b counters:0,1,2,3 um:zero minimum:500 name:RAC_BLOCK_REQUEST : Block requests due to prefetch

@@ -1,0 +1,105 @@
+2076-01-27  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* elf64-hppa.c (elf64_bed): Defined for HPUX and Linux.
+	(INCLUDED_TARGET_FILE): Removed.
+
+2007-01-27  Mike Frysinger  <vapier@gentoo.org>
+
+	* elf32-hppa.c (elf32_bed): Define for hpux, linux and netbsd.
+	(INCLUDED_TARGET_FILE): Remove.
+
+2007-01-25  DJ Delorie  <dj@redhat.com>
+
+	* elf32-m32c.c (m32c_elf_howto_table): Don't complain about
+	R_M32C_16 or R_M32C_24 relocs.
+
+2007-01-25  Nick Clifton  <nickc@redhat.com>
+
+	PR binutils/3874
+	* elf32-avr.c (avr_link_hash_table): Check to make sure that the
+	hash table was created by elf32_avr_link_hash_table_create before
+	using it.
+	(elf32_avr_link_hash_newfunc): New function.  Just pass the call
+	through to _bfd_elf_link_hash_newfunc.
+	(elf32_avr_link_hash_table_create): Use
+	elf32_avr_link_hash_newfunc instead of
+	_bfd_elf_link_hash_newfunc.
+	(elf32_avr_relocate_section): Check for the hash table pointer
+	being NULL.
+	(elf32_avr_relax_section, avr_build_one_stub,
+	elf32_avr_setup_params, get_local_syms, elf32_avr_size_stubs,
+	elf32_avr_build_stubs): Likewise.
+
+2007-01-16  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR ld/3831
+	* elf-bfd.h (bfd_elf_link_mark_dynamic_symbol): Add an
+	argument, Elf_Internal_Sym *.
+
+	* elflink.c (bfd_elf_link_mark_dynamic_symbol): Mark a data
+	symbol dynamic if info->dynamic_data is TRUE.
+	(bfd_elf_record_link_assignment): Updated call to
+	bfd_elf_record_link_assignment.
+	(_bfd_elf_merge_symbol): Likewise.  Always call
+	bfd_elf_link_mark_dynamic_symbol.
+
+2076-01-12  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* Makefile.am (BFD_LIBS): Removed.
+	* Makefile.in: Regenerated.
+
+2076-01-11  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR binutils/3631
+	* Makefile.am (OFILES): Add @bfd64_libs@.
+	(libbfd_la_SOURCES): Remove $(BFD64_LIBS_CFILES).
+	* Makefile.in: Regenerated.
+
+	* configure.in (bfd_libs): Replaced by ...
+	(bfd64_libs): This.
+	* configure: Regenerated.
+
+2007-01-11  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* elf.c (assign_file_positions_for_load_sections): We can
+	require fewer phdrs than expected.
+
+2007-01-08  Kazu Hirata  <kazu@codesourcery.com>
+
+	* archures.c (bfd_mach_cpu32_fido): Rename to bfd_mach_fido.
+	* bfd-in2.h: Regenerate.
+	* cpu-m68k.c (arch_info_struct): Use bfd_mach_fido instead of
+	bfd_mach_cpu32_fido.
+	(m68k_arch_features): Use fido_a instead of cpu32.
+	(bfd_m68k_compatible): Reject the combination of Fido and
+	ColdFire.  Accept the combination of CPU32 and Fido with a
+	warning.
+	* elf32-m68k.c (elf32_m68k_object_p,
+	elf32_m68k_merge_private_bfd_data,
+	elf32_m68k_print_private_bfd_data): Treat Fido as an
+	architecture by itself.
+
+2007-01-08  Kai Tietz	<kai.tietz@onevision.com>
+
+	* config.bfd: Renamed target x86_64-*-mingw64 to x86_64-*-mingw*.
+
+2007-01-05  Jakub Jelinek  <jakub@redhat.com>
+
+	* texhex.c (first_phase): Don't fall through into the default
+	case.
+	(pass_over): Replace abort () calls with return FALSE.  Fix
+	buffer overflow.
+
+2007-01-04  Jie Zhang  <jie.zhang@analog.com>
+
+	* elf-eh-frame.c (_bfd_elf_discard_section_eh_frame): Don't set
+	SEC_EXCLUDE on zero size .eh_frame.
+
+For older changes see ChangeLog-2006
+
+Local Variables:
+mode: change-log
+left-margin: 8
+fill-column: 74
+version-control: never
+End:

@@ -1,0 +1,4 @@
+#!/bin/sh
+# Script to run the trace daemon while only tracing the core events
+
+tracedaemon -eSTART -eSYS_ENTRY -eSYS_EXIT -eTRAP_ENTRY -eTRAP_EXIT -eIRQ_ENTRY -eIRQ_EXIT -eSCHED -eKTIMER -eSIRQ -ts$1 /dev/tracer $2.trace $2.proc &

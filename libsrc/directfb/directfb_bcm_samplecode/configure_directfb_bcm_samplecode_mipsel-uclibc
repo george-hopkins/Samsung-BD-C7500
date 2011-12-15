@@ -1,0 +1,44 @@
+#!/bin/sh
+                                                                                                                                                             
+if [ "${DEBUG}" = "y" ]; then
+    CONFIGURE_DEBUG_OPTS="--enable-debug"
+fi
+
+if [ ! -f configure ]; then
+    sh autogen.sh
+fi
+
+# This patch will modify the configure script:
+# Before:
+# if $PKG_CONFIG --atleast-pkgconfig-version $PKG_CONFIG_MIN_VERSION; then
+# After:
+# if $PKG_CONFIG --atleast-pkgconfig-version=$PKG_CONFIG_MIN_VERSION; then
+# Should do a script to do that, this applies to both RH7.3 and FC2.
+# For RH7.3 pic_mode is set wrong in libtool, and if you force
+# lt_cv_prog_cc_pic, then you get other problems, so let's replace
+# the faulty ac macro result instead in the configure script.
+# This is ok in FC2, and the lt_cv_prog_cc_pic variable does
+# not exist so will still work.
+if [ -f configure ]; then
+	sed -e "s/--atleast-pkgconfig-version /--atleast-pkgconfig-version=/g" configure > configure.newversion
+	sed -e "s/lt_cv_prog_cc_pic='-fPIC'/lt_cv_prog_cc_pic='-fPIC -DPIC'/g" configure.newversion > configure
+else
+	echo "Something went wrong running autogen.sh, please make sure you have"
+	echo "the proper libtool, autoconf and automake installed on the build"
+	echo "environment."
+	exit 1
+fi
+
+#For RH7.3, it is necessary to pass the deplibs_check_method used by libtool,
+#as the autoconf macros don't seem to go a good job at that. Was not
+#a problem on FC2.
+lt_cv_deplibs_check_method="pass_all" \
+ac_cv_path_PKG_CONFIG="/usr/bin/pkg-config --define-variable=DIRECTFB_INSTALL_PATH=\"${DIRECTFB_INSTALL_PATH}\"" \
+PKG_CONFIG_PATH="${DIRECTFB_INSTALL_PATH}/usr/local/lib/pkgconfig" \
+ac_cv_path_FREETYPE_CONFIG=${DIRECTFB_INSTALL_PATH}/usr/local/bin \
+CFLAGS=${CROSS_CFLAGS} CPPFLAGS=${CROSS_CFLAGS} LDFLAGS=${CROSS_LDFLAGS} \
+CC=${CROSS}gcc CPP=${CROSS}cpp CXX=${CROSS}g++ LD=${CROSS}ld AR=${CROSS}ar \
+RANLIB=${CROSS}ranlib STRIP=${CROSS}strip \
+sh configure \
+--build=i686-pc-linux-gnu --host=mipsel-linux-gnu \
+$CONFIGURE_DEBUG_OPTS

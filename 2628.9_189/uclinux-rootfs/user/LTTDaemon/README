@@ -1,0 +1,25 @@
+
+The Linux Trace Toolkit
+-----------------------
+
+Here is the breakdown of the contents of this package:
+COPYING:	The GPL license
+Daemon:		The source for the trace daemon
+Examples:       Directory containing various examples
+ExtraScripts:   Scripts for facilitating the use of LTT
+Help:		Directory containing the HTML help files
+LibLTT:         Directory containing the LTT event database library
+LibUserTrace:   Directroy containing the user trace library
+Patches:	Directory containing the different kernel patches
+README:		This file
+Visualizer:	The source for the trace visualization tool
+"the rest":     The remaining files are part of the autoconf/automake package
+                in order to ease/automate the LTT build process. N.B. The
+                code in the "Examples" directory is not processed by the
+                build process, it has its own makefiles.
+
+To get started, read the help files found in the Help directory
+
+Karim Yaghmour
+karim@opersys.com
+

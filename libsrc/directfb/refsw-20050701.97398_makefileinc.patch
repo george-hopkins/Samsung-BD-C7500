@@ -1,0 +1,18 @@
+diff -urN refsw-20050701.97398_orig/BSEAV/api/build/magnum/Makefile.inc refsw-20050701.97398_mod/BSEAV/api/build/magnum/Makefile.inc
+--- refsw-20050701.97398_orig/BSEAV/api/build/magnum/Makefile.inc	2005-07-13 20:26:57.000000000 -0400
++++ refsw-20050701.97398_mod/BSEAV/api/build/magnum/Makefile.inc	2005-09-15 08:44:40.374913465 -0400
+@@ -201,6 +201,14 @@
+ CFLAGS += -DINTERNAL_DOCSIS_SUPPORT
+ endif
+ 
++# sh: Adding this will give someone including this file
++# full access to the magnum layer header files
++CFLAGS += $(addprefix -I${MAGNUM}/, $(sort ${INC}))
++
++#Remove the forcing of ISO 90C standard and use gnu99 standard 
++#instead (so we can have cleaner comments).
++# [xm] Leave like is for now
++#CFLAGS += -std=gnu99
+ 
+ CFLAGS += -I$(BSETTOP)/src/magnum
+ CFLAGS += -I$(BSETTOP)/src/magnum/board

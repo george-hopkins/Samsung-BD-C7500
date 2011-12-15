@@ -1,0 +1,574 @@
+#!/bin/bash
+
+# original codes shill@broadcom.com
+# v3.0 tht patched for 2418SR3
+# tht rewritten for 2418sr4,sr5 to support BB
+# v3.5 sr6: tht added support for HD on BB
+# v3.6 on 2.4.25-0: tht added support for Cramfs
+# v3.7 on 2.4.25-0.2: tht Read HD geometry and switch on uname
+# v3.8 on 2.4.25-1.1: tht Integrate with BusyBox 1.0
+# v3.9 on 2.6.12-2.1: jipeng handle input args and tftp error
+# v3.92 on 2.6.18-2.0: tht: Added YAFFS2 install
+# v3.92 on 2.6.18-2.0: tht: Added SQUASHFS install
+# v4.00 on 2.6.18-5.0: cernekee: clean up code
+
+#
+# Copy initrd contents to hard disk
+#
+
+stbutil_harddisk()
+{
+   echo "Preparing partition table..."
+   echo "********************************************************************"
+   echo "NOTE: When setting up the partition table, it is necessary to create"
+   echo "      the partitions and reboot the settop. After rebooting, the"
+   echo "      partitions become usable and the installation can proceed."
+   echo "********************************************************************"
+   echo ""
+   echo ""
+
+   result=`cat /proc/partitions | ( grep sda > /dev/null || echo "1")`
+
+   if [ "$result" = "1" ]; then
+   echo "No harddisk found. It is either a diskless platform or no harddisk connected."
+   exit 0
+   fi
+
+   HARDDRIVE="sda"
+   TMP_HARDDRIVE=""
+   hdd_status=0
+#until [ -f /proc/ide/${TMP_HARDDRIVE}/geometry ] ; do
+   until [ $hdd_status -eq 1 ] ; do
+
+   echo "Please provide name of HD [${HARDDRIVE}]"
+   echo ""
+
+   read TMP_HARDDRIVE
+   if [ "${TMP_HARDDRIVE}" != "" ]; then 
+    HARDDRIVE=$TMP_HARDDRIVE
+   else
+    TMP_HARDDRIVE=${HARDDRIVE}
+   fi
+
+   hdd_status=`cat /proc/partitions | ( grep $TMP_HARDDRIVE > /dev/null && echo "1" || echo "0" )`
+   done
+
+   echo "   Creating new partition table..."
+   dd if=/dev/zero of=/dev/${HARDDRIVE} bs=1k count=40960 2> /dev/null
+
+   cat /etc/partition-lba48.map | sfdisk -fq /dev/${HARDDRIVE}  2> /dev/null
+
+   echo ""
+   sleep 2
+
+   echo ""
+   echo "Formatting swap partition..."
+   mkswap /dev/${HARDDRIVE}2 2> /dev/null
+
+   echo ""
+   echo "Enabling swap partition..."
+   swapon /dev/${HARDDRIVE}2 2> /dev/null
+
+   # Turn on VM overcommit (PR31081)
+   echo 0 > /proc/sys/vm/overcommit_memory
+
+   echo ""
+   echo "Formatting ext3 file systems..."
+   mke2fs -j /dev/${HARDDRIVE}1 2> /dev/null
+   mke2fs -j /dev/${HARDDRIVE}3 2> /dev/null
+   # Supressing periodic fsck
+   tune2fs -i 0 /dev/${HARDDRIVE}1 2> /dev/null
+   tune2fs -i 0 /dev/${HARDDRIVE}3 2> /dev/null
+
+   if [ ! -d /sys/module/libata ]; then
+    echo "HD install not applicable to diskless STBs"
+    exit 1
+   fi
+
+   if [[ $PLATFORM = *-xfs* ]]; then
+      FS=ext3
+      FSTAB=fstab-xfs
+      mkfs.xfs -fq /dev/${HARDDRIVE}4
+   else
+      FS=ext3
+      FSTAB=fstab
+      mke2fs -j /dev/${HARDDRIVE}4 -N 4096  -b 4096 2> /dev/null
+      tune2fs -i 0 /dev/${HARDDRIVE}4 2> /dev/null
+   fi
+
+   echo ""
+   echo "Mounting ${FS} root file systems on /dev/${HARDDRIVE}1 ..."
+   if [ ! -d /mnt/hd ]; then
+    mkdir /mnt/hd
+   fi
+   mount -t ${FS} /dev/${HARDDRIVE}1 /mnt/hd 2> /dev/null
+
+   echo ""
+
+   cd /
+# Too bad  the --exclude flag which does not work on directories
+   tar -cf - `ls | grep -vE '\<mnt\>|\<tmp\>|\<proc\>|\<lost\+found\>|\<sys\>'` | (cd /mnt/hd; tar xvf -)
+   mkdir -p /mnt/hd/mnt/nfs
+   mkdir /mnt/hd/mnt/hd
+   mkdir /mnt/hd/proc
+   mkdir /mnt/hd/tmp
+   mkdir /mnt/hd/sys
+   mkdir /mnt/hd/opt
+   mkdir /mnt/hd/data
+
+# Adjust /etc/fstab to reflect how to mount /dev/hda4
+   mv /mnt/hd/etc/$FSTAB /mnt/hd/etc/fstab.org
+   cat /mnt/hd/etc/fstab.org | sed 's/\/dev\/hda/\/dev\/'${HARDDRIVE}'/' > /mnt/hd/etc/fstab 
+
+# Edit init script to mount all HDs
+   rm /mnt/hd/etc/init.d/rcS
+   cp /var/tmp/rcS.hd /mnt/hd/etc/init.d/rcS
+   chmod +x /mnt/hd/etc/init.d/rcS
+
+# jipeng - remove all dhcpcd related files here
+   rm /mnt/hd/etc/config/dhcpc/dhcpcd*
+
+   sleep 5
+   cd /
+   umount /mnt/hd
+
+   echo ""
+   echo "************************************************************"
+   echo "NOTE: After rebooting, edit the files '/etc/resolv.conf' and"
+   echo "      '/etc/init.d/rcS' to configure your network."
+   echo "************************************************************"
+   echo ""
+   echo "Platform hard drive successfully initialized. You may safely reboot."
+   echo ""
+   exit 0
+}
+
+#
+# Install non-free drivers
+#
+
+stbutil_nonfree()
+{
+    echo "ping -c 4 $TFTP_SERVER"
+    if ping -c 4 $TFTP_SERVER >& /dev/null; then
+        echo "ping: succeed"
+    else
+        echo "ping failed.  Aborting."
+        exit 1
+    fi
+    if [[ $PLATFORM == *_be* ]]; then
+       BIN=bin_be
+       WL=wl_be
+    else
+       BIN=bin
+       WL=wl
+    fi
+    if [ $RESPONSE -eq 8 ]; then
+        echo "Fetching WLAN drivers..."
+
+        mkdir -p /tmp/wlan
+        PFX=${NONFREEPFX}wlan_pci/${PLATFORM}/
+        echo "Fetching via tftp: ${TFTP_SERVER}:${PFX}wl_ap.ko"
+        if ! tftp -g $TFTP_SERVER -l /tmp/wlan/wl_ap.ko -r ${PFX}/wl_ap.ko; then
+            echo "tftp failed.  Aborting."
+            exit 1
+        fi
+        echo "Fetching via tftp: ${TFTP_SERVER}:${PFX}wl_sta.ko"
+        if ! tftp -g $TFTP_SERVER -l /tmp/wlan/wl_sta.ko -r ${PFX}/wl_sta.ko; then
+            echo "tftp failed.  Aborting."
+            exit 1
+        fi
+        F=${NONFREEPFX}wlan_pci/bin/$WL
+        echo "Fetching via tftp: ${TFTP_SERVER}:$F"
+        if ! tftp -g $TFTP_SERVER -l /tmp/wlan/wl -r $F; then
+            echo "tftp failed.  Aborting."
+            exit 1
+        fi
+        echo ""
+        echo "WLAN files are now installed in /tmp/wlan"
+        echo ""
+        exit 0
+    elif [ $RESPONSE -eq 9 ]; then
+        F=${NONFREEPFX}hpna/hpna-$RAWVER.tar.bz2
+        echo "Fetching via tftp: ${TFTP_SERVER}:$F"
+        if ! tftp -g $TFTP_SERVER -l /tmp/hpna.tar.bz2 -r $F; then
+            echo "tftp failed.  Aborting."
+            exit 1
+        fi
+        cd /tmp
+        tar jxf hpna.tar.bz2
+        rm -f hpna.tar.bz2
+        cd hpna
+        if [ "$BIN" == "bin" ]; then
+            rm -rf bin_be
+        else
+            rm -rf bin
+            mv bin_be bin
+        fi
+        echo ""
+        echo "HPNA files are now installed in /tmp/hpna"
+        echo ""
+        exit 0
+    fi
+}
+
+#
+# Show main menu
+#
+
+get_choice()
+{
+echo ""
+echo "Please select an action:"
+echo ""
+echo "   1) Install RO JFFS2 rootfs on flash with /etc and /var RW on tmpfs"
+echo "   2) Install RW JFFS2 rootfs on flash with no special setup"
+echo "   3) Install root filesystem on harddisk"
+echo "   4) Install RO CRAMFS rootfs on flash"
+echo "   5) Install RO SQUASHFS rootfs on flash  (recommended for RO fs)"
+echo "   6) Install RO YAFFS2 rootfs on NAND flash"
+echo "   7) Install RW YAFFS2 rootfs on NAND flash (RW on Large Page devices only)"
+echo "   8) Install non-free WLAN drivers from network"
+echo "   9) Install non-free HPNA drivers from network"
+echo "   0) Exit"
+echo ""
+echo -n "Selection: "
+}
+
+#
+# Set up basic variables
+#
+
+# includes all qualifiers, e.g. 7400d0-smp_be-discontig, 7401c0-nand
+PLATFORM=$(grep "^build target" /proc/cpuinfo | sed 's/.*: //')
+
+if [ -z "$PLATFORM" -o "$PLATFORM" == "unknown" ]; then
+   echo "Error: build target is not set in /proc/cpuinfo"
+   exit 1
+fi
+
+# e.g. 2.6.18-5.0 (no endian suffix)
+RELEASE=$(uname -r)
+
+# 2618
+KERNEL_REL=$(echo ${RELEASE%-*} | sed 's/\.//g')
+
+# 5.0
+BRCM_REL=${RELEASE#*-}
+
+# 2618-5.0
+RAWVER=${KERNEL_REL}-${BRCM_REL}
+
+# 2618-5.0-be
+if [[ $PLATFORM = *_be* ]]; then
+   CUR_REL=${RAWVER}-be
+else
+   CUR_REL=${RAWVER}
+fi
+
+#
+# Set up PATH and terminal
+#
+
+stty sane
+stty erase '^H' echoe echok -echoprt -iexten -ixany
+PATH=".:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+TERM=linux
+
+#
+# Parse tftp path from command line
+#
+
+if [ $# -ge 1 ]; then
+    Arg1="$1"
+    TFTP_SERVER=`echo "$Arg1" | cut -f 1 -d ':'`
+    CUR_REL=`echo "$Arg1" | sed -n '/\:/p' | cut -f 2 -d ':'`
+    if [ -z "$CUR_REL" ]; then
+        # stbutil HOST: -> tftp -g HOST -r IMAGE
+        IMGPFX=""
+        NONFREEPFX=""
+    else
+        # stbutil HOST:PATH -> tftp -g HOST -r PATH/IMAGE
+        IMGPFX="$CUR_REL/"
+        NONFREEPFX="$CUR_REL/"
+    fi
+else
+    # stbutil <no args> -> tftp -g stb-irva-01 -r $CUR_REL/IMAGE
+    # or ${RAWVER}-nonfree/IMAGE for nonfree image
+    TFTP_SERVER=stb-irva-01
+    IMGPFX="$CUR_REL/"
+    NONFREEPFX="$RAWVER-nonfree/"
+fi
+
+#
+# Show banner and prompt for user selection
+#
+
+echo ""
+echo "stbutil v4.00 - Settop configuration utility"
+echo "Copyright (C) 2008 Broadcom Corporation"
+echo ""
+echo "Usage: stbutil [tftpserver:[subdir]]"
+echo "  Please specify an argument to stbutil to override the default."
+echo "  Flash images will be retrieved from $TFTP_SERVER:$CUR_REL"
+echo ""
+
+RESPONSE=0
+while :
+do
+   get_choice
+
+   read RESPONSE
+   if [ -z "$RESPONSE" ]; then
+	echo "Please enter a value between 0 and 9"
+	continue
+   fi
+   case "$RESPONSE" in
+   1|2|3|4|5|6|7|8|9|0)
+   	;;
+   *)
+      echo "Only single digits are accepted"
+      continue
+      ;;
+   esac
+   if  [ $RESPONSE -lt 0 -o $RESPONSE -gt 9 ]; then
+        echo "Invalid choice"
+	continue
+   fi
+
+   if [ $RESPONSE -eq 6 -o $RESPONSE -eq 7 ]; then
+     FDEV="/dev/mtd0"
+     FLASH_TYPE=`flash_info "$FDEV" |grep Type|cut -f2 -d ':' | cut -f2 -d' ' `
+     # ERASE_SIZE=`flash_info "$FDEV" |grep Erase|cut -f2 -d ':' | cut -f2 -d' ' `
+
+     case "$FLASH_TYPE" in
+     NAND*)
+     	break  # OK to proceed
+        ;;
+     *)
+        echo "YAFFS rootfs is only available for platforms with NAND flash"
+        continue
+        ;;
+      esac
+   fi
+
+   # If we get here, we are OK to proceed
+   break
+done
+
+#
+# Now run the requested operation
+#
+
+if [ $RESPONSE -eq 3 ]; then
+   stbutil_harddisk
+   exit 0
+fi
+
+if [ $RESPONSE -eq 8 -o $RESPONSE -eq 9 ]; then
+   stbutil_nonfree
+   exit 0
+fi
+
+if [ $RESPONSE -eq 0 ]; then
+   echo ""
+   exit 0
+fi
+
+#
+# Install image to flash
+#
+
+echo ""
+if [ $RESPONSE -eq 4 ]; then
+   echo "Installing CRAMFS rootfs"
+   echo ""
+   FSTYPE="cramfs"
+   ERASE_FLAG=
+fi
+if [ $RESPONSE -eq 5 ]; then
+   echo "Installing SQUASHFS rootfs"
+   echo ""
+   FSTYPE="squashfs"
+   ERASE_FLAG=
+fi
+if [ $RESPONSE -eq 6 -o $RESPONSE -eq 7 ]; then
+   echo "Installing YAFFS rootfs"
+   echo ""
+   FSTYPE="yaffs-frm-cramfs"
+   ERASE_FLAG=
+fi
+
+if [ $RESPONSE -eq 1 -o $RESPONSE -eq 2 ]; then
+   echo "Installing JFFS2 rootfs"
+   echo ""
+   FSTYPE="jffs2"
+   ERASE_FLAG='-j'
+fi
+
+if [ $RESPONSE -eq 1 -o $RESPONSE -eq 2 -o $RESPONSE -eq 4  -o $RESPONSE -eq 5 \
+       -o $RESPONSE -eq 6 -o $RESPONSE -eq 7 ]; then
+
+   FDEV="/dev/mtd0"
+   MTD_DEV="/dev/mtdblock0"
+
+   # check connectivity
+   echo "ping -c 4 $TFTP_SERVER"
+   ping -c 4 $TFTP_SERVER > ping.err 2>&1
+   grep "bytes from" ping.err > /dev/null 2>&1
+   if [ "$?" -eq 0 ]; then
+      echo "ping: succeed"
+      rm ping.err
+   else
+      cat ping.err;rm ping.err
+      exit 1
+   fi
+
+   FLASH_TYPE=`flash_info "$FDEV" |grep Type|cut -f2 -d ':' | cut -f2 -d' ' `
+   ERASE_SIZE=`flash_info "$FDEV" |grep Erase|cut -f2 -d ':' | cut -f2 -d' ' `
+
+   if [[ $FLASH_TYPE = SPI* ]]; then
+      echo "SPI flash not supported.  Please flash through CFE."
+      exit 1
+   fi
+
+   if [[ $FLASH_TYPE = NOR* ]]; then
+      # no erase flag needed with jffs2 summary feature
+      ERASE_FLAG=""
+      BLOCKSIZE=""
+      if [ $PLATFORM == "7401c0" -o $PLATFORM == "7401c0_be" ]; then
+         if [ $ERASE_SIZE -eq 64 -a "$FSTYPE" == "jffs2" ]; then
+            # special case: 7401 with 64k NOR has -64k in the jffs2 filename
+            BLOCKSIZE="-${ERASE_SIZE}k"
+         fi
+      fi
+      # NAND kernel, NOR flash
+      if [[ $PLATFORM = *-nand ]]; then
+         PLATFORM=${PLATFORM%-nand}
+      fi
+   else
+      if [ "$FSTYPE" == "jffs2" ]; then
+         # jffs2 for NAND always specifies the block size
+         BLOCKSIZE="-${ERASE_SIZE}k"
+      fi
+      # NOR kernel, NAND flash
+      if [[ $PLATFORM != *-nand ]]; then
+         PLATFORM=${PLATFORM}-nand
+      fi
+   fi
+   IMAGE="${FSTYPE}${BLOCKSIZE}-${PLATFORM}.img"
+
+   # fetch image
+
+   echo "Fetching via tftp: ${TFTP_SERVER}:${IMGPFX}${IMAGE}"
+
+   if ! tftp -g ${TFTP_SERVER} -r ${IMGPFX}${IMAGE} -l /tmp/${IMAGE}; then
+      echo "Cannot fetch flash image ${IMGPFX}${IMAGE} from ${TFTP_SERVER}"
+      exit 2
+   fi
+
+   echo "Erasing $FLASH_TYPE flash with $ERASE_SIZE kB erase sectors on $FDEV..."
+   eraseall $ERASE_FLAG "$FDEV"
+
+   test -d /mnt/flash || mkdir -p /mnt/flash
+
+   # THT 011207: Change to allow support for both NOR and NAND flash co-existing on a board
+   # using the same kernel, depending on the chip select
+   case "$FLASH_TYPE" in
+   NAND*)
+   	case "$RESPONSE" in
+	1|2)  # JFFS2
+                echo "Writing flash image..."
+      		nandwrite -p ${FDEV} /tmp/${IMAGE}
+		;;
+
+	4|5)  # CRAMFS and SQUASHFS
+      		nandwrite ${FDEV} /tmp/${IMAGE}
+
+		# For NAND flash, we can't mount /dev/romblock so quit now
+		echo "Copied rootfs to flash complete.  You may now safely reboot"
+    		exit 0
+		;;
+
+	6|7)  # YAFFS2
+		# sidc - PR33102 Since we derive a yaffs2 image from cramfs fs image we do not
+		# need to check the erase size. 
+		# Source: cramfs image mounted in loopback Dest: yaffs image to be created
+		mount -t yaffs2 "$MTD_DEV" /mnt/flash
+                mkdir -p /mnt/yaffs_src
+                mount -t cramfs -o loopback /tmp/${IMAGE} /mnt/yaffs_src
+                cd /mnt/yaffs_src
+                echo "Creating files for yaffs2 image..."
+                cp -dpR . /mnt/flash
+		cd /
+		umount /mnt/yaffs_src
+		rm -rf /mnt/yaffs_src
+		;;
+
+	esac
+   ;;
+
+   NOR*) # NOR flashes
+		echo "Writing flash image..."
+		cat /tmp/$IMAGE > $FDEV
+		# With Summary enabled, append the JFFS2 image with 
+		# cleanmarkers for faster umount time
+		if [ $RESPONSE -eq 1 -o $RESPONSE -eq 2 ]; then
+			imgsize=`ls -l /tmp/$IMAGE | awk '{print $5}'`
+			/bin/norcleanmark $FDEV $imgsize
+		fi
+   ;;
+   esac
+
+   if [ $RESPONSE -eq 1 -o  $RESPONSE -eq 2 ]; then
+   	echo "Mounting root file system $FSTYPE as $MTD_DEV..."
+   	mount -t $FSTYPE "$MTD_DEV" /mnt/flash
+   fi
+
+   # if Option 2,4,5,7 are selected (Copy rootfs only) we are done
+   # Option 4 (CRAMFS) and 5 (SQUASHFS) already have tmpfs handled during FS image creation on host side.
+   if [ $RESPONSE -eq 2 -o $RESPONSE -eq 4 -o $RESPONSE -eq 5 -o $RESPONSE -eq 7 ]; then
+      [ $RESPONSE -eq 2 -o $RESPONSE -eq 7 ] && umount /mnt/flash
+      echo "Copied rootfs to flash complete.  You may now safely reboot"
+      exit 0
+   fi
+
+   echo "Set up to mount /var and /etc RW"
+   cd /mnt/flash/var
+   rm -rf /mnt/flash/tmp
+   ln -s /var/tmp /mnt/flash/tmp
+
+   # Creating tmpfs images
+   dd if=/dev/zero of=/mnt/flash/tmpfsvar.img bs=1024 count=500
+   dd if=/dev/zero of=/mnt/flash/tmpfsetc.img bs=1024 count=256
+   #
+   # Create tarball for var
+   #
+   cd /mnt/flash/var
+   # Create script to mount var RW
+   cp /mnt/flash/var/tmp/mountvar.sh /mnt/flash/etc
+   chmod +x /mnt/flash/etc/mountvar.sh
+   # Substitute with new rc.sysinit script
+   cp /mnt/flash/var/tmp/rcS /mnt/flash/etc/init.d/rcS
+   rm /mnt/flash/var/tmp/*
+   tar -cvf /mnt/flash/var.img . 2>&1 >/dev/null
+
+   #
+   # Create tarball for etc
+   #
+   cd /mnt/flash/etc
+   tar -cvf /mnt/flash/etc.img . 2>&1 >/dev/null
+
+   # Clean up
+   cd /
+   rm -rf /mnt/flash/var/*
+   echo ""
+   echo "Syncing flash file system..."
+   sync; sync
+   echo "Unmounting flash file system..."
+   echo ""
+   umount /mnt/flash
+   echo "Finished..."
+   exit 0
+fi
+

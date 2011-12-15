@@ -1,0 +1,16 @@
+all:: subdirs $(LIBRARY).a
+
+install-shlibs::
+
+subdirs::
+
+# THT: 09/24/04 Replace hardlink with symlinks.  Hardlink does not work
+# when building using a Clearcase dynamic view 
+# (complains about cross-device link).
+$(LIBRARY).a: $(OBJS)
+	(if test -r $@; then $(RM) -f $@.bak && $(MV) $@ $@.bak; fi)
+	$(ARUPD) $@ $(OBJS)
+	-$(RANLIB) $@
+	$(RM) -f ../$@
+	$(LN) $@ ../$@
+

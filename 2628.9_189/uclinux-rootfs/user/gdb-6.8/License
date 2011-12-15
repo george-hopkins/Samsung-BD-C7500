@@ -1,0 +1,15 @@
+******************************************************************************
+Warning: GDB-6.8 is under GPLv3.
+******************************************************************************
+
+
+Anything that is GPLv3 can't be protected against unauthorized modification. 
+
+See the "right to tinker" section:
+
+http://www.gnu.org/licenses/quick-guide-gplv3.html
+
+Please make sure to remove gdb/gdbserver from the production rootfs, or 
+else risk losing the signing keys used to lock down the rootfs.
+
+

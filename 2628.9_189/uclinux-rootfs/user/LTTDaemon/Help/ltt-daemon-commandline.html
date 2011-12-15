@@ -1,0 +1,411 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Command-line operation</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-dataacquisition.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-decoder-commandline.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+<br>
+<font size=6>
+<u><b>4. Trace daemon command-line operation</b></u>
+</font>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracedaemon - The trace daemon component of the
+Linux Trace Toolkit (LTT)
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracedaemon&nbsp; 
+[ -d ]
+[ -p ]
+[ -m ]
+[ -f ]
+[ -o ]
+[ -k ]
+[ -q ]
+[ -j ]
+[ -v ]
+[ -b<u>BufSize</u> ]
+[ -n<u>NBuffers</u> ]
+[ -e<u>EventTypes</u> ]
+[ -D<u>EventTypes</u> ]
+[ -c<u>CPU-ID</u> ]
+[ -P<u>PID</u> ]
+[ -G<u>PGRP</u> ]
+[ -g<u>GID</u> ]
+[ -u<u>UID</u> ]
+[ -s { d<u>CallDepth</u> | l<u>LowerBound</u> | u<u>UpperBound</u> } ]
+[ -t { s<u>Seconds</u> | u<u>Microseconds</u> } ]
+[ <u>TraceDevice</u> ] 
+[ <u>TraceFile</u> ]
+[ <u>ProcFile</u> ]
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: The trace daemon is run on the target system.</b>
+<p>&nbsp;&nbsp;&nbsp; 
+The tracedaemon program is the daemon component of Linux Trace Toolkit (LTT). Its
+primary function is to collect the data from the trace module in the kernel and
+to commit it to a file. In order to do so, it needs a minimum of 2 arguments:
+the file in which to commit the trace and a file to write the description of the system as
+found is /proc on startup. The later is used by the data decoder in order to reconstruct
+the system as it was when the trace started.  In the case of flight recorder data, however,
+only the trace file needs be specified; a proc file isn't generated.
+
+<p>&nbsp;&nbsp;&nbsp; Moreover, the trace daemon can be used to configure the trace
+module by passing it different command line arguments. The trace module is
+configured using a series of calls to ioctl(). Contrary to the command line
+arguments options possible for the trace decoder, the options given to the daemon
+have a direct impact on the data collected by the kernel. That is, if some data
+is configured to be omitted then that data will not be available in the raw trace
+and cannot be extracted by the decoder. On the other hand if the same is done on
+the decoder level, the data might not be present in the decoder's output, but
+it will still be available in the raw trace. Therefore, the choice of configuration
+of the daemon should be selected with caution, the data omitted being truly omitted
+in the trace. You have been warned!
+
+<p>&nbsp;&nbsp;&nbsp; As noted, the tracedaemon is used to start both normal traces i.e.
+traces in which all traced data is logged to disk, and 'flight recorder' traces, which
+are traces that run continuously and are only written to disk when requested (see the -j
+option below) or are examined after a system crash has taken place (see SGI's LKCD
+(Linux Kernel Crash Dump) for tools that allow the retrieval of the flight recorder
+buffers in a post-mortem situation).  The default set of events that are logged in flight
+recorder mode are: syscall entry/exit, trap entry/exit, irq entry/exit, schedchange,
+kernel timer, softirq, and process.  Note that all of these events, except for kernel
+timer, softirq and process, are required to display a trace graphically using the LTT
+visual tools.
+
+<p><b>OPTIONS</b>
+
+<p>&nbsp;&nbsp;&nbsp; <b>-d</b>&nbsp;&nbsp;&nbsp; Set the trace module to it's
+default configuration. It is wise to always include this options since it makes
+sure that the trace module is set to it's default configuration even if it
+has already been used by a previous run of the daemon.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-p</b>&nbsp;&nbsp;&nbsp; Print the current trace
+mask. When the trace daemon is already running, simply call on <b>tracedaemon -p</b>
+to print the current trace mask. You won't need to provide the daemon with any
+other option whatsoever. You don't even need to provide the link to the current
+trace device.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-m</b>&nbsp;&nbsp;&nbsp; Modify the curren trace
+mask. When the trace daemon is already running, use this option with the
+-e or -D options to modify the curren trace mask. As with -p, you don't need
+to provide any of the traditionnaly required files.
+
+
+<p>&nbsp;&nbsp;&nbsp; <b>-f</b>&nbsp;&nbsp;&nbsp; Use the lock-free
+tracing scheme.  If -b and/or -n are unspecified, the defaults will be
+4 buffers of 512 K each.  The lock-free scheme is the default so this
+option need not be used, but is maintained for backward compatibility.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-l</b>&nbsp;&nbsp;&nbsp; Use the locking
+tracing scheme.  If -b and/or -n are unspecified, the defaults will be
+2 buffers of 1,000,000 bytes each.  If -l is not specified, the
+lock-free scheme will be used with 4 buffers of 512K each.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-o</b>&nbsp;&nbsp;&nbsp; Force the use of 
+gettimeofday() timestamping.  The default timestamping method is TSC 
+timestamping, if the platform supports it, otherwise gettimeofday() 
+timestamping is used.  This option avoids TSC timestamping even if the 
+platform supports it.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-k</b>&nbsp;&nbsp;&nbsp; If specified, the remaining options
+refer to the flight recorder trace.  Otherwise, all options refer to the normal trace.
+Specifying -k with no other options starts the flight recorder trace, which will run
+continuously forever unless stopped using the -q option.  A snapshot of the current
+flight recorder trace data can be retrieved using the -j option.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-q</b>&nbsp;&nbsp;&nbsp; Stop the flight recorder trace, if
+active.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-j</b>&nbsp;&nbsp;&nbsp; Dump the current flight recorder
+trace data into the tracefile specified by the TraceFile option.  If there are multiple
+CPUs being traced, the TraceFile name will be used as the base for the multiple
+resulting tracefiles. 
+
+<p>&nbsp;&nbsp;&nbsp; <b>-v</b>&nbsp;&nbsp;&nbsp; Display information about the current trace and or flight recorder.  This can be used to verify the status and activity of the flight recorder trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-b</b>&nbsp;&nbsp;&nbsp; Sets the trace module's
+data collection buffer to the size given by <u>BufSize</u>. Giving too small of
+a size will result in a loss of events and too large of a size will result in
+lost kernel space. The default size for the locking scheme is 1000000 bytes.  
+The default size for the lock-free scheme is 524288 (512K).  For the lock-free
+scheme, the size should be a power of 2; if it isn't, it will be rounded down 
+to the next lower power of 2.  As of 26/03/2000, the trace module will not 
+accept sizes below 1000 bytes.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-n</b>&nbsp;&nbsp;&nbsp; Sets the number of
+trace module data collection buffers to the number given by
+<u>NBuffers</u>.  The default number of buffers for the lock-free
+scheme is 4, and 2 for the locking scheme.  The number of buffers
+should be a power of 2; if it isn't, it will be rounded down to the
+next lower power of 2.  The maximum number of buffers is 256.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-e</b>&nbsp;&nbsp;&nbsp; Trace only the given events.
+This will set the trace mask passed to the module to include the event given
+in <u>EventTypes</u>. This option can be used more than once to specify all
+the events to be traced. The following is the list of event types traced:
+<ul>
+<ul>
+<li>
+"START" - Trace start</li>
+
+<li>
+"SYS_ENTRY" - System call entry</li>
+
+<li>
+"SYS_EXIT" - System call exit</li>
+
+<li>
+"TRAP_ENTRY" - Trap entry</li>
+
+<li>
+"TRAP_EXIT" - Trap exit</li>
+
+<li>
+"IRQ_ENTRY" - Interrupt entry </li>
+
+<li>
+"IRQ_EXIT" - Interrupt exit </li>
+
+<li>
+"SCHED" - Schedule change</li>
+
+<li>
+"KTIMER" - Kernel timer</li>
+
+<li>
+"SIRQ" - Soft IRQ management</li>
+
+<li>
+"PROCESS" - Process management</li>
+
+<li>
+"FS" - File system management</li>
+
+<li>
+"TIMER" - Timer management</li>
+
+<li>
+"MEM" - Memory management</li>
+
+<li>
+"SOCKET" - Socket communications</li>
+
+<li>
+"IPC" - System V IPC communications</li>
+
+<li>
+"NET" - Network device management</li>
+
+<li>
+"NEWEV" - Creation of new event types</li>
+
+<li>
+"CSTM" - Custom event occurrences</li>
+
+<li>
+"HEARTBEAT" - Heartbeat event occurrences</li>
+</ul>
+</ul>
+
+If you've compile the trace daemon with RTAI support, then the following event types can be configured:
+<ul>
+<ul>
+<li>
+"RTMNT" - RTAI mount</li>
+
+<li>
+"RTUMNT" - RTAI unmount </li>
+
+<li>
+"RTGIRQE" - RTAI global IRQ entry</li>
+
+<li>
+"RTGIRQX" - RTAI global IRQ exit</li>
+
+<li>
+"RTOIRQE" - RTAI CPU own IRQ entry </li>
+
+<li>
+"RTOIRQX" - RTAI CPU own IRQ exit </li>
+
+<li>
+"RTTRAPE" - RTAI trap entry</li>
+
+<li>
+"RTTRAPX" - RTAI trap exit</li>
+
+<li>
+"RTSRQE" - RTAI SRQ entry</li>
+
+<li>
+"RTSRQX" - RTAI SRQ exit</li>
+
+<li>
+"RTSWTCHL" - RTAI switch to Linux</li>
+
+<li>
+"RTSWTCHR" - RTAI switch to RT</li>
+
+<li>
+"RTSCHED" - RTAI scheduling change</li>
+
+<li>
+"RTTASK" - RTAI task management</li>
+
+<li>
+"RTTIMER" - RTAI timer management</li>
+
+<li>
+"RTSEM" - RTAI semaphore communications</li>
+
+<li>
+"RTMSG" - RTAI message communications</li>
+
+<li>
+"RTRPC" - RTAI RPC communications</li>
+
+<li>
+"RTMBX" - RTAI message box communications</li>
+
+<li>
+"RTFIFO" - RTAI FIFO communications</li>
+
+<li>
+"RTSHM" - RTAI shared memory management</li>
+
+<li>
+"RTPOSIX" - RTAI Posix layer</li>
+
+<li>
+"RTLXRT" - RTAI LXRT layer</li>
+
+<li>
+"RTLXRTI" - RTAI LXRT-informed layer</li>
+
+</ul>
+</ul>
+
+
+Note that the start trace event is always traced, whether it is configured as such or not.
+This is done by the trace module and should not be modified since the trace decoder
+needs information included in this first event.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-D</b>&nbsp;&nbsp;&nbsp; Sets the module to record the
+details of the event given. See <b>-e</b> for the events available. This too can be
+used more than once to specify all the events for which the details are recorded.
+The details of the start trace event are always recorded, whether -D is used to
+specify this or not. The reason is the same than for the <b>-e</b> option. For the
+data decoder to be able to draw the event graph, the following events must have
+their details recorded : syscall, irq, trap entry and exit and schedchange.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-c</b>&nbsp;&nbsp;&nbsp; Trace CPU-ID. Only include
+events that occurred on <u>CPU-ID</u> in trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-P</b>&nbsp;&nbsp;&nbsp; Trace PID. Only include
+process number <u>PID</u> in trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-G</b>&nbsp;&nbsp;&nbsp; Trace process group. Only include
+processes part of <u>PGRP</u> in trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-g</b>&nbsp;&nbsp;&nbsp; Trace GID. Only include
+processes part of <u>GID</u> in trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-u</b>&nbsp;&nbsp;&nbsp; Trace UID. Only include
+processes belonging to <u>UID</u> in trace.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-s</b>&nbsp;&nbsp;&nbsp; Set the syscall EIP fetching
+policy. If <b>-sd</b> is used then the instruction pointer (EIP) will be fetched
+up the call stack at the given <u>CallDepth</u>. If the EIP has to be fetched
+from a certain range then <b>-su</b> and <b>-sl</b> must be used in this sequence.
+Each must be followed by a hexadecimal formatted address, 0xXXXXXXXX. These will
+be the <u>UpperBound</u> and the <u>LowerBound</u> used to fetch the EIP.
+
+<p>&nbsp;&nbsp;&nbsp; <b>-t</b>&nbsp;&nbsp;&nbsp; Set the time for which the
+daemon should run. <b>-ts</b> sets the number of seconds to run to <u>Seconds</u>.
+<b>-tu</b> sets the number of microseconds to run to <u>Microseconds</u>.
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-dataacquisition.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-decoder-commandline.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Daemon command-line operation</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>

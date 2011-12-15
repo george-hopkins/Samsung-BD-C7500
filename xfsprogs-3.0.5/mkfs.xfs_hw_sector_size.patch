@@ -1,0 +1,140 @@
+diff -urN xfsprogs-3.0.5/libxfs/linux.c xfsprogs-3.0.5_patch/libxfs/linux.c
+--- xfsprogs-3.0.5/libxfs/linux.c	2009-07-23 02:50:51.000000000 +0900
++++ xfsprogs-3.0.5_patch/libxfs/linux.c	2010-02-19 17:25:16.000000000 +0900
+@@ -112,9 +112,9 @@
+ 	if (major(device) != RAMDISK_MAJOR) {
+ 		if ((error = ioctl(fd, BLKBSZSET, &blocksize)) < 0) {
+ 			fprintf(stderr, _("%s: %s - cannot set blocksize "
+-					"on block device %s: %s\n"),
++						"%d on block device %s: %s\n"), 
+ 				progname, fatal ? "error": "warning",
+-				path, strerror(errno));
++				blocksize, path, strerror(errno));
+ 		}
+ 	}
+ 	return error;
+diff -urN xfsprogs-3.0.5/mkfs/xfs_mkfs.c xfsprogs-3.0.5_patch/mkfs/xfs_mkfs.c
+--- xfsprogs-3.0.5/mkfs/xfs_mkfs.c	2009-10-24 01:32:34.000000000 +0900
++++ xfsprogs-3.0.5_patch/mkfs/xfs_mkfs.c	2010-02-19 17:36:00.000000000 +0900
+@@ -33,6 +33,7 @@
+ 	int	dsunit;		/* stripe unit - data subvolume */
+ 	int	dswidth;	/* stripe width - data subvolume */
+ 	int	rtswidth;	/* stripe width - rt subvolume */
++	int sectorsize; 
+ 	int	sectoralign;
+ };
+ 
+@@ -320,7 +321,7 @@
+ 	return ret;
+ }
+ 
+-static void blkid_get_topology(const char *device, int *sunit, int *swidth)
++static void blkid_get_topology(const char *device, int *sunit, int *swidth, , int *sectorsize)
+ {
+ 	blkid_topology tp;
+ 	blkid_probe pr;
+@@ -348,7 +349,9 @@
+ 	val = blkid_topology_get_optimal_io_size(tp) >> 9;
+ 	if (val > 1)
+ 		*swidth = val;
+-
++	val = blkid_probe_get_sectorsize(pr);
++	*sectorsize = val; 
++	
+ 	if (blkid_topology_get_alignment_offset(tp) != 0) {
+ 		fprintf(stderr,
+ 			_("warning: device is not properly aligned %s\n"),
+@@ -370,13 +373,14 @@
+ 	if (!xi->disfile) {
+ 		const char *dfile = xi->volname ? xi->volname : xi->dname;
+ 
+-		blkid_get_topology(dfile, &ft->dsunit, &ft->dswidth);
++		blkid_get_topology(dfile, &ft->dsunit, &ft->dswidth,
++				&ft->sectorsize); 
+ 	}
+ 
+ 	if (xi->rtname && !xi->risfile) {
+ 		int dummy;
+ 
+-		blkid_get_topology(xi->rtname, &dummy, &ft->rtswidth);
++		blkid_get_topology(xi->rtname, &dummy, &ft->rtswidth, &dummy); 
+ 	}
+ }
+ #else /* ENABLE_BLKID */
+@@ -403,15 +407,30 @@
+ 	return 0;
+ }
+ 
++extern void platform_findsizes (char *path, int fd, long long *sz, int *bsz); 
++
+ static void get_topology(libxfs_init_t *xi, struct fs_topology *ft)
+ {
+ 	char *dfile = xi->volname ? xi->volname : xi->dname;
+-
++	int bsz = BBSIZE; 
++	
+ 	if (!xi->disfile) {
++		int fd;
++		long long dummy;
++		
+ 		get_subvol_stripe_wrapper(dfile, SVTYPE_DATA,
+ 				&ft->dsunit, &ft->dswidth, &ft->sectoralign);
++		fd = open(dfile, O_RDONLY); 
++		/* If this fails we just fall back to BBSIZE */ 
++		if (fd) { 
++			platform_findsizes(dfile, fd, &dummy, &bsz); 
++			close(fd);
++		}
++		
+ 	}
+ 
++	ft->sectorsize = bsz; 
++	
+ 	if (xi->rtname && !xi->risfile) {
+ 		int dummy1;
+ 
+@@ -1543,8 +1562,18 @@
+ 	memset(&ft, 0, sizeof(ft));
+ 	get_topology(&xi, &ft);
+ 
+-	if (ft.sectoralign) {
+-		sectorsize = blocksize;
++//	if (ft.sectoralign) {
++//		sectorsize = blocksize;
++	/* 
++	* MD wants sector size set == block size to avoid switching. 
++	* Otherwise, if not specfied via command, use device sectorsize
++	*/
++	if (ft.sectoralign || !ssflag) { 
++		if (ft.sectoralign)
++			sectorsize = blocksize; 
++		else 
++			sectorsize = ft.sectorsize; 
++		
+ 		sectorlog = libxfs_highbit32(sectorsize);
+ 		if (loginternal) {
+ 			lsectorsize = sectorsize;
+@@ -1556,6 +1585,12 @@
+ 		fprintf(stderr, _("illegal sector size %d\n"), sectorsize);
+ 		usage();
+ 	}
++	if (sectorsize < ft.sectorsize) {
++		fprintf(stderr, _("illegal sector size %d; hw sector is %d\n"),
++				sectorsize, ft.sectorsize); 
++		usage();
++	}
++	
+ 	if (lsectorsize < XFS_MIN_SECTORSIZE ||
+ 	    lsectorsize > XFS_MAX_SECTORSIZE || lsectorsize > blocksize) {
+ 		fprintf(stderr, _("illegal log sector size %d\n"), lsectorsize);
+@@ -1751,8 +1786,8 @@
+ 
+ 	if (slflag || ssflag)
+ 		xi.setblksize = sectorsize;
+-	else
+-		xi.setblksize = 1;
++//	else
++//		xi.setblksize = 1;
+ 
+ 	/*
+ 	 * Initialize.  This will open the log and rt devices as well.

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+modprobe cdrom
+modprobe scsi_mod
+modprobe sd_mod
+modprobe sr_mod
+modprobe fat
+modprobe vfat
+modprobe usb-storage
+modprobe isofs
+# For DVDROM drives.
+modprobe udf
+# Charsets
+modprobe nls_cp437
+modprobe nls_iso8859-1
+

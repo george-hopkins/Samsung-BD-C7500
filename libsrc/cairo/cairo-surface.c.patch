@@ -1,0 +1,10 @@
+--- cairo-20060212/src/cairo-surface.c	2006-01-06 17:11:07.000000000 -0500
++++ cairo-20060212_mipsel-uclibc/src/cairo-surface.c	2007-01-03 09:29:23.503234000 -0500
+@@ -236,6 +236,7 @@
+     source = _cairo_pattern_create_solid (color);
+     if (source->status) {
+ 	cairo_surface_destroy (surface);
++	cairo_pattern_destroy (source);
+ 	_cairo_error (CAIRO_STATUS_NO_MEMORY);
+ 	return (cairo_surface_t*) &_cairo_surface_nil;
+     }

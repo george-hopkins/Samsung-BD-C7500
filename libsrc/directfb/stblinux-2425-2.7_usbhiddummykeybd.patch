@@ -1,0 +1,115 @@
+diff -urN stblinux-2425-2.7_orig/arch/mips/config-shared.in stblinux-2425-2.7_usbhiddummykeybd/arch/mips/config-shared.in
+--- stblinux-2425-2.7_orig/arch/mips/config-shared.in	2005-04-14 18:34:33.000000000 -0400
++++ stblinux-2425-2.7_usbhiddummykeybd/arch/mips/config-shared.in	2005-09-15 14:46:07.819763924 -0400
+@@ -729,6 +729,8 @@
+ #	define_bool CONFIG_PCI_AUTO y
+    define_bool CONFIG_BRCM_7XXX_SERIAL y
+    define_bool CONFIG_PC_KEYB n
++   define_bool CONFIG_DUMMY_CONSOLE y
++   define_bool CONFIG_DUMMY_KEYB y
+    define_bool CONFIG_SERIAL y
+    define_bool CONFIG_NONCOHERENT_IO y
+    define_bool CONFIG_NEW_IRQ y
+diff -urN stblinux-2425-2.7_orig/arch/mips/defconfig-brcm-bb-97398 stblinux-2425-2.7_usbhiddummykeybd/arch/mips/defconfig-brcm-bb-97398
+--- stblinux-2425-2.7_orig/arch/mips/defconfig-brcm-bb-97398	2005-04-14 18:34:43.000000000 -0400
++++ stblinux-2425-2.7_usbhiddummykeybd/arch/mips/defconfig-brcm-bb-97398	2005-09-15 14:50:53.640176337 -0400
+@@ -118,6 +118,8 @@
+ CONFIG_PCI=y
+ CONFIG_BRCM_7XXX_SERIAL=y
+ # CONFIG_PC_KEYB is not set
++CONFIG_DUMMY_CONSOLE=y
++CONFIG_DUMMY_KEYB=y
+ CONFIG_SERIAL=y
+ CONFIG_NONCOHERENT_IO=y
+ CONFIG_NEW_IRQ=y
+@@ -624,17 +626,20 @@
+ #
+ # Input core support
+ #
+-# CONFIG_INPUT is not set
+-# CONFIG_INPUT_KEYBDEV is not set
+-# CONFIG_INPUT_MOUSEDEV is not set
++CONFIG_INPUT=y
++CONFIG_INPUT_KEYBDEV=y
++CONFIG_INPUT_MOUSEDEV=y
++CONFIG_INPUT_MOUSEDEV_SCREEN_X=1024
++CONFIG_INPUT_MOUSEDEV_SCREEN_Y=768
+ # CONFIG_INPUT_JOYDEV is not set
+-# CONFIG_INPUT_EVDEV is not set
++CONFIG_INPUT_EVDEV=y
+ # CONFIG_INPUT_UINPUT is not set
+ 
+ #
+ # Character devices
+ #
+-# CONFIG_VT is not set
++CONFIG_VT=y
++CONFIG_VT_CONSOLE=y
+ CONFIG_SERIAL=y
+ CONFIG_SERIAL_CONSOLE=y
+ # CONFIG_SERIAL_EXTENDED is not set
+@@ -662,6 +667,32 @@
+ # Joysticks
+ #
+ # CONFIG_INPUT_GAMEPORT is not set
++# CONFIG_INPUT_NS558 is not set
++# CONFIG_INPUT_LIGHTNING is not set
++# CONFIG_INPUT_PCIGAME is not set
++# CONFIG_INPUT_CS461X is not set
++# CONFIG_INPUT_EMU10K1 is not set
++# CONFIG_INPUT_SERIO is not set
++# CONFIG_INPUT_SERPORT is not set
++# CONFIG_INPUT_ANALOG is not set
++# CONFIG_INPUT_A3D is not set
++# CONFIG_INPUT_ADI is not set
++# CONFIG_INPUT_COBRA is not set
++# CONFIG_INPUT_GF2K is not set
++# CONFIG_INPUT_GRIP is not set
++# CONFIG_INPUT_INTERACT is not set
++# CONFIG_INPUT_TMDC is not set
++# CONFIG_INPUT_SIDEWINDER is not set
++# CONFIG_INPUT_IFORCE_USB is not set
++# CONFIG_INPUT_IFORCE_232 is not set
++# CONFIG_INPUT_WARRIOR is not set
++# CONFIG_INPUT_MAGELLAN is not set
++# CONFIG_INPUT_SPACEORB is not set
++# CONFIG_INPUT_SPACEBALL is not set
++# CONFIG_INPUT_STINGER is not set
++# CONFIG_INPUT_DB9 is not set
++# CONFIG_INPUT_GAMECON is not set
++# CONFIG_INPUT_TURBOGRAFX is not set
+ # CONFIG_QIC02_TAPE is not set
+ # CONFIG_IPMI_HANDLER is not set
+ # CONFIG_IPMI_PANIC_EVENT is not set
+@@ -855,6 +886,17 @@
+ # CONFIG_VIDEO_DEV is not set
+ 
+ #
++# Console drivers
++#
++# CONFIG_VGA_CONSOLE is not set
++# CONFIG_MDA_CONSOLE is not set
++
++#
++# Frame-buffer support
++#
++# CONFIG_FB is not set
++
++#
+ # Sound
+ #
+ # CONFIG_SOUND is not set
+@@ -888,11 +930,9 @@
+ # CONFIG_USB_STORAGE_JUMPSHOT is not set
+ # CONFIG_USB_ACM is not set
+ # CONFIG_USB_PRINTER is not set
+-# CONFIG_USB_HID is not set
+-# CONFIG_USB_HIDINPUT is not set
++CONFIG_USB_HID=y
++CONFIG_USB_HIDINPUT=y
+ # CONFIG_USB_HIDDEV is not set
+-# CONFIG_USB_KBD is not set
+-# CONFIG_USB_MOUSE is not set
+ # CONFIG_USB_AIPTEK is not set
+ # CONFIG_USB_WACOM is not set
+ # CONFIG_USB_KBTAB is not set

@@ -1,0 +1,352 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Main window</title>
+</head>
+<body>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-opentracewindow.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+
+<br>
+<b><u><font size=6>6.1 Main Window</font></u></b>
+<p>&nbsp;&nbsp;&nbsp; When first launching tracevisualizer without any command
+line options, you will be greeted with the following window:
+<center>
+<p><img SRC="Pics/MainWinClosed.jpg" NOSAVE>
+<br><b><font size=-1>Figure 1: Trace Visualizer main window, no trace
+opened</font></b></center>
+
+<p>&nbsp;&nbsp;&nbsp; NOTE: The precise look-and-feel of the window you
+get might be slightly different. This is because the GTK+ library allows
+themeing of its widgets. See <a href="http://gtk.themes.org/">gtk.themes.org</a>
+for more details.
+<p><i><font size=4>
+<a NAME="Menus">
+6.1.1 Menus
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; Most of the Trace Visualizer's functionality can be accessed
+through the main window's drop down menus. They are made up of the following:
+<p><u>6.1.1.1 The file menu</u>
+<p><img SRC="Pics/FileMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp; The file menu allows for
+the following choices:
+<br>&nbsp;
+<ul>
+<li>
+<img SRC="Pics/Open.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Open
+Trace:</b> Selecting this command will display the <a href="ltt-opentracewindow.html">Open
+trace window</a>. Upon completion of the selection, the loaded trace will
+be displayed in the current window if no trace was currently being displayed.
+If a trace was already loaded. tracevisualizer will open up a new window containing
+the new trace. Using CTRL+O will have the same effect.</li>
+
+<li>
+<img SRC="Pics/Close.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Close
+Trace:</b> Closes the currently displayed trace and its window if there
+is more than one window open. Otherwise, closes the trace and clears the
+window contents. Using CTRL+C will have the same effect.</li>
+
+<li>
+<img SRC="Pics/Dump.jpg" NOSAVE height=22 width=22 align=ABSCENTER>
+<b>Dump To File:</b> Opens the <a href="ltt-dumpwindow.html">Dump to file
+window</a> to allow for the generation of an output file, containing various
+calculations and possibly the list of acquired events.  Using CTRL+D will have
+the same effect.</li>
+
+<li>
+<b>Exit:</b> Closes all opened windows and exits the program.  Using CTRL+X will
+have the same effect.</li>
+</ul>
+<u>6.1.1.2 The tools menu</u>
+<p><img SRC="Pics/ToolsMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp;
+The tools menu allows for the following choices:
+<br>&nbsp;
+<ul>
+<li>
+<img SRC="Pics/ZoomIn.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Zoom
+In:</b> Magnify viewed area by a factor of 2. Using CTRL+PageUP will have the same
+effect.</li>
+
+<li>
+<img SRC="Pics/ZoomOut.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Zoom
+Out:</b> Decrease viewed magnification by a factor of 2. Using CTRL+PageDOWN will
+have the same effect.</li>
+
+<li>
+<img SRC="Pics/Horizon.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Show
+Horizon:</b> When selected, this option will display a series of horizontal
+lines in the background of the event graph, to ease the localization of
+a graphed process. Using CTRL+Z will have the same effect.</li>
+
+<li>
+<img SRC="Pics/Find.jpg" NOSAVE height=22 width=22 align=ABSCENTER><b>Go
+to event:</b> Opens the <a href="ltt-gotowindow.html">Go to event
+window</a> to allow the search for a particular event in the raw event
+list. Using CTRL+E will have the same effect.</li>
+
+<li>
+<b>View time frame:</b> Opens the <a href="ltt-viewtimewindow.html">View
+time frame window</a> which fits a specified time frame in the current
+event graph. Using CTRL+T will have the same effect.</li>
+</ul>
+<u>6.1.1.3 The options menu</u>
+<p><img SRC="Pics/OptionsMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp;
+The Options menu allows for the following choices:
+<ul>
+<li>
+<b>Colors:</b> Displays the <a href="ltt-colorwindow.html">Color
+selection window</a> to select line type and color configuration for each
+type of item drawn in the event graph.</li>
+</ul>
+<u>6.1.1.4 The help menu</u>
+<p><img SRC="Pics/HelpMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp;
+The Help menu allows for the following choices:
+<ul>
+<li>
+<b>Contents:</b> Tells you how to get here!</li>
+
+<li>
+<b>About:</b> Displays information about all the hard working programmers
+that made LTT possible,</li>
+</ul>
+
+<p><br><i><font size=4>
+<a NAME="Event">
+6.1.2 Event Graph
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; Once loaded with a fresh supply of data, LTT greets you
+with the event graph, as can be seen on figure 2. This thumbnail can be accessed
+by pressed 'g' or 'G' while in another thumbnail.
+<center>
+<p><img SRC="Pics/EventGraph.jpg" NOSAVE>
+<br><b><font size=-1>Figure 2: Linux Trace Toolkit main window, showing
+a filled event graph</font></b></center>
+<br>
+The trace can be scrolled using the UP, DOWN, LEFT, RIGHT, PAGE UP and PAGE DOWN
+keys.
+
+<p><u>6.1.2.1 Icon legend</u>
+<p>&nbsp;&nbsp;&nbsp; A lot of events can be identified on the graph by
+an Icon. These are:
+<br>&nbsp;
+<center><table BORDER NOSAVE >
+<tr>
+<td BGCOLOR="#CCCCCC"><b><font size=+1>Icon</font></b></td>
+
+<td BGCOLOR="#CCCCCC"><b><font size=+1>Corresponding event</font></b></td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/BottomHalf.jpg" NOSAVE></center>
+</td>
+
+<td>Bottom half</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/IOEnd.jpg" NOSAVE></center>
+</td>
+
+<td>I/O end</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/IOStart.jpg" NOSAVE></center>
+</td>
+
+<td>I/O start</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/IRQ.jpg" NOSAVE></center>
+</td>
+
+<td>IRQ</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/KernelTimer.jpg" NOSAVE></center>
+</td>
+
+<td>Kernel Timer</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/SchedChng.jpg" NOSAVE></center>
+</td>
+
+<td>Schedule change</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/SysCall.jpg" NOSAVE></center>
+</td>
+
+<td>System call</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<center><img SRC="Pics/Trap.jpg" NOSAVE></center>
+</td>
+
+<td>Trap</td>
+</tr>
+</table></center>
+<u>6.1.2.2 Contextual menu</u>
+<p>&nbsp;&nbsp;&nbsp; Right clicking on an event icon will display the
+following contextual menu:
+<p><img SRC="Pics/GraphMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp;
+This Contextual menu allows for the following choices:
+<ul>
+<li>
+<b>View raw event data:</b> Selects the clicked event in the raw event
+list and makes it visible.</li>
+
+<li>
+<b>Go to process analysis:</b> Selects the clicked event's associated process
+in the process tree and makes it visible.</li>
+</ul>
+<u>6.1.2.3 Process list</u>
+<p>&nbsp;&nbsp;&nbsp; The process list seen on the left side displays all
+processes that were observed during data acquisition. Every horizontal
+line is at the height of its corresponding process in the Process list.
+Clicking on a process will display a selection line, to help with the visualization.
+Alternatively, the Horizon can be activated.
+<br>&nbsp;
+<p><i><font size=4>
+<a NAME="Process">
+6.1.3 Process Analysis
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; The Process Analysis view allows you to view all
+processes that were present during data acquisition. Clicking on a process
+displays details about it. This thumbnail can be accessed by pressed 'p' or 'P'
+while in another thumbnail.
+<center>
+<p><img SRC="Pics/ProcAnalysis.jpg" NOSAVE>
+<br><b><font size=-1>Figure 3: Process analysis view</font></b></center>
+
+<p><br>
+<br>
+<br>
+<p><i><font size=4>
+<a NAME="Raw">
+6.1.4 Raw Trace
+</a>
+</font></i>
+<p>&nbsp;&nbsp;&nbsp; The Raw Trace view is there to list all events that
+were logged by the data acquisition module. This thumbnail can be accessed by
+pressed 'r' or 'R' while in another thumbnail.
+<center>
+<p><img SRC="Pics/RawTrace.jpg" NOSAVE>
+<br><b><font size=-1>Figure 4: The Raw event trace view</font></b></center>
+
+<p><u>6.1.4.1 Contextual menu</u>
+<p>&nbsp;&nbsp;&nbsp; Right clicking on an event in the list will display
+the following contextual menu:
+<p><img SRC="Pics/RawMenu.jpg" NOSAVE>&nbsp;&nbsp;&nbsp;
+This Contextual menu allows for the following choices:
+<ul>
+<li>
+<b>View event in graph:</b> Centers the event in the event graph and makes
+it visible.</li>
+
+<li>
+<b>Go to process analysis:</b> Selects the clicked event's associated process
+in the process tree and makes it visible.</li>
+</ul>
+
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="ltt-graphicaloperation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-opentracewindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Main window</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>

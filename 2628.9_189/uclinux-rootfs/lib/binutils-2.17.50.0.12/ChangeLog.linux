@@ -1,0 +1,22 @@
+2007-01-25  H.J. Lu <hjl@gnu.org>
+
+	* binutils.spec.in (%build): Set/export LD_SYMBOLIC_FUNCTIONS=1.
+
+2007-01-22  H.J. Lu <hjl@gnu.org>
+
+	* binutils.spec.in (%setup): Don't run patches/README.
+
+2006-10-20  H.J. Lu <hjl@gnu.org>
+
+	* binutils.spec.in (URL): Change to
+
+	http://www.sourceware.org/binutils
+
+2006-09-18  H.J. Lu <hjl@gnu.org>
+
+	* bfd/configure.in (AC_OUTPUT): Add ../binutils.spec.
+	* bfd/configure: Regenerated.
+
+	* binutils.spec.in: New file.
+
+	* include/bin-bugs.h (REPORT_BUGS_TO): Add hjl@lucon.org.

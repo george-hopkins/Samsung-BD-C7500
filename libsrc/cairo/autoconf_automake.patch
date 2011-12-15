@@ -1,0 +1,187 @@
+diff -urN cairo-20060212/configure.in cairo-20060212_new2/configure.in
+--- cairo-20060212/configure.in	2006-01-12 19:35:12.000000000 -0500
++++ cairo-20060212_new2/configure.in	2006-03-14 18:18:54.000000000 -0500
+@@ -14,6 +14,8 @@
+ AC_CONFIG_HEADERS(config.h)
+ AM_INIT_AUTOMAKE([1.7])
+ 
++DIRECTFB_CFLAGS=-I$DIRECTFB_SOURCE/include
++
+ dnl ===========================================================================
+ 
+ # libtool shared library version
+@@ -83,10 +85,26 @@
+ 
+ dnl ===========================================================================
+ 
++# Check for pkg-config manually first, as if its not installed the
++# PKG_PROG_PKG_CONFIG macro won't be defined.
++AC_CHECK_PROG(have_pkg_config, pkg-config, yes, no)
++
++if test x"$have_pkg_config" == xno; then
++    AC_MSG_ERROR(pkg-config is required to install this program)
++fi
++
+ PKG_PROG_PKG_CONFIG
+ 
+ dnl ===========================================================================
+ 
++AC_ARG_ENABLE(test,
++[  --enable-test          Enable cairo test],
++[build_test=$enableval], [build_test=no])
++
++AM_CONDITIONAL(CAIRO_BUILD_TEST, test "x$build_test" = "xyes")
++
++dnl ===========================================================================
++
+ AC_ARG_ENABLE(xlib,
+ [  --disable-xlib          Disable cairo's Xlib backend],
+ [use_xlib=$enableval], [use_xlib=yes])
+@@ -216,12 +234,12 @@
+   fi
+ fi
+ 
+-if test "x$use_beos" = "xyes"; then
+-  AC_PROG_CXX
+-  dnl Add libbe and libzeta if available
+-  AC_CHECK_LIB(be,main,CAIRO_LIBS="$CAIRO_LIBS -lbe")
+-  AC_CHECK_LIB(zeta,main,CAIRO_LIBS="$CAIRO_LIBS -lzeta")
+-fi
++#if test "x$use_beos" = "xyes"; then
++#  AC_PROG_CXX
++#  dnl Add libbe and libzeta if available
++#  AC_CHECK_LIB(be,main,CAIRO_LIBS="$CAIRO_LIBS -lbe")
++#  AC_CHECK_LIB(zeta,main,CAIRO_LIBS="$CAIRO_LIBS -lzeta")
++#fi
+ 
+ AM_CONDITIONAL(CAIRO_HAS_BEOS_SURFACE, test "x$use_beos" = "xyes")
+ if test "x$use_beos" = "xyes"; then
+@@ -326,10 +344,10 @@
+   [  --enable-directfb           Enable cairo's directfb backend],
+   [use_directfb=$enableval], [use_directfb=no])
+ 
+-if test "x$use_directfb" = "xyes"; then
+-  PKG_CHECK_MODULES(DIRECTFB, directfb, [use_directfb=yes], [
+-  use_directfb="no (requires directfb http://www.directfb.org)"])
+-fi
++#if test "x$use_directfb" = "xyes"; then
++#  PKG_CHECK_MODULES(DIRECTFB, directfb, [use_directfb=yes], [
++#  use_directfb="no (requires directfb http://www.directfb.org)"])
++#fi
+ 
+ AM_CONDITIONAL(CAIRO_HAS_DIRECTFB_SURFACE, test "x$use_directfb" = "xyes")
+ if test "x$use_directfb" = "xyes"; then
+@@ -346,11 +364,11 @@
+   [  --disable-freetype      Disable cairo's freetype font backend],
+   [use_freetype=$enableval], [use_freetype=yes])
+ 
+-if test "x$use_freetype" = "xyes"; then
+-  PKG_CHECK_MODULES(FONTCONFIG, fontconfig, 
+-                    [use_freetype=yes], [use_freetype=no])
+-  _CHECK_FUNCS_WITH_FLAGS(FcFini, $FONTCONFIG_CFLAGS, $FONTCONFIG_LIBS)
+-fi
++#if test "x$use_freetype" = "xyes"; then
++#  PKG_CHECK_MODULES(FONTCONFIG, fontconfig, 
++#                    [use_freetype=yes], [use_freetype=no])
++#  _CHECK_FUNCS_WITH_FLAGS(FcFini, $FONTCONFIG_CFLAGS, $FONTCONFIG_LIBS)
++#fi
+ 
+ CAIRO_CFLAGS="$CAIRO_CFLAGS $FONTCONFIG_CFLAGS"
+ CAIRO_LIBS="$CAIRO_LIBS $FONTCONFIG_LIBS"
+@@ -773,15 +791,15 @@
+ echo $CAIRO_CFLAGS
+ echo ""
+ 
+-if test x"$use_freetype" != "xyes" && \
+-   test x"$use_win32"    != "xyes" && \
+-   test x"$use_atsui"    != "xyes" ; then
+-
+-   AC_MSG_ERROR([Cairo requires at least one font backend.
+-		  Please install freetype and fontconfig, then try again:
+-		  http://freetype.org/	http://fontconfig.org/
+-		])
+-fi
++#if test x"$use_freetype" != "xyes" && \
++#   test x"$use_win32"    != "xyes" && \
++#   test x"$use_atsui"    != "xyes" ; then
++#
++#   AC_MSG_ERROR([Cairo requires at least one font backend.
++#		  Please install freetype and fontconfig, then try again:
++#		  http://freetype.org/	http://fontconfig.org/
++#		])
++#fi
+ 
+ WARNING_MESSAGE='
+ *** The @BACKEND@ backend is still under active development and
+diff -urN cairo-20060212/Makefile.am cairo-20060212_new2/Makefile.am
+--- cairo-20060212/Makefile.am	2005-10-13 10:30:16.000000000 -0400
++++ cairo-20060212_new2/Makefile.am	2006-03-14 18:18:38.000000000 -0500
+@@ -1,10 +1,12 @@
+ DIST_SUBDIRS = pixman src test doc
+ SUBDIRS = pixman src doc
+ 
++if CAIRO_BUILD_TEST
+ # libpng is required for our test programs
+ if CAIRO_HAS_PNG_FUNCTIONS
+ SUBDIRS += test
+ endif
++endif
+ 
+ EXTRA_DIST = \
+ 	COPYING \
+diff -urN cairo-20060212/src/Makefile.am cairo-20060212_new2/src/Makefile.am
+--- cairo-20060212/src/Makefile.am	2006-01-10 08:29:00.000000000 -0500
++++ cairo-20060212_new2/src/Makefile.am	2006-03-14 18:22:10.000000000 -0500
+@@ -52,11 +52,12 @@
+ libcairo_win32_sources += cairo-win32-font.c
+ endif
+ 
+-libcairo_beos_sources =
+-if CAIRO_HAS_BEOS_SURFACE
+-libcairo_beos_headers = cairo-beos.h
+-libcairo_beos_sources += cairo-beos-surface.cpp
+-endif
++# REMOVING THIS FORCES LINK TO BE DONE BY CXX
++#libcairo_beos_sources =
++#if CAIRO_HAS_BEOS_SURFACE
++#libcairo_beos_headers = cairo-beos.h
++#libcairo_beos_sources += cairo-beos-surface.cpp
++#endif
+ 
+ if CAIRO_HAS_GLITZ_SURFACE
+ libcairo_glitz_headers = cairo-glitz.h
+@@ -191,9 +192,13 @@
+ 	cairoint.h
+ 
+ libcairo_la_LDFLAGS = -version-info @VERSION_INFO@ -no-undefined $(export_symbols)
++
++if CAIRO_HAS_BEOS_SURFACE
+ # this -Wno-multichar line is really just for the beos surface, because the
+ # system headers trigger this warning.
+-libcairo_la_CXXFLAGS = -Wno-multichar
++# REMOVING THIS FORCES LINK TO BE DONE BY CXX
++#libcairo_la_CXXFLAGS = -Wno-multichar
++endif
+ 
+ INCLUDES = -I$(srcdir) -I$(top_srcdir)/pixman/src $(CAIRO_CFLAGS)
+ 
+diff -urN cairo-20060212/test/Makefile.am cairo-20060212_new2/test/Makefile.am
+--- cairo-20060212/test/Makefile.am	2006-01-17 19:59:08.000000000 -0500
++++ cairo-20060212_new2/test/Makefile.am	2006-03-14 18:22:19.000000000 -0500
+@@ -248,11 +248,12 @@
+ xmalloc.c		\
+ xmalloc.h
+ 
+-if CAIRO_HAS_BEOS_SURFACE
+-libcairotest_la_SOURCES += cairo-test-beos.cpp cairo-test-beos.h
++# REMOVING THIS FORCES LINK TO BE DONE BY CXX
++#if CAIRO_HAS_BEOS_SURFACE
++#libcairotest_la_SOURCES += cairo-test-beos.cpp cairo-test-beos.h
+ # BeOS system headers trigger this warning
+-libcairotest_la_CXXFLAGS = -Wno-multichar
+-endif
++#libcairotest_la_CXXFLAGS = -Wno-multichar
++#endif
+ 
+ if CAIRO_HAS_DIRECTFB_SURFACE
+ libcairotest_la_SOURCES += cairo-test-directfb.c cairo-test-directfb.h

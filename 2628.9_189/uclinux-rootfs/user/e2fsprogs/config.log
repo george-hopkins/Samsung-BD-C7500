@@ -1,0 +1,114 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:642: checking host system type
+configure:676: checking for gcc
+configure:789: checking whether the C compiler (mipsel-linux-gcc  ) works
+configure:805: mipsel-linux-gcc -o conftest    conftest.c  1>&5
+configure:831: checking whether the C compiler (mipsel-linux-gcc  ) is a cross-compiler
+configure:836: checking whether we are using GNU C
+configure:864: checking whether mipsel-linux-gcc accepts -g
+configure:913: checking how to run the C preprocessor
+configure:994: checking for linux/fs.h
+configure:1449: checking whether make sets ${MAKE}
+configure:1478: checking for ranlib
+configure:1506: checking for POSIXized ISC
+configure:1527: checking for ANSI C header files
+configure:1631: checking for working const
+configure:1706: checking for inline
+configure:1746: checking for off_t
+configure:1779: checking for size_t
+configure:1814: checking for working alloca.h
+configure:1847: checking for alloca
+configure:2049: checking for unistd.h
+configure:2088: checking for getpagesize
+configure:2141: checking for working mmap
+configure:2317: checking for argz.h
+configure:2317: checking for limits.h
+configure:2317: checking for locale.h
+configure:2317: checking for nl_types.h
+configure:2317: checking for malloc.h
+configure:2317: checking for string.h
+configure:2317: checking for unistd.h
+configure:2317: checking for sys/param.h
+configure:2357: checking for getcwd
+configure:2357: checking for munmap
+configure:2357: checking for putenv
+configure:2357: checking for setenv
+configure:2357: checking for setlocale
+configure:2357: checking for strchr
+configure:2357: checking for strcasecmp
+configure:2357: checking for strdup
+configure:2357: checking for __argz_count
+configure:2357: checking for __argz_stringify
+configure:2357: checking for __argz_next
+configure:2476: checking for LC_MESSAGES
+configure:2509: checking whether NLS is requested
+configure:3428: checking whether make sets ${MAKE}
+configure:3457: checking for ln
+configure:3491: checking whether ln -s works
+configure:3514: checking for mv
+configure:3550: checking for cp
+configure:3586: checking for rm
+configure:3622: checking for chmod
+configure:3658: checking for awk
+configure:3694: checking for sed
+configure:3730: checking for perl
+configure:3766: checking for ldconfig
+configure:3800: checking build system type
+configure:3826: checking for ar
+configure:3893: checking for ranlib
+configure:3960: checking for strip
+configure:4036: checking for a BSD compatible install
+configure:4098: checking for gcc
+configure:4132: checking for stdlib.h
+configure:4132: checking for unistd.h
+configure:4132: checking for stdarg.h
+configure:4132: checking for errno.h
+configure:4132: checking for malloc.h
+configure:4132: checking for mntent.h
+configure:4132: checking for paths.h
+configure:4132: checking for dirent.h
+configure:4132: checking for getopt.h
+configure:4132: checking for setjmp.h
+configure:4132: checking for signal.h
+configure:4132: checking for termios.h
+configure:4132: checking for linux/fd.h
+configure:4132: checking for linux/major.h
+configure:4132: checking for sys/disklabel.h
+configure:4132: checking for sys/ioctl.h
+configure:4132: checking for sys/mkdev.h
+configure:4132: checking for sys/mount.h
+configure:4132: checking for sys/sockio.h
+configure:4132: checking for sys/sysmacros.h
+configure:4132: checking for sys/time.h
+configure:4132: checking for sys/stat.h
+configure:4132: checking for sys/types.h
+configure:4132: checking for net/if.h
+configure:4132: checking for netinet/in.h
+configure:4169: checking for vprintf
+configure:4274: checking whether llseek declared in unistd.h
+configure:4306: checking whether lseek64 declared in unistd.h
+configure:4348: checking size of short
+configure:4388: checking size of int
+configure:4428: checking size of long
+configure:4468: checking size of long long
+configure:4516: checking whether byte ordering is bigendian
+configure:4606: checking whether struct stat has a st_flags field
+configure:4668: checking for chflags
+configure:4668: checking for getrusage
+configure:4668: checking for llseek
+configure:4668: checking for lseek64
+configure:4668: checking for open64
+configure:4668: checking for getmntinfo
+configure:4668: checking for strcasecmp
+configure:4668: checking for srandom
+configure:4668: checking for fchown
+configure:4668: checking for mallinfo
+configure:4668: checking for fdatasync
+configure:4668: checking for strnlen
+configure:4668: checking for sysconf
+configure:4668: checking for pathconf
+configure:4722: checking for socket in -lsocket
+configure:4763: checking for optreset
+configure:4847: checking whether linker accepts -static

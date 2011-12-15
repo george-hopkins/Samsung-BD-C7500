@@ -1,0 +1,1283 @@
+2003-06-27   andi	23:49	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	debian/changelog (1.2) (+1 -1)
+	
+	changed package version to 0.9.18+0.9.19WIP-1
+	
+2003-06-27   dok	12:36	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.21) (+1 -1)
+	
+	Fixed -Werror-implicit-function-declaration[s] <- removed this character
+	
+2003-06-02   dok	18:02	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.10) (+76 -0)
+		configure.in (1.20) (+1 -1)
+	
+	Bumbed version to 0.9.18.
+	
+2003-05-18   andi	20:37	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	debian/rules (1.2) (+1 -1)
+	
+	package fix
+	
+2003-04-22   andi	09:22	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	debian/README.debian (1.1) ( )
+		debian/rules (1.1) ( )
+		debian/dirs (1.1) ( )
+		debian/debstd (1.1) ( )
+		debian/copyright (1.1) ( )
+		debian/control (1.1) ( )
+		debian/changelog (1.1) ( )
+	
+	debianized
+	
+2003-04-17   dok	18:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.19) (+1 -0)
+	
+	Added -Werror-implicit-function-declarations.
+	
+2003-04-17   dok	11:23	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.18) (+16 -6)
+		src/spacedream/Makefile.am (1.10) (+1 -1)
+		src/df_neo/Makefile.am (1.11) (+1 -1)
+		src/df_knuckles/Makefile.am (1.8) (+1 -1)
+		src/df_palette.c (1.8) (+6 -5)
+		src/df_andi.c (1.11) (+8 -14)
+		src/Makefile.am (1.22) (+1 -2)
+	
+	CFLAGS cleanup, prerequire autoconf 2.52.
+	
+2003-04-16   dok	14:49	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.17) (+5 -12)
+		src/spacedream/Makefile.am (1.9) (+1 -1)
+		src/df_neo/Makefile.am (1.10) (+1 -1)
+		src/df_knuckles/Makefile.am (1.7) (+1 -1)
+		src/Makefile.am (1.21) (+1 -1)
+	
+	Be able to configure even if CFLAGS is exported containing "-Werror".
+	
+2003-04-16   dok	14:25	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_andi.c (1.10) (+2 -1)
+		src/df_neo/df_neo.c (1.11) (+1 -1)
+		src/pss.c (1.8) (+2 -2)
+		src/df_fonts.c (1.14) (+1 -1)
+	
+	Signed/unsigned fixes.
+	
+2003-04-16   dok	11:35	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.36) (+0 -1)
+		src/df_input.c (1.24) (+0 -1)
+		src/df_fonts.c (1.13) (+0 -1)
+		src/df_fire.c (1.12) (+0 -1)
+	
+	Removed "no-cursor".
+	
+2003-04-06   syrjala	15:16	Ville Syrjala <syrjala@sci.fi>
+
+	Files:	src/df_dok.c (1.35) (+28 -0)
+	
+	Added draw_string_blend() benchmark.
+	
+2003-02-28   dok	20:36	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.9) (+121 -0)
+	
+	Updated.
+	
+2003-02-18   dok	17:30	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.14) (+7 -1)
+		src/df_window.c (1.15) (+3 -1)
+		src/df_video.c (1.9) (+0 -3)
+	
+	Added missing SetCooperativeLevel() calls.
+	
+2003-01-29   neo	14:12	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.23) (+2 -0)
+	
+	Added a missing call to Clear().
+	
+2003-01-29   neo	14:08	Sven Neumann <sven@convergence.de>
+
+	Files:	configure.in (1.16) (+1 -1)
+		src/df_input.c (1.22) (+60 -4)
+	
+	Display the device name for each event.
+	Requires DirectFB >= 0.9.17.
+	
+2002-12-19   dok	17:25	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.13) (+9 -4)
+	
+	Reverted change that I accidently committed some time ago.
+	
+2002-12-05   dok	18:00	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/spacedream/main.c (1.7) (+1 -2)
+		src/spacedream/math3d.c (1.5) (+25 -31)
+	
+	Fixed matrox_rotate() for Z-axis. Some simplifications.
+	
+2002-12-05   dok	17:57	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_cpuload.c (1.2) (+11 -4)
+	
+	Use IDirectFBWindow::GrabKey() for the exit hot key (Ctrl-Alt-F12).
+	
+2002-11-29   dok	20:31	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/.cvsignore (1.7) (+1 -0)
+		src/df_flip.c (1.1) ( )
+		src/Makefile.am (1.20) (+4 -0)
+	
+	Added raw Flip() benchmark (RPC fbdev panning done by slaves seems to be
+	1/4 as fast as directly within the master).
+	
+2002-11-29   dok	20:14	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_palette.c (1.7) (+0 -4)
+	
+	Removed "sched_yield()" hack because palette changes on the framebuffer
+	are implemented via synchronous RPC.
+	
+2002-11-29   dok	14:15	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/.cvsignore (1.6) (+1 -0)
+		src/df_layer.c (1.12) (+4 -9)
+		src/df_cpuload.c (1.1) ( )
+		src/Makefile.am (1.19) (+4 -0)
+	
+	Added cpu load meter as a "ghost" window, a window which never gets the focus
+	and passes through clicks (output only window).
+	Only makes sense in usage with the multi app core, close with Ctrl-Alt-F12.
+	
+2002-11-21   dok	22:08	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	data/Makefile.am (1.5) (+1 -0)
+		src/df_dok.c (1.34) (+6 -8)
+		data/biglogo.png (1.1) ( )
+	
+	Looks much smoother.
+	
+2002-11-21   neo	18:32	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.12) (+3 -1)
+	
+	added keybindings: H for help, M for monochrome rendering
+	
+2002-11-21   neo	15:35	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.11) (+18 -17)
+	
+	Set the font to the destination surface once, not for each glyph.
+	
+2002-11-14   dok	02:36	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.11) (+11 -9)
+	
+	Create video provider a bit earlier.
+	
+2002-11-14   dok	00:49	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_fire.c (1.11) (+6 -2)
+	
+	Allow resolutions with height < 256.
+	
+2002-11-13   dok	21:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_fire.c (1.10) (+5 -5)
+		src/df_palette.c (1.6) (+4 -0)
+	
+	Added sched_yield() workaround that avoids flooding the palette reactor.
+	
+	Clear after setting the palette in df_fire.
+	
+2002-11-13   dok	01:26	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	.cvsignore (1.5) (+1 -0)
+	
+	Added *.diff.
+	
+2002-11-13   dok	00:21	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.8) (+65 -0)
+	
+	regenerated
+	
+2002-11-09   dok	00:20	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.33) (+16 -10)
+	
+	Minor fixes.
+	
+2002-11-09   dok	00:14	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.32) (+7 -7)
+	
+	Always clear with 50% transparent black.
+	
+2002-11-08   dok	21:39	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	data/Makefile.am (1.4) (+1 -1)
+		src/pngtest3.h (1.1) ( )
+		src/df_dok.c (1.31) (+141 -33)
+		src/Makefile.am (1.18) (+1 -1)
+		data/pngtest3.png (1.1) ( )
+		data/colorkeyed.gif (1.2) (+86 -44)
+	
+	Added blitting from LUT8 (with and without alpha blending).
+	
+	df_dok layouts the screen (font size etc.) depending on the screen resolution.
+	
+2002-11-05   neo	23:34	Sven Neumann <sven@convergence.de>
+
+	Files:	configure.in (1.15) (+1 -1)
+		src/df_fonts.c (1.10) (+6 -2)
+	
+	Bumped version number to 0.9.15.
+	Show the size used to load the font in df_fonts.
+	
+2002-11-05   dok	23:07	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_video_particle.c (1.7) (+0 -3)
+	
+	Don't exit if cooperative level couldn't be set.
+	
+2002-11-04   neo	18:31	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_video.c (1.8) (+17 -16)
+	
+	cosmetics, no changes
+	
+2002-11-01   dok	23:07	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_andi.c (1.9) (+2 -1)
+		src/df_neo/df_neo.c (1.10) (+2 -1)
+		src/df_knuckles/df_knuckles.c (1.6) (+2 -1)
+		src/df_palette.c (1.5) (+2 -1)
+		src/df_layer.c (1.10) (+1 -1)
+		src/df_input.c (1.21) (+2 -1)
+		src/df_fonts.c (1.9) (+4 -2)
+		src/df_fire.c (1.9) (+1 -1)
+		src/df_dok.c (1.30) (+2 -1)
+	
+	Follow API changes.
+	
+2002-10-29   neo	15:35	Sven Neumann <sven@convergence.de>
+
+	Files:	ChangeLog (1.7) (+109 -0)
+	
+	Updated for the 0.9.14 release.
+	
+2002-10-29   neo	15:17	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.8) (+1 -1)
+		src/df_stress.c (1.9) (+4 -2)
+	
+	No reason to bail out if setting the cooperative level failed.
+	The user might have used --dfb:force-windowed.
+	
+2002-10-28   neo	20:00	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.7) (+34 -12)
+	
+	Only redraw if an update is needed.
+	
+2002-10-28   neo	19:14	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.6) (+25 -28)
+	
+	Use key symbols instead of key identifiers.
+	
+2002-10-28   dok	17:58	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_porter.c (1.6) (+11 -1)
+	
+	Exit on escape instead on any key.
+	
+2002-10-28   dok	17:54	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_porter.c (1.5) (+1 -1)
+	
+	Allow to run windowed.
+	
+2002-10-28   dok	16:00	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/spacedream/main.c (1.6) (+1 -1)
+	
+	Allow windowed mode.
+	
+2002-10-27   neo	11:22	Sven Neumann <sven@convergence.de>
+
+	Files:	src/Makefile.am (1.17) (+1 -1)
+		src/spacedream/Makefile.am (1.8) (+1 -1)
+		src/df_neo/Makefile.am (1.9) (+1 -1)
+		src/df_knuckles/Makefile.am (1.6) (+1 -1)
+	
+	Applied a patch from Andreas Oberritter <obi@tuxbox.org> that fixes
+	the wrong use of CFLAGS in our Makefiles.
+	
+2002-10-26   neo	19:10	Sven Neumann <sven@convergence.de>
+
+	Files:	configure.in (1.14) (+1 -1)
+	
+	Bumped version number to 0.9.14.
+	
+2002-10-26   neo	19:09	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fonts.c (1.5) (+418 -401)
+	
+	converted to DirectFB coding style
+	
+2002-10-26   neo	13:16	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.20) (+16 -4)
+	
+	Quit df_input when ESC is pressed twice.
+	
+2002-10-25   dok	16:21	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_neo/df_neo.c (1.9) (+1 -1)
+	
+	Allow running in a window.
+	
+2002-10-23   dok	16:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	.cvsignore (1.4) (+1 -0)
+	
+	Updated cvsignore files for automake 1.6.
+	
+2002-10-21   neo	22:08	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_window.c (1.14) (+17 -15)
+	
+	minor cleanup
+	
+2002-10-10   dok	15:45	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/pss.c (1.7) (+3 -5)
+	
+	Don't restart on any key press.
+	
+2002-09-25   dok	09:50	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_window.c (1.13) (+6 -2)
+	
+	Use surface caps provided by the video provider when creating the window.
+	
+2002-09-23   andi	16:05	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	src/spacedream/math3d.c (1.4) (+0 -1)
+		src/spacedream/math3d.h (1.3) (+0 -3)
+	
+	do not include <malloc.h> and <asm/types.h>, fixes problems on darwin and FreeBSD
+	
+2002-08-22   dok	23:33	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.6) (+269 -0)
+	
+	regenerated
+	
+2002-08-22   neo	21:17	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_fire.c (1.8) (+3 -0)
+	
+	Disable cursor and background for df_fire.
+	
+2002-08-22   dok	20:36	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_fire.c (1.7) (+62 -0)
+	
+	Added fade out via palette.
+	
+2002-08-13   dok	19:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_window.c (1.12) (+5 -4)
+	
+	Made df_window robust against out-of-order focus events.
+	
+2002-08-12   dok	17:20	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/Makefile.am (1.16) (+1 -1)
+		src/spacedream/math3d.c (1.3) (+2 -0)
+		src/spacedream/Makefile.am (1.7) (+1 -1)
+		src/df_neo/df_neo.c (1.8) (+1 -0)
+		src/df_neo/Makefile.am (1.8) (+1 -1)
+		src/df_knuckles/Makefile.am (1.5) (+1 -1)
+		src/df_stress.c (1.8) (+0 -3)
+		src/df_palette.c (1.4) (+0 -1)
+		src/df_input.c (1.19) (+2 -4)
+		src/df_dok.c (1.29) (+0 -2)
+		src/df_databuffer.c (1.3) (+176 -29)
+	
+	Added streaming databuffer example.
+	
+	Fixed many warnings.
+	
+2002-08-09   neo	16:05	Sven Neumann <sven@convergence.de>
+
+	Files:	README (1.7) (+2 -0)
+		src/df_fonts.c (1.4) (+36 -4)
+	
+	Mention df_databuffer in the README.
+	Add copyright notice to df_fonts.c.
+	
+2002-08-07   dok	15:53	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_databuffer.c (1.2) (+41 -0)
+	
+	added a test for streamed data buffer
+	
+2002-08-06   dok	16:17	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/.cvsignore (1.5) (+1 -0)
+		src/df_databuffer.c (1.1) ( )
+		src/Makefile.am (1.15) (+4 -0)
+	
+	Added data buffer example demonstrating file based and memory based usage.
+	
+2002-07-26   dok	14:19	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_fire.c (1.6) (+1 -11)
+	
+	Removed hack for clearing the indexed primary surface.
+	
+2002-07-26   holger	10:33	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/df_fonts.c (1.3) (+13 -0)
+	
+	press 'U' to switch between Unicode charmap/Raw glyph indices
+	
+2002-07-26   dok	10:05	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_fire.c (1.5) (+291 -104)
+	
+	Rewrote df_fire in 8 bit palette mode.
+	
+2002-07-25   neo	18:37	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.18) (+58 -37)
+	
+	Also display axis motion for axes different from X and Y.
+	
+2002-07-25   holger	15:58	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/df_fonts.c (1.2) (+13 -16)
+	
+	usage + some changes in surface initialisation
+	
+2002-07-25   neo	15:53	Sven Neumann <sven@convergence.de>
+
+	Files:	README (1.6) (+2 -0)
+	
+	Mention df_fonts in the README.
+	
+2002-07-25   holger	15:21	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/.cvsignore (1.4) (+10 -9)
+		src/df_fonts.c (1.1) ( )
+		src/Makefile.am (1.14) (+41 -21)
+	
+	a simple font viewer
+	
+2002-07-25   dok	14:54	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.9) (+17 -16)
+		src/df_video.c (1.7) (+13 -26)
+	
+	Follow API changes.
+	
+2002-07-25   neo	08:41	Sven Neumann <sven@convergence.de>
+
+	Files:	README (1.5) (+4 -0)
+	
+	Mention the fact that one needs to run 'make install' before most of
+	the demos work.
+	
+2002-07-24   neo	08:50	Sven Neumann <sven@convergence.de>
+
+	Files:	AUTHORS (1.2) (+3 -3)
+		src/spacedream/math3d.h (1.2) (+23 -15)
+	
+	Yet another file that still had the old LGPL header.
+	Updated the email addresses in the AUTHORS file.
+	
+2002-07-23   neo	20:08	Sven Neumann <sven@convergence.de>
+
+	Files:	src/spacedream/main.c (1.5) (+23 -15)
+		src/spacedream/math3d.c (1.2) (+23 -16)
+	
+	Relicensed under the MIT license. Actually we just forgot to change
+	these two files when the whole package was relicensed in April.
+	
+2002-07-23   neo	10:58	Sven Neumann <sven@convergence.de>
+
+	Files:	COPYING (1.1) ( )
+		src/df_input.c (1.17) (+21 -12)
+		configure.in (1.13) (+1 -1)
+		README (1.4) (+15 -9)
+	
+	Bumped version number to 0.9.13, updated README and added the proper
+	license file (the examples are provided under the terms of the MIT
+	license).
+	
+	Quit df_input if no event was received after 10 seconds so that it
+	doesn't block forever if no input devices are available.
+	
+2002-07-23   neo	10:34	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.28) (+9 -9)
+		src/df_input.c (1.16) (+36 -6)
+	
+	Added proper command-line parsing to df_input and output usage
+	information on when --help is specified.
+	Minor code cleanup in df_dok.
+	
+2002-07-18   neo	15:54	Sven Neumann <sven@convergence.de>
+
+	Files:	data/Makefile.am (1.3) (+2 -1)
+		src/df_input.c (1.15) (+114 -39)
+		data/gnome-mouse.png (1.1) ( )
+	
+	Show device type (via icon) and device ID for each event.
+	
+2002-07-18   neo	10:52	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.14) (+20 -5)
+	
+	Display the number of the pressed mouse button.
+	
+2002-07-16   neo	14:24	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.13) (+175 -122)
+	
+	Show number of key_repeats instead of displaying the event_type.
+	Show something for mouse events.
+	
+2002-07-09   holger	13:16	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/df_input.c (1.12) (+4 -1)
+	
+	follow changes in directfb_keyboard.h
+	
+2002-07-03   dok	19:56	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.8) (+3 -3)
+	
+	Follow name change.
+	
+2002-07-02   dok	15:12	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_palette.c (1.3) (+8 -19)
+	
+	Use a real 8bit display now, without blitting, just direct palette updates
+	on the primary surface.
+	
+2002-06-27   holger	15:07	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/df_input.c (1.11) (+51 -0)
+	
+	compress key events if possible, we still have the problem with mouse events, Sven is working on this
+	
+2002-06-26   dok	19:19	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_palette.c (1.2) (+2 -5)
+	
+	Removed flipping usage.
+	
+2002-06-26   dok	18:38	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/.cvsignore (1.3) (+1 -1)
+		src/df_palette.c (1.1) ( )
+		src/Makefile.am (1.13) (+4 -1)
+	
+	Added a new example blitting from a surface with a rotating/morphing palette.
+	
+2002-06-26   neo	17:53	Sven Neumann <sven@convergence.de>
+
+	Files:	data/Makefile.am (1.2) (+1 -1)
+		src/df_dok.c (1.27) (+16 -14)
+		data/colorkeyed.png (1.2) (+0 -0)
+		data/colorkeyed.gif (1.1) ( )
+	
+	Replaced colorkeyed.png with a GIF version. Better since we test the
+	GIF provider this way and can use the provided colorkey.
+	
+	Made dest a subsurface of the primary in case it is the same surface.
+	That way the primary always has it's own state independent of the
+	destination surface used for the benchmarks.
+	
+	Call GetAccelerationMask() on the dest surface, not on the primary.
+	
+2002-06-26   holger	17:09	Holger Waechtler <holger@convergence.de>
+
+	Files:	src/df_input.c (1.10) (+21 -5)
+	
+	show keypress/release
+	
+2002-06-20   neo	19:06	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.26) (+0 -1)
+	
+	removed a superfluous Clear()
+	
+2002-06-20   neo	16:50	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.25) (+1 -1)
+	
+	Setting the background to none is even faster...
+	
+2002-06-20   neo	16:47	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.24) (+144 -113)
+	
+	Based on a patch from Ville Syrjl <syrjala@sci.fi>:
+	
+	Added --offscreen command-line option that works similar to --system
+	but doesn't force the offscreen surface into system memory. Useful to
+	test surfaces in AGP memory.
+	
+	Blit the offscreen surface to the primary when the test is finished.
+	
+	Disabled cursor and set background color to black for faster startup.
+	
+2002-06-19   dok	21:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.5) (+63 -0)
+	
+	generated
+	
+2002-06-11   neo	12:15	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.9) (+6 -6)
+	
+	No need to pass struct reference to bsearch, just pass the struct directly.
+	Declared keynames and idnames as const arrays.
+	
+2002-06-10   neo	19:28	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.8) (+9 -1)
+	
+	Also display the Unicode index of the key_symbol.
+	
+2002-06-10   neo	17:47	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.7) (+11 -55)
+	
+	Use IDirectFBSurface::DrawGlyph to render the key_symbol.
+	Removed unichar_to_utf8() function which is not longer needed.
+	
+2002-06-08   dok	20:25	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_input.c (1.6) (+2 -2)
+	
+	Subtract one from the size of the symbol/id to name arrays,
+	because the last element is DIKI_UNKNOWN/DIKS_NULL.
+	
+2002-06-07   neo	18:32	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.5) (+84 -28)
+	
+	Display modifier state of last keypress event.
+	
+2002-06-07   neo	16:41	Sven Neumann <sven@convergence.de>
+
+	Files:	README (1.3) (+24 -19)
+	
+	Updated README.
+	
+2002-06-07   neo	14:56	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.4) (+47 -2)
+	
+	Display the state of lock keys.
+	
+2002-06-07   neo	13:54	Sven Neumann <sven@convergence.de>
+
+	Files:	configure.in (1.12) (+1 -1)
+	
+	Set version to 0.9.12 and depend on DirectFB-0.9.12.
+	
+2002-06-07   dok	12:18	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_input.c (1.3) (+16 -7)
+	
+	Show name of identifier instead of value.
+	
+2002-06-06   neo	11:50	Sven Neumann <sven@convergence.de>
+
+	Files:	ChangeLog (1.4) (+140 -41)
+	
+	Regenerated ChangeLog.
+	
+2002-06-05   neo	15:16	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_input.c (1.2) (+11 -0)
+	
+	Display the key identifier as well.
+	
+2002-06-05   dok	00:29	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/Makefile.am (1.12) (+4 -1)
+		src/df_input.c (1.1) ( )
+	
+	New example that shows the symbol name and its representation of pressed keys.
+	
+2002-06-04   neo	23:35	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_andi.c (1.8) (+0 -2)
+		src/df_video_particle.c (1.6) (+2 -8)
+		src/df_stress.c (1.7) (+0 -3)
+		src/df_porter.c (1.4) (+0 -3)
+		src/df_particle.c (1.5) (+2 -7)
+		src/df_joystick.c (1.4) (+3 -10)
+		src/df_dok.c (1.23) (+1 -1)
+	
+	No need to zero out a DFBSurfaceDescription. Removed memset() calls that
+	were needed back in the old days.
+	Use the new IDirectFBSurface::Clear method where it makes sense.
+	
+2002-06-03   neo	18:09	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.22) (+12 -10)
+		src/df_neo/df_neo.c (1.7) (+3 -3)
+	
+	Make use of IDirectFBSurface::Clear and fixed display of acceleration icon
+	in df_dok's system mode.
+	
+2002-05-30   dok	09:13	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.21) (+1 -0)
+	
+	Set DSBLIT_NOFX before stretch blitting the meters.
+	
+2002-05-29   dok	20:23	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_andi.c (1.7) (+11 -19)
+	
+	Use key symbols only, to be able to use the cursor keys on the num pad.
+	
+2002-05-27   dok	15:52	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_andi.c (1.6) (+25 -17)
+		src/spacedream/main.c (1.4) (+11 -11)
+		src/df_neo/df_neo.c (1.6) (+23 -13)
+		src/df_knuckles/df_knuckles.c (1.5) (+17 -8)
+		src/pss.c (1.6) (+214 -226)
+		src/df_window.c (1.11) (+36 -35)
+		src/df_video_particle.c (1.5) (+1 -1)
+		src/df_video.c (1.6) (+1 -1)
+		src/df_particle.c (1.4) (+1 -1)
+		src/df_joystick.c (1.3) (+1 -1)
+		src/df_fire.c (1.4) (+1 -1)
+		src/df_dok.c (1.20) (+6 -5)
+	
+	Follow API enhancements.
+	
+2002-05-24   neo	13:10	Sven Neumann <sven@convergence.de>
+
+	Files:	data/.cvsignore (1.2) (+0 -2)
+		data/spacedream/.cvsignore (1.2) (+0 -2)
+		data/df_neo/.cvsignore (1.2) (+0 -2)
+	
+	*** empty log message ***
+	
+2002-05-24   neo	12:48	Sven Neumann <sven@convergence.de>
+
+	Files:	.cvsignore (1.3) (+0 -3)
+		src/spacedream/.cvsignore (1.2) (+0 -1)
+		src/df_neo/.cvsignore (1.2) (+0 -1)
+		src/df_knuckles/.cvsignore (1.2) (+0 -1)
+		src/df_dok.c (1.19) (+23 -7)
+		src/.cvsignore (1.2) (+0 -1)
+		configure.in (1.11) (+1 -3)
+	
+	Bumped version number to 0.9.11. Removed AM_PROG_LIBTOOL since we are not
+	building a library.
+	
+	Added --help and --font <fontfile> parameters to df_dok.
+	
+2002-05-10   dok	17:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.18) (+9 -10)
+	
+	Fix benchmark size limitation for blitting operations.
+	
+2002-04-22   dok	16:57	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.3) (+167 -0)
+	
+	released
+	
+2002-04-20   dok	20:22	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_andi.c (1.5) (+22 -15)
+		src/pss.c (1.5) (+22 -15)
+		src/df_window.c (1.10) (+22 -16)
+		src/df_video_particle.c (1.4) (+22 -15)
+		src/df_video.c (1.5) (+22 -15)
+		src/df_stress.c (1.6) (+22 -15)
+		src/df_porter.c (1.3) (+22 -15)
+		src/df_particle.c (1.3) (+22 -15)
+		src/df_layer.c (1.7) (+22 -15)
+		src/df_joystick.c (1.2) (+22 -15)
+		src/df_fire.c (1.3) (+22 -15)
+		src/df_dok.c (1.17) (+22 -15)
+	
+	All examples written from scratch have the MIT License now,
+	LGPL didn't make sense ;)
+	
+2002-04-20   andi	18:00	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	src/df_dok.c (1.16) (+45 -15)
+	
+	added StretchBlit test with color keying
+	
+2002-04-20   dok	16:27	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	data/.cvsignore (1.1) ( )
+		src/spacedream/star4.png (1.2) (+0 -0)
+		src/spacedream/star3.png (1.2) (+0 -0)
+		src/spacedream/star2.png (1.2) (+0 -0)
+		src/spacedream/star1.png (1.2) (+0 -0)
+		src/spacedream/Makefile.am (1.6) (+0 -10)
+		src/df_neo/gnu-keys.png (1.2) (+0 -0)
+		src/df_neo/gnome-gsame.png (1.2) (+0 -0)
+		src/df_neo/gnome-gmush.png (1.2) (+0 -0)
+		src/df_neo/gnome-gimp.png (1.2) (+0 -0)
+		src/df_neo/gnome-foot.png (1.2) (+0 -0)
+		src/df_neo/gnome-calendar.png (1.2) (+0 -0)
+		src/df_neo/gnome-applets.png (1.2) (+0 -0)
+		src/df_neo/background.jpg (1.2) (+0 -0)
+		src/df_neo/apple-red.png (1.2) (+0 -0)
+		src/df_neo/Makefile.am (1.7) (+0 -15)
+		src/wood_andi.jpg (1.2) (+0 -0)
+		src/tux.png (1.2) (+0 -0)
+		src/smokey_light.jpg (1.2) (+0 -0)
+		src/shot.png (1.2) (+0 -0)
+		src/pngtest2.png (1.2) (+0 -0)
+		src/pngtest.png (1.2) (+0 -0)
+		src/meter.png (1.2) (+0 -0)
+		src/melted.png (1.2) (+0 -0)
+		src/intro.png (1.2) (+0 -0)
+		src/dfblogo.png (1.2) (+0 -0)
+		src/destination_mask.png (1.2) (+0 -0)
+		src/desktop.png (1.2) (+0 -0)
+		src/decker.ttf (1.2) (+0 -0)
+		src/convergence.png (1.2) (+0 -0)
+		src/colorkeyed.png (1.2) (+0 -0)
+		src/card.png (1.3) (+0 -0)
+		src/Makefile.am (1.11) (+3 -26)
+		data/spacedream/star4.png (1.1) ( )
+		data/spacedream/star3.png (1.1) ( )
+		data/spacedream/star2.png (1.1) ( )
+		data/spacedream/star1.png (1.1) ( )
+		data/spacedream/Makefile.am (1.1) ( )
+		data/spacedream/.cvsignore (1.1) ( )
+		data/df_neo/gnu-keys.png (1.1) ( )
+		data/df_neo/gnome-gsame.png (1.1) ( )
+		data/df_neo/gnome-gmush.png (1.1) ( )
+		data/df_neo/gnome-gimp.png (1.1) ( )
+		data/df_neo/gnome-foot.png (1.1) ( )
+		data/df_neo/gnome-calendar.png (1.1) ( )
+		data/df_neo/gnome-applets.png (1.1) ( )
+		data/df_neo/background.jpg (1.1) ( )
+		data/df_neo/apple-red.png (1.1) ( )
+		data/df_neo/Makefile.am (1.1) ( )
+		data/df_neo/.cvsignore (1.1) ( )
+		data/wood_andi.jpg (1.1) ( )
+		data/tux.png (1.1) ( )
+		data/smokey_light.jpg (1.1) ( )
+		data/shot.png (1.1) ( )
+		data/pngtest2.png (1.1) ( )
+		data/pngtest.png (1.1) ( )
+		data/meter.png (1.1) ( )
+		data/melted.png (1.1) ( )
+		data/intro.png (1.1) ( )
+		data/dfblogo.png (1.1) ( )
+		data/destination_mask.png (1.1) ( )
+		data/desktop.png (1.1) ( )
+		data/decker.ttf (1.1) ( )
+		data/convergence.png (1.1) ( )
+		data/colorkeyed.png (1.1) ( )
+		data/card.png (1.1) ( )
+		data/Makefile.am (1.1) ( )
+	
+	Sorted out data files.
+	
+2002-04-20   dok	16:26	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	Makefile.am (1.2) (+1 -1)
+		configure.in (1.10) (+3 -0)
+	
+	Sorted out data files.
+	
+2002-04-17   neo	11:04	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_andi.c (1.4) (+3 -3)
+		src/spacedream/main.c (1.3) (+1 -1)
+		src/df_neo/df_neo.c (1.5) (+2 -2)
+		src/pss.c (1.4) (+1 -1)
+		src/df_window.c (1.9) (+2 -2)
+		src/df_video_particle.c (1.3) (+1 -1)
+		src/df_video.c (1.4) (+1 -1)
+		src/df_stress.c (1.5) (+1 -1)
+		src/df_dok.c (1.15) (+11 -13)
+	
+	Follow DirectFB API change in IDirectFBImageProvider::RenderTo().
+	
+2002-04-15   neo	17:13	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.14) (+17 -2)
+	
+	Show the DirectFB logo on startup.
+	
+2002-04-15   neo	16:10	Sven Neumann <sven@convergence.de>
+
+	Files:	src/card.png (1.2) (+7 -2)
+		src/df_dok.c (1.13) (+7 -5)
+	
+	New gfx card icon based on a GNOME icon from Jimmac.
+	
+2002-03-09   dok	01:20	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.6) (+5 -2)
+	
+	Added dest. color keying to capability listing.
+	
+2002-03-08   dok	04:58	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.12) (+3 -1)
+	
+	Tweaked lighting.
+	
+2002-03-08   dok	04:54	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/Makefile.am (1.10) (+1 -0)
+		src/df_dok.c (1.11) (+70 -1)
+		src/card.png (1.1) ( )
+	
+	Made small graphics card icon with gimp ;)
+	
+	When an operation is accelerated the icon is displayed,
+	doesn't work for text.
+	
+2002-03-08   dok	00:01	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.9) (+1 -1)
+		src/df_dok.c (1.10) (+12 -4)
+	
+	Added option "--noresults" to have df_dok automatically exitting after testing.
+	Set version version 0.9.10.
+	
+2002-02-20   dok	14:40	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	ChangeLog (1.2) (+295 -0)
+	
+	regenerated
+	
+2002-02-04   dok	14:28	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_stress.c (1.4) (+8 -8)
+	
+	Made functions static.
+	
+2002-01-24   dok	21:15	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.8) (+0 -3)
+		src/Makefile.am (1.9) (+4 -4)
+	
+	removed directfb-avifile checks, not needed anymore for avifile
+	
+2002-01-21   neo	12:22	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_dok.c (1.9) (+3 -2)
+	
+	Mention --dfb-help command-line option.
+	
+2002-01-14   neo	14:12	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_neo/df_neo.c (1.4) (+35 -65)
+	
+	Use new method IDirectFBSurface::TileBlit to draw the background.
+	
+2002-01-14   dok	11:03	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_window.c (1.8) (+1 -1)
+	
+	s/id/window_id/
+	
+2002-01-14   dok	05:38	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.5) (+1 -1)
+		src/df_window.c (1.7) (+1 -1)
+	
+	WaitForEventWithTimeout no longer takes nano seconds but milli seconds.
+	
+2002-01-14   dok	04:59	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.7) (+3 -1)
+		src/spacedream/main.c (1.2) (+10 -14)
+		src/spacedream/Makefile.am (1.5) (+1 -1)
+		src/df_neo/df_neo.c (1.3) (+20 -20)
+		src/df_neo/Makefile.am (1.6) (+1 -1)
+		src/df_knuckles/df_knuckles.c (1.4) (+88 -88)
+		src/df_knuckles/Makefile.am (1.4) (+1 -1)
+		src/pss.c (1.3) (+3 -3)
+		src/df_window.c (1.6) (+17 -9)
+		src/df_video.c (1.3) (+3 -3)
+		src/df_stress.c (1.3) (+8 -8)
+		src/df_porter.c (1.2) (+2 -2)
+		src/df_particle.c (1.2) (+4 -4)
+		src/df_layer.c (1.4) (+3 -3)
+		src/df_fire.c (1.2) (+1 -6)
+		src/df_dok.c (1.8) (+14 -16)
+		src/df_andi.c (1.3) (+5 -5)
+		src/Makefile.am (1.8) (+1 -1)
+	
+	Follow API changes.
+	
+	Fixed "--enable-debug".
+	
+	Output lines/rects per second in df_dok.
+	
+2002-01-12   neo	14:26	Sven Neumann <sven@convergence.de>
+
+	Files:	autogen.sh (1.2) (+1 -1)
+		src/spacedream/Makefile.am (1.4) (+4 -18)
+		src/df_neo/Makefile.am (1.5) (+3 -18)
+		src/df_knuckles/Makefile.am (1.3) (+2 -16)
+		src/Makefile.am (1.7) (+8 -21)
+		configure.in (1.6) (+9 -48)
+	
+	Simplified configure.in and Makefile.am by using pkg-config macros
+	from pkg.m4. Bumped version number to 0.9.9, require the same version
+	of DirectFB.
+	
+2002-01-12   dok	01:49	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_knuckles/df_knuckles.c (1.3) (+1 -1)
+	
+	use DICAPS_AXES
+	
+2002-01-11   dok	22:53	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.7) (+32 -6)
+	
+	Perform benchmarks in system memory when "--system" is used.
+	
+2002-01-04   dok	22:56	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_layer.c (1.3) (+2 -2)
+	
+	fixed aspect ratio for videos that have their black borders left and right
+	
+2002-01-01   dok	16:20	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.6) (+31 -24)
+		src/df_layer.c (1.2) (+17 -0)
+	
+	The duration of benchmarks can now be set by "--duration <milliseconds>".
+	A value of 200 ms gave me reasonable benchmark results.
+	
+	df_layer now keeps the aspect ratio of the video.
+	
+2001-12-28   dok	18:03	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_window.c (1.5) (+10 -3)
+	
+	If df_window is started with a video file argument it creates the second
+	window with the size of the video.
+	
+2001-12-18   neo	11:24	Sven Neumann <sven@convergence.de>
+
+	Files:	src/df_window.c (1.4) (+1 -0)
+		src/df_neo/df_neo.c (1.2) (+12 -0)
+	
+	Release font when exiting from df_window.
+	Release image surfaces when exiting from df_neo.
+	
+2001-12-04   dok	19:15	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.5) (+2 -2)
+	
+	follow macro name changes
+	
+2001-11-30   dok	19:07	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.4) (+24 -15)
+	
+	Added option "--size <width>x<height>" to set the benchmark size,
+	i.e. the size of filled rectangles, blits, etc.
+	
+2001-11-28   dok	20:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_knuckles/df_knuckles.c (1.2) (+32 -70)
+	
+	Use one input buffer only, don't require a mouse, accept more keys.
+	
+2001-11-28   dok	20:03	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	configure.in (1.5) (+14 -10)
+		src/Makefile.am (1.6) (+4 -4)
+	
+	Link against avifile libs only where necessary.
+	
+2001-11-26   dok	01:09	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_window.c (1.3) (+13 -3)
+	
+	Use WaitForEventWithTimeout to save CPU time.
+	
+2001-11-19   dok	10:08	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/df_dok.c (1.3) (+3 -1)
+	
+	Made the random number generator much more random.
+	
+2001-11-07   dok	15:11	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	src/Makefile.am (1.5) (+1 -1)
+	
+	fixed typo, s/DIRECTDB_CFLAGS/DIRECTFB_CFLAGS/
+	
+2001-11-06   mitch	17:38	Michael Natterer <mitch@convergence.de>
+
+	Files:	src/df_neo/Makefile.am (1.4) (+1 -1)
+	
+	Pass the right -DDATADIR variable so df_new finds it's images.
+	
+2001-11-03   dok	04:55	Denis Oliver Kropp <dok@directfb.org>
+
+	Files:	.cvsignore (1.2) (+2 -0)
+	
+	added 'conftest' and 'conftest.c'
+	
+2001-10-30   andi	13:03	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	configure.in (1.4) (+1 -1)
+	
+	version number 0.9.7 -> 0.9.8
+	
+2001-10-30   andi	03:36	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	README (1.2) (+43 -0)
+	
+	added README with demo descriptions
+	
+2001-10-30   andi	03:07	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	configure.in (1.3) (+1 -1)
+		src/spacedream/Makefile.am (1.3) (+2 -2)
+		src/df_neo/Makefile.am (1.3) (+1 -1)
+		src/pss.c (1.2) (+1 -1)
+		src/df_window.c (1.2) (+2 -2)
+		src/df_video_particle.c (1.2) (+1 -1)
+		src/df_video.c (1.2) (+1 -1)
+		src/df_stress.c (1.2) (+1 -1)
+		src/df_dok.c (1.2) (+6 -6)
+		src/df_andi.c (1.2) (+3 -3)
+		src/Makefile.am (1.4) (+1 -1)
+	
+	files are now installed in $datadir/directfb-examples instead of $datadir/directfb/examples, everybody happy now? ;-)
+	
+2001-10-30   andi	01:43	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	configure.in (1.2) (+1 -1)
+		src/spacedream/Makefile.am (1.2) (+1 -1)
+		src/df_neo/Makefile.am (1.2) (+1 -1)
+		src/df_knuckles/Makefile.am (1.2) (+1 -1)
+		src/Makefile.am (1.3) (+1 -1)
+	
+	files are installed in $datadir/directfb/examples instead of $datadir/examples/examples ...
+	
+2001-10-30   andi	01:13	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	src/Makefile.am (1.2) (+2 -7)
+		src/cursor2.c (1.2) (+0 -0)
+		src/cursor.png (1.2) (+0 -0)
+	
+	removed obsolete files
+	
+2001-10-30   andi	00:54	Andreas Hundt <andi@fischlustig.de>
+
+	Files:	.cvsignore (1.1) ( )
+		src/spacedream/star4.png (1.1) ( )
+		src/spacedream/star3.png (1.1) ( )
+		src/spacedream/star2.png (1.1) ( )
+		src/spacedream/star1.png (1.1) ( )
+		src/spacedream/math3d.h (1.1) ( )
+		src/spacedream/math3d.c (1.1) ( )
+		src/spacedream/main.c (1.1) ( )
+		src/spacedream/Makefile.am (1.1) ( )
+		src/spacedream/.cvsignore (1.1) ( )
+		src/df_neo/gnu-keys.png (1.1) ( )
+		src/df_neo/gnome-gsame.png (1.1) ( )
+		src/df_neo/gnome-gmush.png (1.1) ( )
+		src/df_neo/gnome-gimp.png (1.1) ( )
+		src/df_neo/gnome-foot.png (1.1) ( )
+		src/df_neo/gnome-calendar.png (1.1) ( )
+		src/df_neo/gnome-applets.png (1.1) ( )
+		src/df_neo/df_neo.c (1.1) ( )
+		src/df_neo/background.jpg (1.1) ( )
+		src/df_neo/apple-red.png (1.1) ( )
+		src/df_neo/Makefile.am (1.1) ( )
+		src/df_neo/.cvsignore (1.1) ( )
+		src/df_knuckles/skull.h (1.1) ( )
+		src/df_knuckles/matrix.h (1.1) ( )
+		src/df_knuckles/matrix.c (1.1) ( )
+		src/df_knuckles/df_knuckles.c (1.1) ( )
+		src/df_knuckles/Makefile.am (1.1) ( )
+		src/df_knuckles/.cvsignore (1.1) ( )
+		src/wood_andi.jpg (1.1) ( )
+		src/tux.png (1.1) ( )
+		src/smokey_light.jpg (1.1) ( )
+		src/shot.png (1.1) ( )
+		src/pss.c (1.1) ( )
+		src/pngtest2.png (1.1) ( )
+		src/pngtest.png (1.1) ( )
+		src/meter.png (1.1) ( )
+		src/melted.png (1.1) ( )
+		src/intro.png (1.1) ( )
+		src/dfblogo.png (1.1) ( )
+		src/df_window.c (1.1) ( )
+		src/df_video_particle.c (1.1) ( )
+		src/df_video.c (1.1) ( )
+		src/df_stress.c (1.1) ( )
+		src/df_porter.c (1.1) ( )
+		src/df_particle.c (1.1) ( )
+		src/df_layer.c (1.1) ( )
+		src/df_joystick.c (1.1) ( )
+		src/df_fire.c (1.1) ( )
+		src/df_dok.c (1.1) ( )
+		src/df_andi.c (1.1) ( )
+		src/destination_mask.png (1.1) ( )
+		src/desktop.png (1.1) ( )
+		src/decker.ttf (1.1) ( )
+		src/cursor2.c (1.1) ( )
+		src/cursor.png (1.1) ( )
+		src/convergence.png (1.1) ( )
+		src/confdefs.h (1.1) ( )
+		src/colorkeyed.png (1.1) ( )
+		src/Makefile.am (1.1) ( )
+		src/.cvsignore (1.1) ( )
+		configure.in (1.1) ( )
+		autogen.sh (1.1) ( )
+		README (1.1) ( )
+		NEWS (1.1) ( )
+		Makefile.am (1.1) ( )
+		ChangeLog (1.1) ( )
+		AUTHORS (1.1) ( )
+	
+	split DirectFB examples in extra package.
+	

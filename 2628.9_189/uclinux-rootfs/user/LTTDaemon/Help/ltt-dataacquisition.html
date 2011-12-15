@@ -1,0 +1,202 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Data acquisition</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-installation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-daemon-commandline.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+<br>
+<b><u><font size=6>3. Data acquisition</font></u></b><b><font size=+3></font></b>
+<p><i><font size=4>3.1 Probing the kernel</font></i>
+<br>
+<ul>
+<li>
+Reboot and use the kernel built in the previous section.</li>
+
+<br>&nbsp;
+<li>
+Install the trace module (skip this if you compiled the kernel with the tracer built-in)</li>
+<ul>
+<pre>insmod tracer</pre>
+</ul>
+
+<p>Having done this, you should see a new entry in /proc/devices.
+
+<br>&nbsp;
+<li>
+Create the tracer device entry in /dev using the script in the package's root directory</li>
+
+<ul>
+<pre>./createdev.sh</pre>
+</ul>
+
+<p>If you load/unload device drivers often, you may want to run this script prior
+to starting a trace session since the trace driver's major number is allocated
+dynamically and may vary depending on the number of other drivers who have had their
+number allocated dynamically too.
+<br>&nbsp;</ul>
+
+<p><i><font size=4>3.2 Probing RTAI</font></i>
+<p>If you've tried to do as prescribed above with an LTT patched RTAI system, then you
+noticed that you can't install the tracer. The system complains about unresolved symbols.
+This is because it's a little bit more complicated with RTAI.
+
+<ul>
+<li>
+Reboot and use the kernel built in the previous section.</li>
+
+<br>&nbsp;
+
+<li>
+Install the RTAI trace-engine, you need to do this step whether you intend to trace your
+system or not. The reason is that the RTAI modules depend on this engine. If the trace
+driver isn't installed, this engine will simply disregard the events sent by the different
+RTAI components. If you don't want to have to do this, the configure the RTAI Linux kernel
+without support for RTAI tracing</li>
+<ul>
+<pre>insmod [rtai-location]/rtai/modules/rtai_trace</pre>
+</ul>
+
+<li>
+Install the trace driver module</li>
+<ul>
+<pre>insmod tracer</pre>
+</ul>
+
+<p>Having done this, you should see a new entry in /proc/devices.
+
+<br>&nbsp;
+<li>
+Create the tracer device entry in /dev using the script in the package's root directory</li>
+
+<ul>
+<pre>./createdev.sh</pre>
+</ul>
+
+<p>If you load/unload device drivers often, you may want to run this script prior
+to starting a trace session since the trace driver's major number is allocated
+dynamically and may vary depending on the number of other drivers who have had their
+number allocated dynamically too.
+</ul>
+
+You can now install the other RTAI modules and trace your system.
+
+<p><i><font size=4>3.3 Recording the data</font></i>
+<p>&nbsp;&nbsp;&nbsp; A trace begins when the trace daemon starts recording
+events. If you have followed all the previous steps, this is currently
+not the case. To start recording, do:
+<ul>
+<li>
+Start the trace daemon</li>
+<ul>
+<pre>tracedaemon -tsT /dev/tracer ./out.trace ./out.proc</pre>
+</ul>
+
+<br>out.trace will contain the raw events and out.proc will contain
+data read from /proc that will enable the decoder to know the process'
+name and hierarchy. Replace T by the number of seconds you want the
+daemon to run. Using the given command line, the out.trace file will use,
+approximatively, 30 M per minute it runs for a heavy loaded system. On
+a normal workstation without X, the usage is less than 1 M per minute. It
+is possible to reduce the usage by choosing not to trace certain events. See
+the following section for the daemon's command-line options.
+<br>&nbsp;
+<li>
+If you didn't specify the -t option, then you must stop the trace daemon manually.</li>
+<ul>
+<pre>kill [daemon pid]</pre>
+</ul>
+
+Type ps if you don't know the daemon's PID.
+
+<br>&nbsp;
+<li>Since the daemon and the decoder are often used in the same way on multiple runs, it is
+desirable to write simple scripts to automate the passing of options. The last
+section, of this Help, documents some scripts already available.</li>
+</ul>
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-installation.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-daemon-commandline.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Data acquisition</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+#
+# Standard e2fsprogs prologue....
+#
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+top_builddir = ..
+my_dir = util
+INSTALL = @INSTALL@
+
+SRCS = $(srcdir)/subst.c
+
+@MCONFIG@
+
+MIPS_ONLY_FLAGS	= -mips2
+
+.c.o:
+	$(BUILD_CC) -c $(filter-out $(MIPS_ONLY_FLAGS),$(ALL_CFLAGS)) $< -o $@
+
+PROGS=		subst
+
+all:: $(PROGS)
+
+subst: subst.c
+	$(BUILD_CC) -o subst subst.c
+#	$(BUILD_CC) -nostdinc -o subst subst.o
+# THT For some reason, gcc failed here, returning 0 for isspace(c) on any char
+# THT: 3/14/05: Restore old codes.  Need to set LANG= for isspace to work.
+#	$(BUILD_CC) $(filter-out, $(MIPS_ONLY_FLAGS),$(ALL_LDFLAGS)) -o subst subst.o
+
+clean:
+	$(RM) -f $(PROGS) \#* *.s *.o *.a *~ core
+
+mostlyclean: clean
+
+distclean: clean
+	$(RM) -f .depend Makefile $(srcdir)/TAGS $(srcdir)/Makefile.in.old
+
+# +++ Dependency line eater +++
+# 
+# Makefile dependencies follow.  This must be the last section in
+# the Makefile.in file
+#
+#subst.o: $(srcdir)/subst.c

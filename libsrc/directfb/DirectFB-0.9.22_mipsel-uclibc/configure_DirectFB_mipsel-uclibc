@@ -1,0 +1,89 @@
+#!/bin/sh
+
+if [ "${DEBUG}" = "y" ]; then
+# enable debug support
+# enable call tracing
+    CONFIGURE_DEBUG_OPTS="--enable-debug"
+fi
+
+if [ ! -f configure ]; then
+    sh autogen.sh
+fi
+
+#For RH7.3 pic_mode is set wrong in libtool, and if you force
+#lt_cv_prog_cc_pic, then you get other problems, so let's replace
+#the faulty ac macro result instead in the configure script.
+#This is ok in FC2, and the lt_cv_prog_cc_pic variable does
+#not exist so will still work.
+if [ -f configure ]; then
+	sed -e "s/lt_cv_prog_cc_pic='-fPIC'/lt_cv_prog_cc_pic='-fPIC -DPIC'/g" configure > configure.newversion
+	mv configure.newversion configure
+else
+	echo "Something went wrong running autogen.sh, please make sure you have"
+	echo "the proper libtool, autoconf and automake installed on the build"
+	echo "environment."
+	exit 1
+fi
+
+#For RH7.3, it is necessary to pass the deplibs_check_method used by libtool,
+#as the autoconf-2.53 macros don't seem to go a good job at that. Was not
+#a problem on FC2.
+#Also autoconf-2.53 macro does take the ac_cv_path_FREETYPE_CONFIG macro,
+#but does not use it for getting the FREETYPE_CFLAGS and LDFLAGS.
+PATH=${DIRECTFB_INSTALL_PATH}/usr/local/bin:$PATH \
+lt_cv_deplibs_check_method="pass_all" ac_cv_path_FREETYPE_CONFIG=${DIRECTFB_INSTALL_PATH}/usr/local/bin \
+lt_cv_path_LD=${CROSS}ld lt_cv_path_NM=${CROSS}nm \
+CFLAGS=${CROSS_CFLAGS} CPPFLAGS=${CROSS_CFLAGS} LDFLAGS=${CROSS_LDFLAGS} \
+CC=${CROSS}gcc CPP=${CROSS}cpp CXX=${CROSS}g++ LD=${CROSS}ld AR=${CROSS}ar \
+RANLIB=${CROSS}ranlib STRIP=${CROSS}strip \
+sh configure \
+--build=i686-pc-linux-gnu --host=mipsel-linux-gnu \
+--enable-compile-warnings \
+--enable-static \
+--enable-shared \
+$CONFIGURE_DEBUG_OPTS \
+--enable-text \
+--enable-gettid \
+--enable-bcm \
+--enable-jpeg \
+--enable-zlib \
+--enable-png \
+--enable-gif \
+--enable-freetype \
+--disable-multi \
+--disable-voodoo \
+--disable-unique \
+--disable-mmx \
+--disable-sse \
+--disable-sysfs \
+--disable-fbdev \
+--disable-sdl \
+--disable-osx \
+--disable-video4linux \
+--disable-video4linux2 \
+--enable-videobcm \
+--with-gfxdrivers=bcmgfx \
+--with-inputdrivers=none \
+--without-tools
+
+# enable text output
+# enable usage of gettid()
+# build with Broadcom Settop API support
+# build JPEG image provider, [xm] Dependency on jpeg
+# use zlib, e.g. for screen shots, [xm] Dependency on zlib
+# build PNG image provider, [xm] Dependency on libpng
+# build GIF image provider, [xm] Internal support
+# build FreeType2 font provider, [xm] Dependency on freetype
+# disable Voodoo (network support), [xm] Maybe later?
+# disable multi application core, [xm] Requires fusion kernel driver
+# disable Unique (WM Module), [xm] Window manager anyone?
+# disable MMX support, [xm] Not supported by mips32 ISA
+# disable SSE support, [xm] Not supported by mips32 ISA
+# not build with sysfs support, [xm] Not sure what this is
+# not build with linux fbdev support, [xm] Not building fbdev core system support
+# not build with SDL support, [xm] Not building SDL core system support
+# not build with OSX support, [xm] Not building Mac OS X Carbon core system support
+# not build Video4Linux video provider
+# not build with Video4Linux2 support
+# [xm] No gfxdrivers for now
+# [xm] If required, can pass on linuxinput for inputdrivers

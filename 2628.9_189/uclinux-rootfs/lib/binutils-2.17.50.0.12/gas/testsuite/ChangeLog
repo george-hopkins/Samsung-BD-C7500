@@ -1,0 +1,49 @@
+2007-01-11  Paul Brook  <paul@codesourcery.com>
+
+	* gas/arm/thumb2_add.d: Add test for missing operand.
+	* gas/arm/thumb2_add.s: Ditto.
+
+2007-01-11  Nick Clifton  <nickc@redhat.com>
+
+	* gas/mcore/allinsn.s: Remove use of '#' before numbers - it is a
+	line comment character.
+	* gas/mcore/allinsn.d: Adjust expected disassembly to match real
+	output.
+
+	* gas/lns/lns.exp: Run the alternative version of the lns-common-1
+	test for the MCore target.
+
+2007-01-08  Kai Tietz	<kai.tietz@onevision.com>
+
+	* gas/all/gas.exp: Renamed target x86_64-*-mingw64 to x86_64-*-mingw*.
+	* gas/i386/i386.exp: Ditto.
+
+2007-01-04  Paul Brook  <paul@codesourcery.com>
+
+	* gas/arm/archv6.s: Add more cpsie tests.
+	* gas/arm/archv6.d: Ditto.
+
+2007-01-04  Andreas Schwab  <schwab@suse.de>
+
+	* gas/m68k/cpu32.[sd]: New test.
+	* gas/m68k/all.exp: Run it.
+
+2007-01-04  Julian Brown  <julian@codesourcery.com>
+
+	* gas/arm/neon-omit.d: Fix expected encodings for vshl, vqshl.
+
+2007-01-04  Paul Brook  <paul@codesourcery.com>
+
+	* gas/arm/neon-cov.d: Adjust expected output.
+	* gas/arm/neon-omit.s: Add tests for vcgt and vcle.  Reorder vacle
+	and vacle.
+	* gas/arm/neon-omit.d: Adjust expected output.
+
+For older changes see ChangeLog-2006
+
+Local Variables:
+mode: change-log
+left-margin: 8
+fill-column: 74
+version-control: never
+End:

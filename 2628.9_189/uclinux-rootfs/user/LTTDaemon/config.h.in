@@ -1,0 +1,14 @@
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* Host alias */
+#undef CONFIG_STRING
+
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
+/* GNU/C compiler version */
+#undef CC_VERSION
+

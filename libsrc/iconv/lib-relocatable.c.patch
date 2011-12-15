@@ -1,0 +1,27 @@
+--- libiconv-1.9.1/lib/relocatable.c	2003-04-05 05:03:25.000000000 -0500
++++ libiconv-1.9.1/lib/relocatable.c	2007-01-03 15:51:44.590023000 -0500
+@@ -41,6 +41,7 @@
+ 
+ #ifdef NO_XMALLOC
+ # define xmalloc malloc
++# define xfree free
+ #else
+ # include "xmalloc.h"
+ #endif
+@@ -396,10 +397,13 @@
+       curr_prefix_better =
+ 	compute_curr_prefix (orig_installprefix, orig_installdir,
+ 			     get_shared_library_fullname ());
+-      if (curr_prefix_better == NULL)
+-	curr_prefix_better = curr_prefix;
+-
++		if (curr_prefix_better == NULL) {
++			set_relocation_prefix (orig_installprefix, curr_prefix);
++		}
++		else {
+       set_relocation_prefix (orig_installprefix, curr_prefix_better);
++			xfree(curr_prefix_better);
++		}
+ 
+       initialized = 1;
+     }

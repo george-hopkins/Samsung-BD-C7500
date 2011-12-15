@@ -1,0 +1,51 @@
+#!/bin/bash
+
+BRCM_WIRELESS_ADAPTER=a5c\/bd13
+
+
+notify_app ()
+{
+  export PATH=$PATH:/usr/local/bin
+  if which app_player_notify >/dev/null; then
+	sleep 1
+    mesg "Sending WiFi driver notification"
+    ETHIF=$(/usr/wlan/wl dump | grep wlif | awk -F" " '{print $7}' | sed -e "s/\"//g")
+    app_player_notify $1 $2 $ETHIF
+  else
+    mesg "app_player_notify not installed, skip notification"
+  fi
+}  
+
+
+# Setup a logging system - taken from hotplug.functions
+if [ -x /usr/bin/logger ]; then
+  LOGGER=/usr/bin/logger
+elif [ -x /bin/logger ]; then
+  LOGGER=/bin/logger
+else
+  unset LOGGER
+fi
+
+if [ -t 1 -o -z "$LOGGER" ]; then
+  mesg () {
+    echo "$@"
+  }
+else
+  mesg () {
+    $LOGGER -t $(basename $0)"[$$]" "$@"
+  }
+fi
+
+
+# Parse the hotplug event
+if echo $DEVTYPE | grep -q "usb_interface" >/dev/null ; then
+  if echo $ACTION | grep -q "add" >/dev/null ; then
+    if echo $PRODUCT | grep -q "$BRCM_WIRELESS_ADAPTER" >/dev/null ; then
+      notify_app 3 add
+    fi
+  elif echo $ACTION | grep -q "remove" >/dev/null ; then
+    if echo $PRODUCT | grep -q "$BRCM_WIRELESS_ADAPTER" >/dev/null ; then
+      notify_app 4 remove
+    fi
+  fi
+fi

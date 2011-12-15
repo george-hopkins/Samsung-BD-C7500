@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 45
+*.exe
+cws2fws
+pktdumper
+qt-faststart
+trasher
+
+END

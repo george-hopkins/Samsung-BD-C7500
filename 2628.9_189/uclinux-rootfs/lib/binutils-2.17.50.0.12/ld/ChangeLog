@@ -1,0 +1,131 @@
+2007-01-24  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ldgram.y (SIZEOF_HEADERS): Remove duplicated one.
+	(DEFSYMEND): Likewise.
+	(NAME): Likewise.
+	(LNAME): Likewise.
+
+2007-01-19  Murali Vemulapati  <murali.vemulapati@gmail.com>
+
+	* pe-dll.c: (make_one) Conditionally include jump stubs.
+	* emultempl/pe.em (gld_${EMULATION_NAME}_after_open): Identify
+	redundant jump stubs from import libraries and exclude them from 
+	link.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ld.h (args_type): Add new symbolic and dynamic_list fields.
+
+	* ld.texinfo: Update -Bsymbolic-functions.
+
+	* ldmain.c (main): Initialize command_line.symbolic to
+	symbolic_unset and command_line.dynamic_list to
+	dynamic_list_unset.  Check -Bsymbolic, -Bsymbolic-functions and
+	--dynamic-list* before setting link_info.symbolic,
+	link_info.dynamic and link_info.dynamic_data. 
+
+	* lexsup.c (option_values): Add OPTION_SYMBOLIC_FUNCTIONS.
+	(ld_options): Use OPTION_SYMBOLIC_FUNCTIONS with
+	-Bsymbolic-functions.
+	(parse_args): Handle -Bsymbolic-functions.  Don't set
+	link_info.dynamic, link_info.dynamic_data and link_info.symbolic
+	here.  Set command_line.symbolic for -Bsymbolic.  Set
+	command_line.dynamic_list and command_line.symbolic for
+	--dynamic-list-data, --dynamic-list-cpp-new,
+	--dynamic-list-cpp-typeinfo and --dynamic-list.
+
+2007-01-19  Jakub Jelinek  <jakub@redhat.com>
+	    H.J. Lu  <hongjiu.lu@intel.com>
+
+	* emultempl/elf32.em (handle_option): Make sure -z max-page-size
+	or -z common-page-size argument is a power of 2.  Call
+	bfd_emul_set_maxpagesize and bfd_emul_set_commonpagesize.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* ldmain.c (main): Don't call bfd_emul_set_maxpagesize nor
+	bfd_emul_set_commonpagesize.
+
+2007-01-19  H.J. Lu  <hongjiu.lu@intel.com>
+
+	* NEWS: Mention --default-script/-dT.
+
+	* ld.h (args_type): Add a default_script field.
+
+	* ld.texinfo: Document --default-script/-dT.
+
+	* ldmain.c (main): Handle command_line.default_script.
+
+	* lexsup.c (option_values): Add OPTION_DEFAULT_SCRIPT.
+	(ld_options): Add entries for --default-script and -dT.
+	(parse_args): Handle --default-script/-dT.
+
+2007-01-16  H.J. Lu  <hongjiu.lu@intel.com>
+
+	PR ld/3831
+	* NEWS: Mention -Bsymbolic-functions, --dynamic-list-data and
+	--dynamic-list-cpp-new.
+
+	* ld.texinfo: Document -Bsymbolic-functions, --dynamic-list-data
+	and --dynamic-list-cpp-new.
+
+	* ldlang.c (lang_append_dynamic_list_cpp_new): New.
+	(lang_process): Change link_info.dynamic to
+	link_info.dynamic_list.
+	(lang_append_dynamic_list): Likewise.
+	* ldmain.c (main): Likewise.  Initialize link_info.dynamic and
+	link_info.dynamic_data to FALSE.
+
+	* ldlang.h (lang_append_dynamic_list_cpp_new): New.
+
+	* lexsup.c (option_values): Add OPTION_DYNAMIC_LIST_DATA and
+	OPTION_DYNAMIC_LIST_CPP_NEW.
+	(ld_options): Add entries for -Bsymbolic-functions,
+	--dynamic-list-data and --dynamic-list-cpp-new.  Make
+	-Bsymbolic-functions an alias of --dynamic-list-data.
+	(parse_args): Change link_info.dynamic to link_info.dynamic_list.
+	Set link_info.dynamic to TRUE for --dynamic-list and
+	--dynamic-list-cpp-typeinfo.  Handle --dynamic-list-data and
+	--dynamic-list-cpp-new.
+
+2007-01-11  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* emultempl/elf-generic.em (gdl_map_segments): Only allow header
+	shrinkage for the first few iterations.
+
+2007-01-08  Kai Tietz	<kai.tietz@onevision.com>
+
+	* configure.tgt: Renamed target x86_64-*-mingw64 to
+	x86_64-*-mingw*.
+
+2007-01-08  Pedro Alves  <pedro_alves@portugalmail.pt>
+
+	* configure.host: Add i[3-7]86-*-mingw* case.
+
+2007-01-08  Nick Clifton  <nickc@redhat.com>
+
+	* pep-dll.h (pep_bfd_is_dll): Add prototype.
+
+2007-01-08  Aurelien Jarno  <aurelien@aurel32.net>
+
+	PR ld/3843
+	* configure.tgt (x86_64_[k]freebsd*): Add targ_extra_libpath and
+	tdir_elf_i386_fbsd.
+
+2007-01-06  Nathan Sidwell  <nathan@codesourcery.com>
+
+	* ldexp.c (fold_name): Issue error on undefined sections.
+
+2007-01-02  Alan Modra  <amodra@bigpond.net.au>
+
+	* pe-dll.c: Include pe-dll.h.
+	* pep-dll.c (pe_bfd_is_dll): Define.
+
+For older changes see ChangeLog-2006
+
+Local Variables:
+mode: change-log
+left-margin: 8
+fill-column: 74
+version-control: never
+End:

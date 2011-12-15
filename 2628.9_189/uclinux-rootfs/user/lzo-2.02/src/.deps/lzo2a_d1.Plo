@@ -1,0 +1,64 @@
+lzo2a_d1.lo lzo2a_d1.o: lzo2a_d1.c config2a.h lzo_conf.h \
+  ../include/lzo/lzoconf.h ../config.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/limits.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/features.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/uClibc_config.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/uClibc_arch_features.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/sys/cdefs.h \
+  /projects/stbtc/crosstools_hf-linux-2.6.18.0_gcc-4.2-8ts_uclibc-nptl-0.9.29-20070423_20080520/bin/../lib/gcc/mips-linux-uclibc/4.2.0/include/limits.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/posix1_lim.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/local_lim.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/linux-2.6.x/include/linux/limits.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/posix2_lim.h \
+  /projects/stbtc/crosstools_hf-linux-2.6.18.0_gcc-4.2-8ts_uclibc-nptl-0.9.29-20070423_20080520/bin/../lib/gcc/mips-linux-uclibc/4.2.0/include/stddef.h \
+  ../include/lzo/lzodefs.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/string.h \
+  miniacc.h \
+  /jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/assert.h \
+  lzo_ptr.h ../include/lzo/lzo2a.h lzo2a_d.ch lzo1_d.ch
+
+config2a.h:
+
+lzo_conf.h:
+
+../include/lzo/lzoconf.h:
+
+../config.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/limits.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/features.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/uClibc_config.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/uClibc_arch_features.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/sys/cdefs.h:
+
+/projects/stbtc/crosstools_hf-linux-2.6.18.0_gcc-4.2-8ts_uclibc-nptl-0.9.29-20070423_20080520/bin/../lib/gcc/mips-linux-uclibc/4.2.0/include/limits.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/posix1_lim.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/local_lim.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/linux-2.6.x/include/linux/limits.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/bits/posix2_lim.h:
+
+/projects/stbtc/crosstools_hf-linux-2.6.18.0_gcc-4.2-8ts_uclibc-nptl-0.9.29-20070423_20080520/bin/../lib/gcc/mips-linux-uclibc/4.2.0/include/stddef.h:
+
+../include/lzo/lzodefs.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/string.h:
+
+miniacc.h:
+
+/jipeng_views/jipeng-2618-5.0pre/vobs/Ref_Linux_Kernel/src/uclinux-rootfs/lib/uClibc/include/assert.h:
+
+lzo_ptr.h:
+
+../include/lzo/lzo2a.h:
+
+lzo2a_d.ch:
+
+lzo1_d.ch:

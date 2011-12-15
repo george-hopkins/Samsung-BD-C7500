@@ -1,0 +1,18 @@
+--- cairo-20060212_clean/src/cairo-font.c	2005-08-31 18:08:02.000000000 -0400
++++ cairo-20060212_mipsel-uclibc/src/cairo-font.c	2006-03-17 19:20:09.000000000 -0500
+@@ -39,6 +39,15 @@
+ 
+ #include "cairoint.h"
+ 
++const cairo_scaled_font_backend_t cairo_bogus_scaled_font_backend = {
++    NULL,
++    NULL,
++    NULL,
++    NULL,
++    NULL,
++    NULL,
++};
++
+ /* Forward declare so we can use it as an arbitrary backend for
+  * _cairo_font_face_nil.
+  */

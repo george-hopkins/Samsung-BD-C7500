@@ -1,0 +1,157 @@
+
+
+typedef struct sharf_dma_desc {
+	unsigned int read_addr;
+	unsigned int write_addr;
+	unsigned int xfer;		
+	unsigned int next;
+	unsigned int flags;
+	unsigned int index;
+	unsigned int resv1;		/* unused */
+	unsigned int resv2;		/* unused */
+} sharf_dma_desc_t;
+
+
+#define XFER_SIZE_MASK			0x07ffffff
+#define XFER_LAST			0x40000000
+#define XFER_INTR_ENABLE		0x80000000
+
+#define NEXT_ADDR_MASK 			0xffffffe0
+#define NEXT_READ_MODE_LE		0x4
+#define NEXT_XLAT_NONE			0x0
+#define NEXT_XLAT_HALF			0x1
+#define NEXT_XLAT_BYTE			0x2
+#define NEXT_XLAT_RSVD			0x3
+
+#define FLAGS_CONTEXT_SHIFT 		16
+#define FLAGS_CONTEXT_MASK 		(3 << FLAGS_CONTEXT_SHIFT)
+#define FLAGS_SEC_FAIL_IE		0x8000	/* Secure fail interrupt enable */
+#define FLAGS_FAIL_IE			0x4000	/* fail interrupt enable */
+#define	FLAGS_SG_SCRAM_END		0x2000
+#define FLAGS_SG_SCRAM_START		0x1000
+#define FLAGS_SG_ENABLE			0x0800
+#define FLAGS_CMP_8_LSB			0x0400
+
+#define FLAGS_MODE_MASK			0x00f0
+#define FLAGS_MODE_PASS			0x0000
+#define FLAGS_MODE_SHA1			0x0010
+#define FLAGS_MODE_AES128CBC_DECRYPT	0x0020
+#define FLAGS_MODE_AES128CBC_ENCRYPT	0x0030
+#define FLAGS_MODE_CMAC			0x0040
+#define FLAGS_MODE_AES128ECBC_DECRYPT	0x0050
+#define FLAGS_MODE_AES128ECBC_ENCRYPT	0x0060
+#define FLAGS_MODE_RESERVED		0x0070
+
+#define FLAGS_USE_BSP_KEY		0x08
+#define FLAGS_DIGEST_PRESENT		0x02
+#define FLAGS_KEY_PRESENT		0x01
+
+
+#if defined (CONFIG_SYS_HAS_SHARF_V1)
+	#define NUM_SHA_STATE_REG	5
+#elif defined (CONFIG_SYS_HAS_SHARF_V2)
+	#define NUM_SHA_STATE_REG	8
+#endif
+typedef struct sharf_csr {
+	int	revision;
+	int 	status;
+	int 	sha_ctx_0_state[NUM_SHA_STATE_REG];
+	int 	sha_ctx_1_state[NUM_SHA_STATE_REG];
+	int 	sha_ctx_2_state[NUM_SHA_STATE_REG];
+	int 	cmac_ctx_0_state[4];
+	int 	cmac_ctx_1_state[4];
+	int	ctx_0_fail_id;
+	int	ctx_1_fail_id;
+	int	ctx_2_fail_id;
+	int	error_status;
+} sharf_csr_t;
+
+
+#define	STATUS_FAIL_CTX_2	BCHP_SHARF_TOP_STATUS_FAIL2_MASK	/* 0x8 */
+#define	STATUS_FAIL_CTX_1	BCHP_SHARF_TOP_STATUS_FAIL1_MASK	/* 0x4 */
+#define	STATUS_FAIL_CTX_0	BCHP_SHARF_TOP_STATUS_FAIL0_MASK	/* 0x2 */
+#define	STATUS_ACTIVE		BCHP_SHARF_TOP_STATUS_ACTIVE_MASK	/* 0x1 */
+
+
+
+#define ERROR_FRAME_1		BCHP_SHARF_TOP_ERR_STATUS_FRAME_ERR1_MASK	/* 0x80 */
+#define ERROR_FRAME_0		BCHP_SHARF_TOP_ERR_STATUS_FRAME_ERR0_MASK	/* 0x40 */
+#define ERROR_ALIGN_1		BCHP_SHARF_TOP_ERR_STATUS_AES_ALIGN_ERR1_MASK	/* 0x20 */
+#define ERROR_ALIGN_0		BCHP_SHARF_TOP_ERR_STATUS_AES_ALIGN_ERR0_MASK	/* 0x10 */
+#define ERROR_SIZE_1		BCHP_SHARF_TOP_ERR_STATUS_SIZE_ERR1_MASK	/* 0x08 */
+#define ERROR_SIZE_0		BCHP_SHARF_TOP_ERR_STATUS_SIZE_ERR0_MASK	/* 0x04 */
+#define	ERROR_BSP_KEY_1		BCHP_SHARF_TOP_ERR_STATUS_AES_BSP_KEY_ERR1_MASK	/* 0x02 */
+#define	ERROR_BSP_KEY_0		BCHP_SHARF_TOP_ERR_STATUS_AES_BSP_KEY_ERR0_MASK	/* 0x01 */
+
+
+typedef struct sharf_intr {
+	int status;
+	int status_set;
+	int status_clear;
+	int mask;
+	int mask_set;
+	int mask_clear;
+} sharf_intr_t;
+
+#if defined (CONFIG_MIPS_BCM7440B0)
+
+#define SHIFT_INTR2_STATUS	BCHP_FGX_TO_HIF_INTR2_CPU_STATUS
+
+#define	GR_BRIDGE_ERROR		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_GR_BRIDGE_ERR_MASK		/* 0x0002 */
+#define	ERROR_INTR		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_ERR_INTR_MASK		/* 0x1000 */
+#define	FAIL2_INTR		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_FAIL2_INTR_MASK		/* 0x0800 */
+#define	FAIL1_INTR		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_FAIL1_INTR_MASK		/* 0x0400 */
+#define	FAIL0_INTR		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_FAIL0_INTR_MASK		/* 0x0200 */
+#define	MEM_DMA1_DONE		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_MEM_DMA1_DONE_MASK	/* 0x0100 */
+#define	MEM_DMA0_DONE		BCHP_FGX_TO_HIF_INTR2_CPU_STATUS_SHARF_MEM_DMA0_DONE_SHIFT	/* 0x0080 */
+
+#elif defined (CONFIG_MIPS_BCM7601) || defined (CONFIG_MIPS_BCM7635)
+
+#define SHIFT_INTR2_STATUS	BCHP_SHIFT_INTR2_CPU_STATUS
+
+#define	GR_BRIDGE_ERROR		BCHP_SHIFT_INTR2_CPU_STATUS_GR_BRIDGE_ERROR_MASK	/* 0x40 */
+#define	ERROR_INTR		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_ERR_INTR_MASK		/* 0x20 */
+#define	FAIL2_INTR		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_FAIL2_INTR_MASK	/* 0x10 */
+#define	FAIL1_INTR		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_FAIL1_INTR_MASK	/* 0x08 */
+#define	FAIL0_INTR		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_FAIL0_INTR_MASK	/* 0x04 */
+#define	MEM_DMA1_DONE		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_MEM_DMA1_DONE_MASK	/* 0x02 */
+#define	MEM_DMA0_DONE		BCHP_SHIFT_INTR2_CPU_STATUS_SHARF_MEM_DMA0_DONE_MASK	/* 0x01 */
+
+#elif defined (CONFIG_MIPS_BCM7630)
+
+#define SHIFT_INTR2_STATUS	BCHP_HIF_INTR2_CPU_STATUS
+
+#define	GR_BRIDGE_ERROR		0	/* where is it?  */
+#define	ERROR_INTR		BCHP_HIF_INTR2_CPU_STATUS_SHARF_ERR_INTR_MASK		/* 0x800 */
+#define	FAIL2_INTR		BCHP_HIF_INTR2_CPU_STATUS_SHARF_FAIL2_INTR_MASK		/* 0x400 */
+#define	FAIL1_INTR		BCHP_HIF_INTR2_CPU_STATUS_SHARF_FAIL1_INTR_MASK		/* 0x200 */
+#define	FAIL0_INTR		BCHP_HIF_INTR2_CPU_STATUS_SHARF_FAIL0_INTR_MASK		/* 0x100 */
+#define	MEM_DMA1_DONE		BCHP_HIF_INTR2_CPU_STATUS_SHARF_MEM_DMA1_DONE_MASK	/* 0x080 */
+#define	MEM_DMA0_DONE		BCHP_HIF_INTR2_CPU_STATUS_SHARF_MEM_DMA0_DONE_MASK	/* 0x040 */
+
+#else
+	#error "--- platform not defined ---"
+#endif
+
+typedef struct sharf_dma {
+	int	desc_addr;
+	int	control;
+	int	wake;
+	int	rsvd;
+	int	status;
+	int	current_desc;
+	int	current_byte;
+	int	scratch;
+} sharf_dma_t;
+
+#define	CONTROL_RUN			0x01
+
+#define WAKE_WAKEUP			0x01
+#define WAKE_MODE_RESTART		0x02
+
+#define STATUS_DMA_IDLE			0x00
+#define STATUS_DMA_BUSY			0x01
+#define STATUS_DMA_SLEEP		0x02
+#define STATUS_DMA_RSVD			0x03
+
+

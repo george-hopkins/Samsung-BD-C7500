@@ -1,0 +1,94 @@
+gnu_getopt.o gnu_getopt.o: gnu_getopt.c \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/stdio.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/features.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/uClibc_config.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/cdefs.h \
+  /opt/toolchains/uclibc-crosstools-2.4.3/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/types.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/kernel_types.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/pthreadtypes.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/sched.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/uClibc_stdio.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/wchar.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/wchar.h \
+  /opt/toolchains/uclibc-crosstools-2.4.3/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdarg.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/stdio_lim.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/stdlib.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/types.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/time.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/endian.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/endian.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/select.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/select.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/sigset.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/time.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/sysmacros.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/alloca.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/unistd.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/posix_opt.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/confname.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/getopt.h \
+  /mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/string.h \
+  ../include/gnu_getopt.h
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/stdio.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/features.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/uClibc_config.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/cdefs.h:
+
+/opt/toolchains/uclibc-crosstools-2.4.3/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stddef.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/types.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/kernel_types.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/pthreadtypes.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/sched.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/uClibc_stdio.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/wchar.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/wchar.h:
+
+/opt/toolchains/uclibc-crosstools-2.4.3/lib/gcc-lib/mips-linux-uclibc/3.3.3/include/stdarg.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/stdio_lim.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/stdlib.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/types.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/time.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/endian.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/endian.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/select.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/select.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/sigset.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/time.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/sys/sysmacros.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/alloca.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/unistd.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/posix_opt.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/confname.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/bits/getopt.h:
+
+/mnt/disk2/home/troy/97317-2.4.25-2.5.be/uClibc/include/string.h:
+
+../include/gnu_getopt.h:

@@ -1,0 +1,86 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:551: checking host system type
+configure:572: checking for supported operating system
+configure:608: checking for supported architecture
+configure:686: checking for gcc
+configure:799: checking whether the C compiler (mips-linux-gcc -D_GNU_SOURCE -DDONE=1 -DBITS_PER_LONG=32 -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include/asm/mach-generic -I/opt/toolchains/uclibc-crosstools/bin/../mips-linux/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include) works
+configure:815: mips-linux-gcc -o conftest -D_GNU_SOURCE -DDONE=1 -DBITS_PER_LONG=32 -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include/asm/mach-generic -I/opt/toolchains/uclibc-crosstools/bin/../mips-linux/include  -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include conftest.c  1>&5
+configure:841: checking whether the C compiler (mips-linux-gcc -D_GNU_SOURCE -DDONE=1 -DBITS_PER_LONG=32 -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include/asm/mach-generic -I/opt/toolchains/uclibc-crosstools/bin/../mips-linux/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include -Os  -Dlinux -D__linux__ -Dunix -D__uClinux__ -DEMBED -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/lib/uClibc/include -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs -fno-builtin -I/home/jipeng/build-2.6.18/jipeng2.6.18-1.5-prerel-package/src/stblinux-2.6.18-0.1/uclinux-rootfs/linux-2.6.x/include) is a cross-compiler
+configure:846: checking whether we are using GNU C
+configure:874: checking whether mips-linux-gcc accepts -g
+configure:950: checking for MP procfs
+configure:1031: checking for pollable procfs
+configure:1127: checking for pr_syscall in struct prstatus
+configure:1167: checking for msg_control in struct msghdr
+configure:1207: checking for mawk
+configure:1238: checking for primary include directory
+configure:1293: checking how to run the C preprocessor
+configure:1374: checking whether mips-linux-gcc needs -traditional
+configure:1431: checking for a BSD compatible install
+configure:1484: checking for working const
+configure:1559: checking for ANSI C header files
+configure:1667: checking for dirent.h that defines DIR
+configure:1705: checking for opendir in -ldir
+configure:1788: checking return type of signal handlers
+configure:1829: checking for st_blksize in struct stat
+configure:1863: checking for st_blocks in struct stat
+configure:1899: checking for st_rdev in struct stat
+configure:1933: checking whether stat file-mode macros are broken
+configure:1989: checking for uid_t in sys/types.h
+configure:2023: checking for mode_t
+configure:2056: checking type of array argument to getgroups
+configure:2127: checking whether sys/types.h defines makedev
+configure:2233: checking for sig_atomic_t in signal.h
+configure:2267: checking for stat64 in (asm|sys)/stat.h
+configure:2305: checking for sin6_scope_id in sockaddr_in6
+configure:2375: checking for long long
+configure:2409: checking for long long off_t
+configure:2454: checking for long long rlim_t
+configure:2501: checking for st_flags in struct stat
+configure:2536: checking for st_aclcnt in struct stat
+configure:2571: checking for st_level in struct stat
+configure:2606: checking for st_fstype in struct stat
+configure:2641: checking for st_gen in struct stat
+configure:2723: checking for sigaction
+configure:2723: checking for strerror
+configure:2723: checking for strsignal
+configure:2723: checking for pread
+configure:2723: checking for sys_siglist
+configure:2723: checking for _sys_siglist
+configure:2723: checking for getdents
+configure:2723: checking for mctl
+configure:2723: checking for putpmsg
+configure:2723: checking for prctl
+configure:2723: checking for sendmsg
+configure:2723: checking for inet_ntop
+configure:2723: checking for if_indextoname
+configure:2779: checking for sys/reg.h
+configure:2779: checking for sys/filio.h
+configure:2779: checking for sys/acl.h
+configure:2779: checking for sys/asynch.h
+configure:2779: checking for sys/door.h
+configure:2779: checking for sys/stream.h
+configure:2779: checking for sys/tiuser.h
+configure:2779: checking for sys/sysconfig.h
+configure:2779: checking for asm/sigcontext.h
+configure:2779: checking for ioctls.h
+configure:2779: checking for sys/ioctl.h
+configure:2779: checking for sys/ptrace.h
+configure:2779: checking for termio.h
+configure:2779: checking for linux/ptrace.h
+configure:2779: checking for asm/reg.h
+configure:2779: checking for linux/icmp.h
+configure:2779: checking for linux/in6.h
+configure:2779: checking for sys/uio.h
+configure:2779: checking for sys/aio.h
+configure:2779: checking for linux/netlink.h
+configure:2779: checking for linux/if_packet.h
+configure:2779: checking for sys/poll.h
+configure:2779: checking for sys/vfs.h
+configure:2779: checking for netinet/tcp.h
+configure:2779: checking for netinet/udp.h
+configure:2816: checking for sys_errlist declaration
+configure:2854: checking for sys_siglist declaration in signal.h or unistd.h
+configure:2892: checking for _sys_siglist declaration

@@ -1,0 +1,29 @@
+#
+# Bcm4350 events
+#
+# As standard the CPU supports 4 performance counters.  
+# Events 5,6,9,10,17,18,66,69,75
+# are available on all counters; 
+#
+# In this processor, events are grouped by module, only events from the same
+# module can be used simultanously.
+# Events 17, 18 can be used all the time.
+# Events 5, 6 are in the Instruction cache module and can be used together.
+# Events 9,10 are in the Data cache module and can be used together.
+# All other events, 66,69,75 must be used alone or only in conjunction with 17 and/or 18.
+#
+event:0x005 counters:0,1,2,3 um:zero minimum:500 name:ICACHE_MISSES : Instruction cache misses (no D-cache misses)
+event:0x006 counters:0,1,2,3 um:zero minimum:500 name:ICACHE_HITS : Instruction cache hits
+event:0x009 counters:0,1,2,3 um:zero minimum:500 name:DCACHE_MISSES : Data cache miss
+event:0x00a counters:0,1,2,3 um:zero minimum:500 name:DCACHE_HITS : Data cache hit
+event:0x011 counters:0,1,2,3 um:zero minimum:500 name:INSTRUCTIONS_EXECUTED : Instructions executed
+event:0x012 counters:0,1,2,3 um:zero minimum:500 name:CYCLES : Processor cycles (PClock)
+event:0x042 counters:0,1,2,3 um:zero minimum:500 name:L1_CACHE_MISSES : RAC lookup or read accesses due to L1 cache misses
+event:0x045 counters:0,1,2,3 um:zero minimum:500 name:RAC_HITS : RAC hit
+event:0x04b counters:0,1,2,3 um:zero minimum:500 name:RAC_BLOCK_REQUEST : Block requests due to prefetch
+event:0x101 counters:0,1,2,3 um:zero minimum:500 name:CPU_STALL_CYCLES : Stall cycles
+event:0x103 counters:0,1,2,3 um:zero minimum:500 name:CPU_KERNEL_CYCLES : Cycles spent in kernel mode
+event:0x201 counters:0,1,2,3 um:zero minimum:500 name:CPU_USER_CYCLES : Cycles spent in user mode
+event:0x10a counters:0,1,2,3 um:zero minimum:500 name:EXCEPTIONS : Number of exceptions and interrupts
+event:0x301 counters:0,1,2,3 um:zero minimum:500 name:L2_HITS : L2 cache hits
+event:0x300 counters:0,1,2,3 um:zero minimum:500 name:L2_MISSES : L2 cache misses

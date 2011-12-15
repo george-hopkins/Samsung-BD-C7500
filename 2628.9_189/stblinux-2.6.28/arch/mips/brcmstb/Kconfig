@@ -1,0 +1,124 @@
+# Broadcom STB Specific options
+
+config MIPS_BRCM76XX
+	bool ## "Broadcom 76xx series"
+	select MIPS_BRCM97XXX
+	select CPU_MIPS32_R2
+	select MIPS_BCM_NDVD
+	select HW_HAS_PCI
+	select SYS_HAS_CPU_MIPS32_R2
+	select SYS_SUPPORTS_32BIT_KERNEL
+	select SYS_SUPPORTS_BIG_ENDIAN
+	select SYS_SUPPORTS_LITTLE_ENDIAN
+	select CEVT_R4K
+	select CSRC_R4K
+	select DMA_NONCOHERENT
+	select ARCH_SELECT_MEMORY_MODEL
+	select ARCH_SPARSEMEM_ENABLE
+	# select SPARSEMEM_VMEMMAP_ENABLE
+	# select ARCH_DISCONTIGMEM_ENABLE
+	select CPU_SUPPORTS_HIGHMEM
+	select SYS_SUPPORTS_HIGHMEM
+	select NO_EXCEPT_FILL
+	select USB_ARCH_HAS_HCD
+	select USB_ARCH_HAS_EHCI
+	select USB_ARCH_HAS_OHCI
+	select SYS_HAS_SHARF
+	select SYS_SUPPORTS_NDVD_PWR_MGMT if !MIPS_BCM7440
+
+
+config MIPS_BRCM97XXX
+	bool ## "Broadcom MIPS super chips BCM97xxx"
+	#depends MIPS32
+	select CPU_MIPS32_R1
+	select SERIAL
+	select DMA_NONCOHERENT
+	select IRQ_CPU
+	select MIPS_BRCM
+	# Only swap on 32 bit.
+	# select SWAP_IO_SPACE_L
+	select SYS_SUPPORTS_32BIT_KERNEL
+	select SYS_SUPPORTS_BIG_ENDIAN
+	select SYS_SUPPORTS_LITTLE_ENDIAN
+	select SYS_HAS_INTERNAL_BCM7038
+	
+config BRCM_AR_CHECKER_V1
+	bool "Address range checker"
+	depends on SYS_HAS_AR_CHECKER_V1
+	help
+	  Address range checker module version 1
+	  Broadcom 7440B0
+
+config BRCM_AR_CHECKER_V2
+	bool "Address range checker"
+	depends on SYS_HAS_AR_CHECKER_V2
+	help
+	  Address range checker module version 2
+	  Broadcom 7601 7635
+
+config NDVD_PWR_MGMT
+	bool "Broadcom NDVD power management"
+	depends on SYS_SUPPORTS_NDVD_PWR_MGMT
+
+config SYNC_PRINTK_HACK
+	bool "sync printk hack"
+	default n
+	help
+	  Printks will bypass normal console print system and 
+	  go directly to the console uart
+
+# Broadcom options
+config MIPS_BRCM
+	bool
+
+config MIPS_BCM_NDVD
+	bool
+
+
+config SERIAL
+	bool
+
+config SYS_HAS_AR_CHECKER_V1
+	bool
+
+config SYS_HAS_AR_CHECKER_V2
+	bool
+
+config SYS_HAS_VIDE_OFE
+	bool
+
+config SYS_HAS_INTERNAL_BCM7038
+	bool
+
+config SYS_HAS_BRCMNAND_VERSION_2
+	bool
+
+config SYS_HAS_BRCMNAND_VERSION_6
+	bool
+
+config SYS_HAS_BRCMNAND_VERSION_8
+	bool
+
+config SYS_HAS_SHARF
+	bool
+
+config SYS_HAS_SHARF_V1
+	bool
+
+config SYS_HAS_SHARF_V2
+	bool
+
+config SYS_HAS_SATA
+	bool
+
+config SYS_HAS_SDIO
+	bool
+
+config SYS_SUPPORTS_NDVD_PWR_MGMT
+        bool
+
+config  MIPS_BCM7440
+	bool
+	depends on MIPS_BCM7440B0
+
+# end Broadcom

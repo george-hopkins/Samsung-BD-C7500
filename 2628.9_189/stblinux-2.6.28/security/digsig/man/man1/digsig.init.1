@@ -1,0 +1,73 @@
+.\" Copyright Serge Hallyn <serue@us.ibm.com>
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+
+.TH DIGSIG.INIT 1 2005-12 "digsig"
+.SH NAME
+digsig.init \- Compile, start, or stop digsig.
+.SH SYNOPSIS
+.BI "extract_pkey key_file
+.BI "digsig.init compile
+.br
+.BI "digsig.init clean
+.br
+.BI "digsig.init start syspubkey.pub
+.br
+.BI "digsig.init stop
+.SH DESCRIPTION
+The script
+.B digsig.init
+is provided with the
+.IR digsig (7)
+source. It is used to compile both the kernel module and supporting
+tools, as well as to load and unload the kernel module.
+.PP
+To compile digsig, edit the Makefile as required, paying particular
+attention to debug options which weaken enforcement, then type:
+.BR
+.RS
+.B ./digsig.init compile
+.RE
+.PP
+To load the digsig module and therefore start enforcement, type:
+.BR
+.RS
+.B ./digsig.init start syspubkey.pub
+.RE
+where
+.BI syspubkey.pub
+is the system's public key corresponding to the private key with which
+the ELF binaries and libraries have been signed. This key should be
+stored in such a way as to protect its integrity, so that an attacker
+cannot sign binaries with a newly computed key and therefore trick the
+system administrator into starting digsig with a forged key.
+.PP
+Note that digsig only loads a single public key. The intent is that a
+system administrator signs his or her own files rather than have a
+software distributor sign the files. Supporting multiple keys could
+become an option if an infrastructure of software writers and
+distributors producing signed binaries were to emerge. This would have
+security and performance implications and there are no plans of offering
+this support at the present time.
+.PP
+To stop enforcement of digsig, type
+.RS
+.B ./digsig.init stop
+.RE
+.br
+Note that this requires executing
+.B rmmod (8)
+, and therefore will not be possible if
+.B rmmod (8)
+has not been signed with the correct key.
+.B
+.SH BUGS
+None reported.
+.SH "RETURN VALUES"
+Returns 0 on success, 1 on failure.
+.SH "SEE ALSO"
+.BR digsig.init (1),
+.BR extract_sig (1),
+.BR digsig (7)

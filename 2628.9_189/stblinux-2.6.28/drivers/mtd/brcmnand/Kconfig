@@ -1,0 +1,71 @@
+#
+# linux/drivers/mtd/brcmnand/Kconfig
+#
+
+menu "Broadcom NAND Flash Device Drivers"
+	depends on MTD != n
+
+config MTD_BRCMNAND
+	tristate "Broadcom NAND Device Support"
+	default y
+	depends on MTD
+#   select LONG_LONG_SUPPORT if MTD_BRCMNAND_VERSION >= 2
+	help
+	  This enables support for accessing selected types of NAND flash
+	  devices through the Broadcom NAND controller.
+
+config MTD_BRCMNAND_VERIFY_WRITE
+	bool "Verify Broadcom NAND page writes"
+	default y
+	depends on MTD_BRCMNAND
+	help
+	  This adds an extra check when data is written to the flash. The
+	  Broadcom NAND flash device internally checks only bits transitioning
+	  from 1 to 0. There is a rare possibility that even though the
+	  device thinks the write was successful, a bit could have been
+	  flipped accidentaly due to device wear or something else.
+
+config MTD_BRCMNAND_EDU_POLL
+	bool "Use polling with EDU"
+	default n
+	depends on MTD_BRCMNAND
+	help
+	   Use Tasklet with EDU_ISR
+
+config MTD_BRCMNAND_EDU_INTR
+	bool "Enable Broadcom EDU ISR"
+	default n
+	depends on MTD_BRCMNAND
+	help
+	   Use Interrupt Service Routine instead of polling mode
+
+config MTD_BRCMNAND_EDU_TASKLET
+	bool "Enable Broadcom Tasklet with EDU ISR"
+	default y
+	depends on MTD_BRCMNAND
+	help
+	   Use Tasklet with EDU Interrupt Service Routine instead of polling mode
+
+
+config MTD_BRCMNAND_VERSION
+	int "Broadcom Controller version number: 0 = v0.0, 1 = v0.1, 2 = v1.0"
+	range 1  10
+	depends on MTD_BRCMNAND
+	default "2" if SYS_HAS_BRCMNAND_VERSION_2
+	default "6" if SYS_HAS_BRCMNAND_VERSION_6
+	default "8" if SYS_HAS_BRCMNAND_VERSION_8
+	default 1
+	help
+		Version number of the controller.
+		Value	Maj.Min Platform
+			0		0.0			7400A0
+		1	0.1	7401Cx, 7400B0, 7118A0, 7403 * 7451, 7452, 3563
+		2	1.0	7440B0, 7405a0 (also 7118C0 running as 1.0 in 2.6.12)
+		3	2.0	7325
+		4	2.1	7335
+		5	2.2	7118C0 & 7405b0 (in 2.6.18) /* Not implemented for 2.6.12 */ 
+		6	3.0	3548a0 (in 2.6.18), 7601a0 & 7601b0 (in 2.6.18, 2.6.24)
+		7	3.2	Device ID decode update, 7413b0
+		8	3.3	Expand ACC/CONFIG to allow per chip registers, 7420b0, 7635a0
+
+endmenu

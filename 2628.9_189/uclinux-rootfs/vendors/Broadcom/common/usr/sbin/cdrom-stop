@@ -1,0 +1,12 @@
+#!/bin/sh
+
+rmmod udf
+rmmod isofs
+rmmod vfat
+rmmod fat
+rmmod sr_mod
+rmmod sd_mod
+rmmod ide-scsi
+rmmod scsi_mod
+rmmod cdrom
+

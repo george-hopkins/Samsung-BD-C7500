@@ -1,0 +1,33 @@
+*** freetype-2.3.4_mipsel-uclibc/src/sfnt/sfobjs.c	2010-01-29 10:48:32.788515000 -0500
+--- freetype-2.3.4_mipsel-uclibc/src/sfnt/sfobjs_new.c	2010-01-29 10:48:07.690650000 -0500
+***************
+*** 854,867 ****
+          root->height    = (FT_Short)( root->ascender - root->descender +
+                                        face->horizontal.Line_Gap );
+  
+! #if 0
+          /* if the line_gap is 0, we add an extra 15% to the text height --  */
+          /* this computation is based on various versions of Times New Roman */
+          if ( face->horizontal.Line_Gap == 0 )
+            root->height = (FT_Short)( ( root->height * 115 + 50 ) / 100 );
+  #endif
+  
+! #if 0
+  
+          /* some fonts have the OS/2 "sTypoAscender", "sTypoDescender" & */
+          /* "sTypoLineGap" fields set to 0, like ARIALNB.TTF             */
+--- 854,867 ----
+          root->height    = (FT_Short)( root->ascender - root->descender +
+                                        face->horizontal.Line_Gap );
+  
+! #if 1
+          /* if the line_gap is 0, we add an extra 15% to the text height --  */
+          /* this computation is based on various versions of Times New Roman */
+          if ( face->horizontal.Line_Gap == 0 )
+            root->height = (FT_Short)( ( root->height * 115 + 50 ) / 100 );
+  #endif
+  
+! #if 1
+  
+          /* some fonts have the OS/2 "sTypoAscender", "sTypoDescender" & */
+          /* "sTypoLineGap" fields set to 0, like ARIALNB.TTF             */

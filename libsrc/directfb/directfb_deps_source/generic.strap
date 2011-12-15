@@ -1,0 +1,8 @@
+#!/bin/sh
+cd $BUILD_DIR
+tar xzvf $SOURCE_DIR/$1.tar.gz
+mv $1 $1_$ARCH
+cd $BUILD_DIR/$1_$ARCH
+patch -p1 < $PATCH_DIR/$1.$ARCH.patch
+cp $SOURCE_DIR/build.mk $BUILD_DIR/$1_$ARCH
+cd $BUILD_DIR

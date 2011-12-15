@@ -1,0 +1,21 @@
+config	HW_EMULATOR
+	bool	"running on HW emulator"
+	depends on BOOT_RAW
+	help
+	  Use this option if running on hardware emulator.
+	  This may turn on additional debugging.
+
+config	HW_EMULATOR_UART_DIVISOR
+	int "UART divisor, non-zero"
+	range 1 65535
+	default "1"
+	depends on HW_EMULATOR
+	help
+		This jams the UART divisor register with the configured value.
+		This allows non-standard baud rates to be used.  
+		It also overrides setting the baud rate in the 8250 driver.
+
+		The default is 1, which results in a baud rate of 5062500
+		for the 76xx SoC family
+
+

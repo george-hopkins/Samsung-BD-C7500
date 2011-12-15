@@ -1,0 +1,67 @@
+.\" Copyright Serge Hallyn <serue@us.ibm.com>
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+
+.TH DIGSIG 7 2005-12 "digsig"
+.SH NAME
+digsig \- Enforcement of signed ELF executables and binaries
+.SH SYNOPSIS
+.BI "digsig.init compile
+.br
+.BI "digsig.init start syspubkey.pub
+.br
+.BI "digsig.init stop
+.SH DESCRIPTION
+This manual page explains the
+.B digsig
+kernel module and supporting tools.
+.PP
+The
+.B digsig
+kernel module enforces digital signatures on ELF binaries and libraries. 
+When digsig is loaded, it reads the system's public key. It uses that
+public key to verify that an ELF file was signed with the matching
+private key.
+.PP
+A public/private key pair is created using
+.IR gpg (1).
+ELF files are then signed with the generated private key using
+.IR bsign (1).
+The digsig module is compiled and started using
+.IR digsig.init (1),
+and the public key is provided to the kernel module when digsig is
+started.
+.SH EXAMPLES
+The following set of commands create a key pair under the directory
+/root/syskeys (which hopefully would be protected, ie using SELinux),
+signs the system's ELF files using the private key, and starts digsig
+using the public key.
+.PP
+The following command creates a new key pair:
+.RS
+.B gpg --gen-key --homedir=/root/syskeys
+.RE
+The public key can be exported for use with digsig using:
+.RS
+.B gpg --export --homedir=/root/syskeys >> /root/syskeys/syspubkey.pub
+.RE
+The following is an example of how
+.IR bsign (1)
+might be used to sign all ELF files on a filesystem:
+.RS
+.B bsign -s -P "--homedir=/root/syskeys" -v -l -i / -e /proc -e /dev
+-e /boot -e /usr/X11R6/lib/modules
+.RE
+Digsig can be started using the command:
+.RS
+.B digsig.init start /root/syskeys/syspubkey.pub
+.RE
+Henceforth digsig will detect any changes to any signed binaries.
+Depending upon the compilation flags used, unsigned ELF binaries
+and libraries may or may not be loadable.
+.SH "SEE ALSO"
+.BR digsig.init (1),
+.BR extract_sig (1),
+.BR digsig (7)

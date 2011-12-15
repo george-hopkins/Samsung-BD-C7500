@@ -1,0 +1,151 @@
+#! /bin/sh
+
+# Set the path
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:.
+
+# If these files exist, root must be read-only. We need to move
+# /var and /etc to a temp filesystem that is read-write.
+if [ -f /tmpfsvar.img -a -f /var.img ]; then
+	echo "mount -nt tmpfs -o size=512k,mode=777 /tmpfsvar.img /var"
+	mount -nt tmpfs -o size=512k,mode=777 /tmpfsvar.img /var
+	cd /var
+	tar -xvf /var.img 1>/dev/null 2>/dev/null
+    # Mount /etc as subdir of /var
+	if [ -f /etc.img ]; then
+		cp -af /etc /var/etc
+		mount -o bind /var/etc /etc
+	fi
+fi
+
+
+# Mount /proc
+echo "Mount /proc fs"
+mount -t proc none /proc
+
+echo "Mount /sys fs"
+mount -t sysfs none /sys
+
+# Enable hotplug
+echo "/sbin/hotplug" > /proc/sys/kernel/hotplug
+
+# Mount /dev/pts
+echo "Mount /dev/pts"
+mount -t devpts none /dev/pts
+
+# Setup up /etc/mtab link
+ln -sf /proc/mounts /etc/mtab
+
+# This parameter gets changed to "mount" in the HD version
+mount_all="###mount"
+
+if [ "$mount_all" = "mount" ]; then
+	mount -a
+	swapon -a
+fi
+
+# Now allow user interrupt
+# stty brkint
+
+# Clean up utmp/wtmp
+echo "Cleaning up utmp and wtmp"
+cat /dev/null > /var/run/utmp
+cat /dev/null > /var/log/wtmp
+chgrp utmp /var/run/utmp /var/log/wtmp
+chmod 0664 /var/run/utmp /var/log/wtmp
+
+# Start syslogd
+echo "Start syslog daemon"
+syslogd &
+
+# Configure network interface
+echo "Configure Network interface"
+# For bcm97110-docsis only
+###insmod /lib/modules/`uname -r`/kernel/drivers/net/et.o
+##sleep 6
+
+#
+# This is called in the background after the network is UP
+# All network dependent setup should be done here
+#
+network_up()
+{
+    # Use ntpdate to set the date/time
+	if [ -x /usr/sbin/ntpdate -a -s /etc/ntp/step-tickers ]; then
+		tickers=$(sed 's/#.*//' /etc/ntp/step-tickers)
+		echo "setting date with ntpdate"
+		/usr/sbin/ntpdate -s -b $tickers 2>/dev/null >/dev/null &
+	fi
+
+	portmap &
+
+    # PR17638: Use daemon option for utelnetd
+	utelnetd -d
+}
+
+
+#
+# Install the BRCM WiFi driver modules.
+# Don't load the drivers if the kernel bootline argument
+# "NO_WIFI" is set to "y".
+#
+if [ "$NO_WIFI" != "y" ]; then
+    insmod /usr/wlan/usbabs.ko
+    insmod /usr/wlan/wl.ko
+fi
+
+
+# If we boot from NFS, then we don't need the Network, use whatever
+# was set up by NFS, 
+# otherwise look at the kernel parameter netconf=<device>,<ip>
+#
+if [ -z "`cat /proc/mounts |grep /dev/root |grep '\<nfs\>'`" ]; then
+	if [ -z "$netconf" ]; then
+		ifconfig lo 127.0.0.1 netmask 255.0.0.0
+    rm -f /etc/resolv.conf
+	if [ -f /var/run/dhcpcd-eth0.pid ]; then
+		rm -f /var/run/dhcpcd-eth0.pid
+	fi
+	echo "dhcpcd -Hd -L /var/run eth0"
+    dhcpcd -Hd -L /var/run eth0 && network_up &
+	else
+		netdev=`echo "$netconf" | cut -f1 -d','`
+		ip=`echo "$netconf" | cut -f2 -d','`
+		case "$ip" in
+		none)
+			echo "Network not started"
+			;;
+		dhcp)
+			ifconfig lo 127.0.0.1 netmask 255.0.0.0
+			rm -f /etc/resolv.conf
+			if [ -f /var/run/dhcpcd-${netdev}.pid ]; then
+				rm -f /var/run/dhcpcd-${netdev}.pid
+			fi
+			echo "dhcpcd -Hd -L /var/run $netdev"
+    		dhcpcd -Hd -L /var/run "$netdev" && network_up &
+			;;
+	
+		*)	# If the user specifies the wrong syntax, there is nothing we can do
+			ipaddr=`echo "$ip" | cut -f1 -d':'`
+			netmask=`echo "$ip" | cut -f2 -d':'`
+			echo "ifconfig $netdev $ipaddr netmask $netmask up"
+			ifconfig "$netdev" "$ipaddr" netmask "$netmask" up
+			ifconfig lo 127.0.0.1 netmask 255.0.0.0
+			network_up &
+			;;
+		esac
+	fi
+else
+	# Setup the nameserver from the kernel since dhcpcd won't be doing it.
+	egrep "nameserver|domain" /proc/net/pnp >/etc/config/resolv.conf
+	network_up &
+fi
+
+
+# Start up services
+echo "start services"
+#Start user service if it exists
+if [ -f /root/rc.user ]; then
+	echo "start user services"
+	/bin/sh /root/rc.user
+fi
+

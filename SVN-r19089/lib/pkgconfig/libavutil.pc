@@ -1,0 +1,14 @@
+prefix=/home7/Lucifer/Uniplayer_FFMpeg/ffmpeg-checkout-2009-06-05_chelsea_new_toolchain
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 50.3.0
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} -lavutil 
+Libs.private: 
+Cflags: -I${includedir}

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+modprobe cdrom
+modprobe scsi_mod
+modprobe ide-scsi
+modprobe sd_mod
+modprobe sr_mod
+modprobe fat
+modprobe vfat
+modprobe isofs
+modprobe udf
+

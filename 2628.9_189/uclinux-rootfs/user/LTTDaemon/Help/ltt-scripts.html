@@ -1,0 +1,251 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Command-line operation</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-colorwindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+&nbsp;
+</FONT>
+</TD>
+</TR>
+</TABLE>
+<br>
+<font size=6>
+<u><b>7. Command scripts</b></u>
+</font>
+
+<br>
+<br>
+Most of the time, the different components are used using similar options
+over and over again. Since the components need rather long command lines, 
+it is desirable to speed-up the common cases. The following scripts help
+in this regard.
+
+<p><i><font size=4>7.1 Trace for a certain period of time </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; trace - running the trace daemon
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; trace&nbsp; 
+<u>Seconds</u> <u>OutFile</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the target system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracedaemon for the given number of seconds
+and will set the output files to be <u>OutFile</u>.trace and <u>OutFile</u>.proc.
+It uses /dev/tracer as the device where input should come from.
+</ul>
+
+<p><i><font size=4>7.2 Trace core events for a certain period of time </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracecore - running the trace daemon while recording core events
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracecore&nbsp; 
+<u>Seconds</u> <u>OutFile</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the target system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracedaemon for the given number of seconds
+and will set the output files to be <u>OutFile</u>.trace and <u>OutFile</u>.proc.
+It uses /dev/tracer as the device where input should come from. Contrary to the
+previous command, it will only record core events.
+</ul>
+
+<p><i><font size=4>7.3 Trace for a certain period of time  while recording the CPUID</font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracecpuid - running the trace daemon while recording the CPUID
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracecpuid&nbsp; 
+<u>Seconds</u> <u>OutFile</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the target system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracedaemon for the given number of seconds
+and will set the output files to be <u>OutFile</u>.trace and <u>OutFile</u>.proc.
+It uses /dev/tracer as the device where input should come from. Moreover, it will
+set the -c option of tracedaemon.
+</ul>
+
+<p><i><font size=4>7.4 Trace for an unlimited period of time </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; traceu - running the trace daemon
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; traceu&nbsp; 
+<u>OutFile</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the target system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracedaemon for the given number of seconds
+and will set the output files to be <u>OutFile</u>.trace and <u>OutFile</u>.proc.
+It uses /dev/tracer as the device where input should come from.
+</ul>
+
+<p><i><font size=4>7.5 Dump the trace in a human-readable format </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracedump - running the trace decoder
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracedump&nbsp; 
+<u>File</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the host system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracevisualizer using <u>File</u>.trace and <u>File</u>.proc
+as input and <u>File</u>.data as output.
+</ul>
+
+<p><i><font size=4>7.6 Dump the core events of the trace in a human-readable format </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; tracedcore - running the trace decoder
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; tracedcore&nbsp; 
+<u>File</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the host system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracevisualizer using <u>File</u>.trace and <u>File</u>.proc
+as input and <u>File</u>.data as output while only outputting the core kernel events.
+</ul>
+
+<p><i><font size=4>7.7 Analyze a trace </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; traceanalyze - running the trace decoder while analyzing it
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; traceanalyze&nbsp; 
+<u>File</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the host system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracevisualizer using <u>File</u>.trace and <u>File</u>.proc
+as input and <u>File</u>.data as output. Moreover, it uses the -a option of
+tracevisualizer to analyze the content of the trace and uses -s to summarize the analysis.
+</ul>
+
+<p><i><font size=4>7.8 View trace graphically </font></i>
+<br>
+
+<ul>
+<p><b>NAME</b>
+<p>&nbsp;&nbsp;&nbsp; traceview - running the decoder in graphical mode
+
+<p><b>SYNOPSIS</b>
+<p>&nbsp;&nbsp;&nbsp; traceview&nbsp; 
+<u>File</u>
+
+<p><b>DESCRIPTION</b>
+<p>&nbsp;&nbsp;&nbsp;
+<b>Note for embedded Linux users: This script is run on the host system.</b>
+<p>&nbsp;&nbsp;&nbsp; This will run tracevisualizer using <u>File</u>.trace and <u>File</u>.proc
+as input. Moreover, it uses the -g option of tracevisualizer to set the tracevisualizer to
+run in graphic mode.
+</ul>
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-colorwindow.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+&nbsp;
+</FONT>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Command scripts</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>

@@ -1,0 +1,1 @@
+../.././sim/mips/tconfig.in

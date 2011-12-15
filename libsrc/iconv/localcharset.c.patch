@@ -1,0 +1,60 @@
+--- libiconv-1.9.1/libcharset/lib/localcharset.c	2003-04-25 06:16:38.000000000 -0400
++++ libiconv-1.9.1/libcharset/lib/localcharset.c	2007-01-03 16:10:17.842975000 -0500
+@@ -73,6 +73,13 @@
+ # define relocate(pathname) (pathname)
+ #endif
+ 
++#ifdef NO_XMALLOC
++# define xmalloc malloc
++# define xfree free
++#else
++# include "xmalloc.h"
++#endif
++
+ #if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
+   /* Win32, OS/2, DOS */
+ # define ISSLASH(C) ((C) == '/' || (C) == '\\')
+@@ -116,7 +123,8 @@
+     {
+ #if !(defined VMS || defined WIN32)
+       FILE *fp;
+-      const char *dir = relocate (LIBDIR);
++		const char *libdir = LIBDIR;
++		const char *dir = relocate (libdir);
+       const char *base = "charset.alias";
+       char *file_name;
+ 
+@@ -133,6 +141,8 @@
+ 	      file_name[dir_len] = DIRECTORY_SEPARATOR;
+ 	    memcpy (file_name + dir_len + add_slash, base, base_len + 1);
+ 	  }
++			if (dir != libdir)
++				xfree(dir);
+       }
+ 
+       if (file_name == NULL || (fp = fopen (file_name, "r")) == NULL)
+@@ -170,7 +180,7 @@
+ 		break;
+ 	      l1 = strlen (buf1);
+ 	      l2 = strlen (buf2);
+-	      if (res_size == 0)
++				if (res_ptr == NULL)
+ 		{
+ 		  res_size = l1 + 1 + l2 + 1;
+ 		  res_ptr = (char *) malloc (res_size + 1);
+@@ -178,7 +188,14 @@
+ 	      else
+ 		{
+ 		  res_size += l1 + 1 + l2 + 1;
+-		  res_ptr = (char *) realloc (res_ptr, res_size + 1);
++					char *p = (char *) realloc (res_ptr, res_size + 1);
++					if (p) {
++						res_ptr = p;
++					}
++					else {
++						free(res_ptr);
++						res_ptr = NULL;
++					}
+ 		}
+ 	      if (res_ptr == NULL)
+ 		{

@@ -1,0 +1,56 @@
+include $(ROOTDIR)/config.arch
+
+TOOL_DIR_PREFIX=$(shell dirname $(shell which $(CC)))/..
+UCLIBC_INC = $(ROOTDIR)/uClibc/include
+UCLIBC_LIB = $(ROOTDIR)/uClibc/lib
+ifneq (,$(findstring linux,$(CROSS)))
+	TARGET=$(CROSS:linux-=linux)
+	TARGET_ARCH ?= $(CROSS:-linux-=)
+else
+	ifneq (,$(findstring uclibc,$(CROSS)))
+		TARGET_ARCH ?= $(CROSS:-uclibc-=)
+		TARGET=$(TARGET_ARCH)-linux
+	else
+		echo "FIXME: Cannot determine target architecture"
+		exit 99
+	endif
+endif
+
+all:
+	( \
+	export CC=$(CROSS)gcc; \
+	export AS=$(CROSS)as; \
+	export LD=$(CROSS)ld; \
+	export CPP="$$CC -E"; \
+	export AR=$(CROSS)ar; \
+	export NM=$(CROSS)nm; \
+	export STRIP=$(CROSS)strip; \
+	export OBJCOPY=$(CROSS)objcopy; \
+	export OBJDUMP=$(CROSS)objdump; \
+	export RANLIB=$(CROSS)ranlib; \
+	export CC_FOR_BUILD=gcc; \
+	export STD_INC="$(TOOL_DIR_PREFIX)/$(TARGET)/include"; \
+	export GCC_INC="$(TOOL_DIR_PREFIX)/$(TARGET)/include"; \
+	test -f Makefile && rm -f Makefile; \
+	CFLAGS='$(filter-out -fno-builtin, $(CFLAGS))';  \
+	./configure 				\
+		--target=$(TARGET)		\
+		--host=$(TARGET)		\
+		--build=i386-pc-linux-gnu	\
+		--prefix=$(ROOTDIR)/romfs/	\
+		--includedir=$(UCLIBC_INC)/	\
+	)
+	make -C src
+
+clean:
+	make -f Makefile clean
+
+distclean: clean
+	-rm config.cache
+	make -C ./builtins distclean
+	make -f Makefile distclean
+	rm Makefile
+
+romfs:
+	echo "Nothing to do for lzo package so far"
+

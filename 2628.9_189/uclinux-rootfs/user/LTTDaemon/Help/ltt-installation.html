@@ -1,0 +1,295 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <title>Installation</title>
+</head>
+<body BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#840084" ALINK="#0000FF">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TH COLSPAN="4" ALIGN="center">
+<FONT COLOR="#FFFFFF" SIZE="5">Linux Trace Toolkit Reference Manual</FONT>
+</TH>
+</TR>
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-introduction.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-dataacquisition.html">
+<FONT COLOR="#FFFFFF"SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+</TABLE>
+<br>
+
+<b><u><font size=6>2.Installation</font></u></b>
+<p><i><font size=4>2.1 Patched Kernel and Kernel module</font></i>
+<p>This discussion concerns a plain vanilla Linux.
+<ul>
+<li>
+Make sure you have a LTT-supported Linux <a href="http://www.kernel.org/">kernel</a>
+source installed. If you don't know how to do this, we suggest going through
+the Linux kernel compilation HOWTO available at <a href="http://www.linuxdoc.org/">www.linuxdoc.org</a>.
+Do not compile it yet however, although it doesn't matter if you did. It
+is just a waste of time at this point.</li>
+
+<br>&nbsp;
+
+<li>
+At this point, both the Linux kernel and the Linux trace toolkit
+should be uncompressed. If this not the case, change to the root account
+and type</li>
+
+<ul>
+<pre>
+cd /usr/src
+tar xvzf [location of LTT]/TraceToolkit[version].tgz
+</pre>
+</ul>
+
+<li>
+Change into the newly created TraceToolkit directory</li>
+
+<ul>
+<pre>
+cd TraceToolkit/Patches
+</pre>
+</ul>
+
+<li>
+Copy the patch to the directory containing the uncompressed source code</li>
+
+<ul>
+<pre>
+cp patch-ltt-kernelversion-yymmdd [location of kernel]/linux/
+</pre>
+</ul>
+
+<li>
+Apply the patch to the kernel</li>
+
+<ul>
+<pre>
+cd [location of kernel]/linux/
+patch -p1 &lt; patch-ltt-kernelversion-yymmdd
+</pre>
+</ul>
+
+<li>
+Configure and compile the patched kernel. This is documented in the documentation
+accompanying the kernel and in the Linux kernel compilation HOWTO available
+at <a href="http://www.linuxdoc.org/">www.linuxdoc.org</a>. Towards the end of
+the configuration, you will find a section called "Kernel Tracing". In this section
+you will be prompted to select whether you want the tracer to be part of the kernel,
+whether you want it as a module or whether you do not want any trace support in the
+kernel.
+</li>
+
+<br>&nbsp;
+
+<li>
+Edit <b>/etc/lilo.conf</b> and add an entry for the newly compiled kernel. Typing
+<b>man lilo.conf</b> should help you do this successfully.</li>
+</ul>
+
+<p><i><font size=4>2.2 RTAI patch </font></i>
+
+<p>Prior to doing the following, you need to be familiar with RTAI's installation. See
+the documentation accompanying RTAI to know more about the installation process.
+
+<ul>
+<li>
+Get an LTT supported RTAI version (see the Patches/ directory to see which versions are
+supported), the corresponding Linux kernel and patch the later using the procedure
+given with RTAI. With RTAI 24.1.2 you will not find any patches for linux 2.4.0-test10.
+This one will appear in the rtai directory once you patch RTAI with its corresponding
+LTT patch. The patch is called "patch-2.4.0-test10-rthal1e". Use this to patch the
+2.4.0-test10 kernel then proceed as follows. DO NOT COMPILE ANYTHING YET.</li>
+
+<br>&nbsp;
+
+<li>
+Copy the kernel patch to the directory containing the already patched kernel.</li>
+
+<ul>
+<pre>
+cp patch-ltt-kernelversion-with-rtaiversion-yymmdd [location of kernel]/linux/
+</pre>
+</ul>
+
+<li>
+Patch the already patched kernel with the given patch.</li>
+
+<ul>
+<pre>
+patch -p1 < patch-ltt-kernelversion-with-rtaiversion-yymmdd
+</pre>
+</ul>
+
+<li>
+Copy the RTAI patch to the directory containing the RTAI source code.</li>
+
+<ul>
+<pre>
+cp patch-ltt-rtaiversion-yymmdd [location of rtai]/rtai/
+</pre>
+</ul>
+
+<li>
+Patch RTAI with the given patch.</li>
+
+<ul>
+<pre>
+patch -p1 < patch-ltt-rtaiversion-yymmdd
+</pre>
+</ul>
+
+<li>
+Make sure that <i>/usr/src/linux</i> and <i>/usr/src/rtai</i> point to the
+right rtai and ltt patched linux kernel and the rtai sources respectively. This is important,
+otherwise the trace module in the kernel won't build.
+</li>
+
+<br>&nbsp;
+
+<li> Configure the kernel, but DO NOT compile it right away. Remember to choose tracing as
+module and support for RTAI tracing. Also, make sure you DO NOT select SMP support during
+the kernel config. Currently, only the UP (Uni-Processor) scheduler in RTAI is supported
+and enabling SMP support will result in the SMP scheduler of RTAI to be used. That scheduler
+isn't instrumented and even though traces will be generated, they won't be interpreted
+accurately by the LTT graphic front-end.
+Note that if you only want to trace the Linux kernel but still intend upon using RTAI, then
+still enable RTAI tracing and choose the relevant events in the configuration of the trace
+daemon. This is to make sure time-stamps have meaningful values (this should eventually be
+fixed).</li>
+
+<br>&nbsp;
+
+<li> Configure and compile RTAI.</li>
+
+<br>&nbsp;
+
+<li> Finally, compile the kernel and add an appropriate entry to <b>/etc/lilo.conf</b>. </li>
+</ul>
+
+
+<p><i><font size=4>2.3 User-land tools</font></i>
+
+<p>The user-land tools build and installation process is managed by autoconf/automake. The
+usual commands provided by these tools are available. As usual ...
+
+<ul>
+
+<li>
+Configure the build system. There are few configuration options specific to LTT,
+such as the capability to activate/deactivate support for the GTK GUI or support for RTAI traces.
+To get the complete list of options use <b>configure --help</b></li>
+
+<ul>
+<pre>
+./configure
+</pre>
+</ul>
+
+<li>
+Build the package's components</li>
+
+<ul>
+<pre>
+make
+</pre>
+</ul>
+
+<li>
+Install the various components on your system (you will need root privileges). This
+will install the trace daemon and the visualizer in <b>/usr/bin</b>, the related
+easy-use scripts in <b>/usr/sbin</b> and the event database and user trace
+libraries in <b>/usr/lib</b></li>
+
+<ul>
+<pre>
+make install
+</pre>
+</ul>
+
+</ul>
+
+RTAI is enabled by default. This will not make any difference for the viewing of
+normal Linux traces. It will simply enable the event database to recognize another
+event format along with enabling the visualizer to display RTAI traces correctly.
+
+<p>
+That's it! By now, you should have a patched kernel ready to be used, as
+well as the other software to be able to fetch the results and view them.
+The next section will now help you use all this!
+
+<hr WIDTH="100%">
+<TABLE WIDTH="100%" BORDER="0" BGCOLOR="#000000" CELLPADDING="1" CELLSPACING="0">
+<TR>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="left">
+<A HREF="ltt-introduction.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>&#60;&#60;&#60; Previous Page</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#0000C0" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Home</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#00C000" ALIGN="center">
+<A HREF="index.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Up</B>
+</FONT>
+</A>
+</TD>
+<TD WIDTH="25%" BGCOLOR="#C00000" ALIGN="right">
+<A HREF="ltt-dataacquisition.html">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Next Page &#62;&#62;&#62;</B>
+</FONT>
+</A>
+</TD>
+</TR>
+<TR>
+<TD COLSPAN="2" ALIGN="left">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Linux trace toolkit</B>
+</FONT>
+</TD>
+<TD COLSPAN="2" ALIGN="right">
+<FONT COLOR="#FFFFFF" SIZE="3">
+<B>Installation</B>
+</FONT>
+</TD>
+</TR>
+</TABLE>
+
+</body>
+</html>

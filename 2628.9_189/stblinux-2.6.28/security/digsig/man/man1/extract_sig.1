@@ -1,0 +1,40 @@
+.\" Copyright Serge Hallyn <serue@us.ibm.com>
+.\" This file may be copied under the conditions described
+.\" in the LDP GENERAL PUBLIC LICENSE, Version 1, September 1998
+.\" that should have been distributed together with this file.
+.\"
+
+.TH EXTRACT_SIG 1 2005-12 "digsig"
+.SH NAME
+extract_sig \- Extract signatures from ELF files signed with bsign.
+.SH SYNOPSIS
+.BI "extract_sig.sh elf_file [" outputfile ]
+.SH DESCRIPTION
+The script
+.B extract_sig.sh
+extracts the cryptographic signature of an ELF file.  The signature
+section will be copied into the specified
+.RI outputfile,
+or
+.B filename.sig
+if
+.RI outputfile
+is unspecified.
+.PP
+The
+.B elf_file
+must be a valid ELF file previously signed using
+.BI bsign (1).
+.PP
+The resulting file, containing a copy of the signature section of the
+ELF file, is intended to be used to inform
+.IR digsig (7)
+that the signature has been revoked, and that the
+.B elf_file
+should not be executed, despite otherwise being legitimately signed using
+the system's private key.
+.SH BUGS
+None reported.
+.SH "SEE ALSO"
+.BR digsig.init (1),
+.BR digsig (7)
